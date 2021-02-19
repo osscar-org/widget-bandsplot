@@ -1,0 +1,5 @@
+{
+  "load_extensions": {
+    "widget-bandsplot/extension": true
+  }
+}
