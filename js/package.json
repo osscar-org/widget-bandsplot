@@ -36,7 +36,14 @@
   },
   "dependencies": {
     "@jupyter-widgets/base": "^1.1 || ^2 || ^3 || ^4",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "chart.js": "2.9.4",
+    "chartjs-plugin-zoom": "0.7.7",
+    "jquery": "3.5.1",
+    "tinycolor2": "1.4.2",
+    "bootstrap": "3.3.7",
+    "underscore": "1.12.0",
+    "@angular/material": "10.2.2"
   },
   "jupyterlab": {
     "extension": "lib/labplugin",

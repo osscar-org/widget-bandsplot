@@ -4,7 +4,7 @@ from traitlets import Unicode, List
 # See js/lib/example.js for the frontend counterpart to this file.
 
 @widgets.register
-class HelloWorld(widgets.DOMWidget):
+class Bandsplot(widgets.DOMWidget):
     """A Jupyter widget to plot bandstructures and DOS."""
 
     # Name of the widget view class in front-end
