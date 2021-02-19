@@ -82,34 +82,17 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, colorInfo) {
 
     // add data for every band structure
     dataFilePaths.forEach(function (dataFilePath, dataIdx) {
-        $.ajax({
-            url: dataFilePath,
-            async: false,
-            success: function (data) {
-                // The color should be the same for all bands even if there are spin up and down, but different
-                // for the two datasets
+        var colorDict;
+        if (colorInfo !== undefined) {
+            var newColor = tinycolor(colorInfo[dataIdx]);
+            colorDict = [newColor.toHexString(), newColor.darken(20).toHexString(), newColor.brighten(20).toHexString()];
+        }
 
-                // User can pass array of 3 colors: ['Single', 'Up', 'Down']
-                // e.g. theBandPlot.addBandStructure(data, ['Single', 'Up', 'Down'])
-                //  - Single' color will be used when there is no up/down bands
-                //  - 'Up' color for spin up bands
-                //  - 'Down' color of spin down bands
-
-                var colorDict;
-                if (colorInfo !== undefined) {
-                    var newColor = tinycolor(colorInfo[dataIdx]);
-                    colorDict = [newColor.toHexString(), newColor.darken(20).toHexString(), newColor.brighten(20).toHexString()];
-                }
-
-                theBandPlot.addBandStructure(data, colorDict);
-            }
-        });
+        theBandPlot.addBandStructure(dataFilePath, colorDict);
     });
 
     // update band structure data for plotting
     theBandPlot.updateBandPlot();
-
-    console.log("It is working here 1 ****************");
 
     // theBandPlot.myChart.options.pan.enabled = true ;
     // theBandPlot.myChart.options.pan.mode = "y";
@@ -119,7 +102,6 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, colorInfo) {
     // theBandPlot.myChart.options.zoom.drag = true;
 
     // theBandPlot.myChart.update();
-    console.log("It is working here 2 ****************");
 
     var theTextBox = document.getElementById(bandPathTextBoxId);
     theTextBox.value = getPathStringFromPathArray(theBandPlot.getDefaultPath());
@@ -177,7 +159,7 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, colorInfo) {
         $("#" + bandDivId + "bt-dragZoom").removeClass("button-white");
         $("#" + bandDivId + "bt-dragPan").addClass("button-white");
         $("#" + bandDivId + "bt-dragPan").removeClass("button");
-        
+
         theBandPlot.myChart.options.pan = {
             enabled: false,
             mode: "y"
