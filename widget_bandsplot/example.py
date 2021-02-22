@@ -48,8 +48,6 @@ class Bandsplot(widgets.DOMWidget):
         self.tdos_x = fdos['tdos']['energy | eV']['data']
         self.tdos_y = fdos['tdos']['values']['dos | states/eV']['data']
 
-        print(self.tdos_x)
-
 
 
 

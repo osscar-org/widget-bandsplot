@@ -166,18 +166,17 @@ BandPlot.prototype.addBandStructure = function (bandsData, colorInfo) {
     this.allData.push(bandsData);
 };
 
-BandPlot.prototype.addDos = function (dosData, colorInfo) {
+BandPlot.prototype.addDos = function (dosData) {
+    this.dosData = dosData;
+
+    var Index = 1 + dosData['pdos'].length;
     var defaultColors = ['#555555', '#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00'];
 
-    if (typeof (colorInfo) === 'undefined') {
-        var nextIndex = this.allColorInfo.length;
-        var newColor = tinycolor(defaultColors[nextIndex % defaultColors.length]);
+    for (let i = 0; i < Index; i++) {
+        var newColor = tinycolor(defaultColors[i % defaultColors.length]);
         colorInfo = [newColor.toHexString(), newColor.darken(20).toHexString(), newColor.brighten(20).toHexString()];
+        this.dosColorInfo.push(colorInfo);
     }
-
-    this.dosColorInfo.push(colorInfo);
-    this.dosData = dosData;
-    console.log(this.dosData['tdos']['energy | eV']['data']);
 };
 
 BandPlot.prototype.initChart = function (ticksData) {
@@ -273,40 +272,21 @@ BandPlot.prototype.initChart = function (ticksData) {
     bandPlotObject.myChart = new Chart(ctx, chartOptions);
 
     dosOptions = {
-        type: 'line',
+        type: 'scatter',
         data: {
-            labels: [1500, 1600, 1700, 1750, 1800, 1850, 1900, 1950, 1999, 2050],
-            datasets: [{
-                data: [86, 114, 106, 106, 107, 111, 133, 221, 783, 2478],
-                label: "tot",
-                borderColor: "#3e95cd",
-                fill: true,
-            }, {
-                data: [282, 350, 411, 502, 635, 809, 947, 1402, 3700, 5267],
-                label: "s",
-                borderColor: "#8e5ea2",
-                fill: true,
-            }, {
-                data: [168, 170, 178, 190, 203, 276, 408, 547, 675, 734],
-                label: "p",
-                borderColor: "#3cba9f",
-                fill: true,
-            }, {
-                data: [40, 20, 10, 16, 24, 38, 74, 167, 508, 784],
-                label: "d",
-                borderColor: "#e8c3b9",
-                fill: true,
-            }, {
-                data: [6, 3, 2, 2, 7, 26, 82, 172, 312, 433],
-                label: "f",
-                borderColor: "#c45850",
-                fill: true,
-            }
-            ]
+            datasets: this.dosSeries
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            animation: {
+                duration: 0
+            },
+            hover: {
+                animationDuration: 0, // duration of animations when hovering an item
+                mode: null // disable any hovering effects
+            },
+            responsiveAnimationDuration: 0, // animation duration after a resize
             legend: {
                 display: true,
                 position: 'right',
@@ -314,14 +294,37 @@ BandPlot.prototype.initChart = function (ticksData) {
             scales: {
                 xAxes: [{
                     gridLines: {
-                        display: false
+                        display: true,
+                        drawBorder: true,
+                        drawOnChartArea: false,
+                    },
+                    ticks: {
+                        min: 0.0,
                     }
                 }],
                 yAxes: [{
                     display: true,
                     position: 'right',
                     gridLines: {
-                        display: false
+                        display: true,
+                        drawBorder: true,
+                        drawOnChartArea: false,
+                    },
+                    ticks: {
+                        min: -10.0,
+                        max: 20.0,
+                    }
+                }, {
+                    display: true,
+                    position: 'left',
+                    gridLines: {
+                        display: true,
+                        drawBorder: true,
+                        drawOnChartArea: false,
+                        tickMarkLength: 0,
+                    },
+                    ticks: {
+                        display: false,
                     }
                 }]
             },
@@ -329,7 +332,8 @@ BandPlot.prototype.initChart = function (ticksData) {
                 point: { radius: 0 }
             }
         },
-    }
+    };
+
 
     var ctd = document.getElementById(this.divID + 'dos').getContext('2d');
     bandPlotObject.myDos = new Chart(ctd, dosOptions);
@@ -592,6 +596,54 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
 
         bandPlotObject.myChart.update();
     }
+
+    // Plot the density of states
+    curve = [];
+    var totx = bandPlotObject.dosData['tdos']['energy | eV']['data'];
+    var toty = bandPlotObject.dosData['tdos']['values']['dos | states/eV']['data'];
+
+    totx.forEach(function (data, i){
+        curve.push({x: toty[i], y: data })
+    });
+
+    var totdos = {
+        borderColor: bandPlotObject.dosColorInfo[0][0],
+        borderWidth: 2,
+        data: curve,
+        fill: false,
+        showLine: true,
+        pointRadius: 0,
+        label: "tot",
+    };
+
+    bandPlotObject.dosSeries.push(totdos);
+
+    for (let i = 1; i < bandPlotObject.dosColorInfo.length; i++) {
+        curve = [];
+
+        var pdosx = bandPlotObject.dosData['pdos'][i-1]['energy | eV']['data'];
+        var pdosy = bandPlotObject.dosData['pdos'][i-1]['pdos | states/eV']['data'];
+
+        pdosx.forEach(function (data, k) {
+            curve.push({x: pdosy[k], y: data});
+        });
+
+        var pdos = {
+            borderColor: bandPlotObject.dosColorInfo[i][0],
+            borderWidth: 1,
+            data: curve,
+            fill: false,
+            showLine: true,
+            pointRadius: 0,
+            label: bandPlotObject.dosData['pdos'][i-1]['orbital'],
+        };
+
+        bandPlotObject.dosSeries.push(pdos);
+    }
+
+    console.log(bandPlotObject.dosColorInfo);
+
+    bandPlotObject.myDos.update();
 };
 
 // Call the reset zoom function of the chart, but also make sure the x ticks are correctly reset
