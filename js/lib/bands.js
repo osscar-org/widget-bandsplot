@@ -70,7 +70,7 @@ function dragToPan(plotInfoId, zoomButtonId, panButtonId) {
 }
 
 // get json data and create band plot
-function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, colorInfo) {
+function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, colorInfo) {
     plots[bandDivId] = {};
 
     var b = window.performance.now();
@@ -91,6 +91,7 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, colorInfo) {
         theBandPlot.addBandStructure(dataFilePath, colorDict);
     });
 
+    theBandPlot.addDos(dosFile);
     // update band structure data for plotting
     theBandPlot.updateBandPlot();
 

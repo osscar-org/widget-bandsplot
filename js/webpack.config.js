@@ -1,5 +1,6 @@
 var path = require('path');
 var version = require('./package.json').version;
+const webpack = require('webpack');
 
 // Custom webpack rules are generally the same for all webpack bundles, hence
 // stored in a separate local variable.
@@ -34,6 +35,13 @@ module.exports = (env, argv) => {
         // custom widget.
         // It must be an amd module
         //
+        plugins: [
+            new webpack.ProvidePlugin({
+                '$': 'jquery',
+                'jQuery': 'jquery',
+                'window.jQuery': 'jquery'
+            })
+        ],
             entry: './lib/index.js',
             output: {
                 filename: 'index.js',

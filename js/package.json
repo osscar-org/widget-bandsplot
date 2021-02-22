@@ -30,20 +30,20 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "^3.0.0",
-    "webpack": "^5",
-    "rimraf": "^2.6.1"
+    "@jupyterlab/builder": "^3.0.3",
+    "rimraf": "^2.6.1",
+    "webpack": "^5"
   },
   "dependencies": {
+    "@angular/material": "10.2.2",
     "@jupyter-widgets/base": "^1.1 || ^2 || ^3 || ^4",
-    "lodash": "^4.17.4",
+    "bootstrap": "3.3.7",
     "chart.js": "2.9.4",
     "chartjs-plugin-zoom": "0.7.7",
     "jquery": "3.5.1",
+    "lodash": "^4.17.4",
     "tinycolor2": "1.4.2",
-    "bootstrap": "3.3.7",
-    "underscore": "1.12.0",
-    "@angular/material": "10.2.2"
+    "underscore": "1.12.0"
   },
   "jupyterlab": {
     "extension": "lib/labplugin",

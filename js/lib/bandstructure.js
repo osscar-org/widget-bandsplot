@@ -77,7 +77,7 @@ function getPathStringFromPathArray(path) {
 }
 
 // Utility function to convert an array describing a path in a short string
-var getPathArrayFromPathString = function(pathString) {
+var getPathArrayFromPathString = function (pathString) {
     var finalPath = [];
     // Each path separated by | can be treated independently and appended
     var independentPieces = pathString.split("|");
@@ -117,11 +117,14 @@ function getValidPointNames(allData) {
 
 
 /////////////// MAIN CLASS DEFINITION /////////////////
-var BandPlot = function(divID, fermiEnergy, yLimit) {
+var BandPlot = function (divID, fermiEnergy, yLimit) {
     this.divID = divID;
     this.allData = [];
+    this.dosData = {};
     this.allSeries = [];
+    this.dosSeries = [];
     this.allColorInfo = [];
+    this.dosColorInfo = [];
     // Keep track of the current path to avoid too many refreshes
     this.currentPath = [];
     this.fermiEnergy = fermiEnergy;
@@ -163,6 +166,20 @@ BandPlot.prototype.addBandStructure = function (bandsData, colorInfo) {
     this.allData.push(bandsData);
 };
 
+BandPlot.prototype.addDos = function (dosData, colorInfo) {
+    var defaultColors = ['#555555', '#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00'];
+
+    if (typeof (colorInfo) === 'undefined') {
+        var nextIndex = this.allColorInfo.length;
+        var newColor = tinycolor(defaultColors[nextIndex % defaultColors.length]);
+        colorInfo = [newColor.toHexString(), newColor.darken(20).toHexString(), newColor.brighten(20).toHexString()];
+    }
+
+    this.dosColorInfo.push(colorInfo);
+    this.dosData = dosData;
+    console.log(this.dosData['tdos']['energy | eV']['data']);
+};
+
 BandPlot.prototype.initChart = function (ticksData) {
 
     var bandPlotObject = this;
@@ -197,21 +214,21 @@ BandPlot.prototype.initChart = function (ticksData) {
                     display: true,
                     ticks: {
                         // change the label of the ticks
-                        callback: function(value, index, values) {
+                        callback: function (value, index, values) {
                             return this.options.customTicks[index].label;
                         }
                     },
                     // Important to set this, will give access to the
                     // ticks in the various callbacks.
                     customTicks: ticksData,
-                    afterBuildTicks: function(axis, ticks) {
+                    afterBuildTicks: function (axis, ticks) {
                         // Must return 'filtered' ticks, i.e. a list of
                         // *positions* of the ticks only. 
                         // Here I instead just discart the old ticks
                         // and create new ones. The label
                         // will be changed in the ticks.callback call.
                         return axis.options.customTicks.map(
-                            function(tickInfo) {return tickInfo.value;}
+                            function (tickInfo) { return tickInfo.value; }
                         );
                     }
                 }],
@@ -219,8 +236,8 @@ BandPlot.prototype.initChart = function (ticksData) {
                     display: true,
                     ticks: {
                         // change the label of the ticks
-                        callback: function(value, index, values) {
-                            if (index !== 0 && index != values.length -1) {
+                        callback: function (value, index, values) {
+                            if (index !== 0 && index != values.length - 1) {
                                 return value;
                             }
                         }
@@ -229,7 +246,7 @@ BandPlot.prototype.initChart = function (ticksData) {
                         display: true
                     },
                     gridLines: {
-                        display : false
+                        display: false
                     }
                 }]
             },
@@ -241,19 +258,81 @@ BandPlot.prototype.initChart = function (ticksData) {
         }
     };
 
-    if(bandPlotObject.yLimit){
+    if (bandPlotObject.yLimit) {
         chartOptions.options.scales.yAxes[0].ticks.min = bandPlotObject.yLimit.ymin;
         chartOptions.options.scales.yAxes[0].ticks.max = bandPlotObject.yLimit.ymax;
     }
-    if(bandPlotObject.xLimit){
+    if (bandPlotObject.xLimit) {
         chartOptions.options.scales.xAxes[0].ticks.min = bandPlotObject.xLimit.xmin;
         chartOptions.options.scales.xAxes[0].ticks.max = bandPlotObject.xLimit.xmax;
     }
-    if(bandPlotObject.yLabel)
+    if (bandPlotObject.yLabel)
         chartOptions.options.scales.yAxes[0].scaleLabel.labelString = bandPlotObject.yLabel;
 
     var ctx = document.getElementById(this.divID).getContext('2d');
     bandPlotObject.myChart = new Chart(ctx, chartOptions);
+
+    dosOptions = {
+        type: 'line',
+        data: {
+            labels: [1500, 1600, 1700, 1750, 1800, 1850, 1900, 1950, 1999, 2050],
+            datasets: [{
+                data: [86, 114, 106, 106, 107, 111, 133, 221, 783, 2478],
+                label: "tot",
+                borderColor: "#3e95cd",
+                fill: true,
+            }, {
+                data: [282, 350, 411, 502, 635, 809, 947, 1402, 3700, 5267],
+                label: "s",
+                borderColor: "#8e5ea2",
+                fill: true,
+            }, {
+                data: [168, 170, 178, 190, 203, 276, 408, 547, 675, 734],
+                label: "p",
+                borderColor: "#3cba9f",
+                fill: true,
+            }, {
+                data: [40, 20, 10, 16, 24, 38, 74, 167, 508, 784],
+                label: "d",
+                borderColor: "#e8c3b9",
+                fill: true,
+            }, {
+                data: [6, 3, 2, 2, 7, 26, 82, 172, 312, 433],
+                label: "f",
+                borderColor: "#c45850",
+                fill: true,
+            }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                display: true,
+                position: 'right',
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        display: false
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    position: 'right',
+                    gridLines: {
+                        display: false
+                    }
+                }]
+            },
+            elements: {
+                point: { radius: 0 }
+            }
+        },
+    }
+
+    var ctd = document.getElementById(this.divID + 'dos').getContext('2d');
+    bandPlotObject.myDos = new Chart(ctd, dosOptions);
 
 };
 
@@ -315,9 +394,9 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
         for (var i = 0; i < paths.length; i++) {
             var path = paths[i];
             if ((path.from == segmentEdges[0]) && (path.to == segmentEdges[1])) {
-                return {'segment': path, 'reverse': false};
+                return { 'segment': path, 'reverse': false };
             } else if ((path.from == segmentEdges[1]) && (path.to == segmentEdges[0])) {
-                return {'segment': path, 'reverse': true};
+                return { 'segment': path, 'reverse': true };
             }
         }
         return null;
@@ -421,17 +500,17 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
                         }
 
                         // substract fermi energy from all bands
-                        if(bandPlotObject.fermiEnergy){
-                            var tmp = theBand.map( function(value) {
+                        if (bandPlotObject.fermiEnergy) {
+                            var tmp = theBand.map(function (value) {
                                 return value - bandPlotObject.fermiEnergy;
-                            } );
+                            });
                             theBand = tmp;
                         }
 
 
                         zip(xArray, theBand).forEach(function (xy_point) {
                             curve.push(
-                                {x: xy_point[0] + currentXOffset, y: xy_point[1]});
+                                { x: xy_point[0] + currentXOffset, y: xy_point[1] });
                         });
 
                         var colorInfo = bandPlotObject.allColorInfo[bandsIdx];
@@ -490,12 +569,12 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
     var highSymmetryUpdatedTicks = bandPlotObject.updateTicks(highSymmetryTicks);
 
     // map ticks into a list of dictionaries, for ease of use later
-    var ticksData = highSymmetryUpdatedTicks.map(function(data, idx) {
-        return {value: data[0], label: data[1]};
+    var ticksData = highSymmetryUpdatedTicks.map(function (data, idx) {
+        return { value: data[0], label: data[1] };
     });
 
 
-    bandPlotObject.xLimit = {"xmin": 0, "xmax": currentXOffset};
+    bandPlotObject.xLimit = { "xmin": 0, "xmax": currentXOffset };
 
     bandPlotObject.yLabel = bandPlotObject.allData[0].Y_label;
     if (bandPlotObject.yLabel === undefined) {
@@ -516,9 +595,9 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
 };
 
 // Call the reset zoom function of the chart, but also make sure the x ticks are correctly reset
-BandPlot.prototype.resZoom = function() {
+BandPlot.prototype.resZoom = function () {
     var bandPlotObject = this;
-    
+
     bandPlotObject.myChart.resetZoom();
 
     // Sometimes these are wrongly set (e.g. if I:
@@ -528,7 +607,7 @@ BandPlot.prototype.resZoom = function() {
     // So, we reset them according to the current path
     bandPlotObject.myChart.options.scales.xAxes[0].ticks.min = bandPlotObject.xLimit.xmin;
     bandPlotObject.myChart.options.scales.xAxes[0].ticks.max = bandPlotObject.xLimit.xmax;
-    bandPlotObject.myChart.update();  
+    bandPlotObject.myChart.update();
 };
 
 // Update both ticks and vertical lines
@@ -677,7 +756,7 @@ BandPlot.prototype.updateTicks = function (ticks) {
     ////////////////// END OF UTILITY FUNCTIONS ///////////////////
 
     var labelFormatter = labelFormatterBuilder(bandPlotObject.allData, ticks);
-    return ticks.map(function(tick) {
+    return ticks.map(function (tick) {
         return [tick[0], labelFormatter(tick[1])];
     });
 };

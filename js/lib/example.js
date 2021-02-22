@@ -56,6 +56,7 @@ var BandsplotView = widgets.DOMWidgetView.extend({
         this.model.on('change:value', this.value_changed, this);
 
         this.el.innerHTML = '<div class="all-widget"><div id="bandsplot-div" class="bands-plot"> <canvas id="'+ this.uuidCanvas + '"> </canvas> </div>'
+            + '<div id="dosplot-div" class="dos-plot"> <canvas id="'+ this.uuidCanvas + 'dos"> </canvas> </div>' 
             + '<p> <span class="span-label"> Edit the path:</span > <input id="' + this.uuidTextbox + '" class="bands-input"></p>'
             + '<button type="button" id="' + this.uuidCanvas + 'bt-reset" class="button"> Reset default path </button>'
             + '<button type="button" id="' + this.uuidCanvas + 'bt-resetZoom" class="button"> Reset zoom </button>'
@@ -64,10 +65,11 @@ var BandsplotView = widgets.DOMWidgetView.extend({
             + '</div > ';
 
         var files = this.model.get('files');
+        var fdos = this.model.get('fdos');
 
         that = this; 
         $(document).ready(function () {
-            bandPlot(that.uuidCanvas, that.uuidTextbox, files);
+            bandPlot(that.uuidCanvas, that.uuidTextbox, files, fdos);
         });
 
     },
