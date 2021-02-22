@@ -309,10 +309,15 @@ BandPlot.prototype.initChart = function (ticksData) {
                         display: true,
                         drawBorder: true,
                         drawOnChartArea: false,
+                        tickMarkLength: 0,
                     },
                     ticks: {
                         min: -10.0,
                         max: 20.0,
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Density of States (eV)',
                     }
                 }, {
                     display: true,
@@ -635,7 +640,7 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
             fill: false,
             showLine: true,
             pointRadius: 0,
-            label: bandPlotObject.dosData['pdos'][i-1]['orbital'],
+            label: bandPlotObject.dosData['pdos'][i-1]['kind'] + ' ' + bandPlotObject.dosData['pdos'][i-1]['orbital'],
         };
 
         bandPlotObject.dosSeries.push(pdos);
