@@ -686,11 +686,13 @@ BandPlot.prototype.resZoom = function () {
     // So, we reset them according to the current path
     bandPlotObject.myChart.options.scales.xAxes[0].ticks.min = bandPlotObject.xLimit.xmin;
     bandPlotObject.myChart.options.scales.xAxes[0].ticks.max = bandPlotObject.xLimit.xmax;
+    bandPlotObject.myChart.options.scales.yAxes[0].ticks.min = bandPlotObject.yLimit.ymin;
+    bandPlotObject.myChart.options.scales.yAxes[0].ticks.max = bandPlotObject.yLimit.ymax;
     bandPlotObject.myChart.update();
 
     bandPlotObject.myDos.resetZoom();
-    bandPlotObject.myDos.options.scales.yAxes[0].ticks.min = bandPlotObject.myChart.options.scales.yAxes[0].ticks.min;
-    bandPlotObject.myDos.options.scales.yAxes[0].ticks.max = bandPlotObject.myChart.options.scales.yAxes[0].ticks.max;
+    bandPlotObject.myDos.options.scales.yAxes[0].ticks.min = bandPlotObject.yLimit.ymin;
+    bandPlotObject.myDos.options.scales.yAxes[0].ticks.max = bandPlotObject.yLimit.ymax;
     bandPlotObject.myDos.update();
 };
 

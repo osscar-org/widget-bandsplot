@@ -141,7 +141,12 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, colorInf
 
         theBandPlot.myChart.options.pan = {
             enabled: true,
-            mode: "y"
+            mode: "y",
+            onPanComplete: function(chart) {
+                theBandPlot.myDos.options.scales.yAxes[0].ticks.min = theBandPlot.myChart.options.scales.yAxes[0].ticks.min;
+                theBandPlot.myDos.options.scales.yAxes[0].ticks.max = theBandPlot.myChart.options.scales.yAxes[0].ticks.max;
+                theBandPlot.myDos.update();
+            }
         };
 
         theBandPlot.myChart.options.zoom = {
@@ -152,6 +157,23 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, colorInf
 
         theBandPlot.myChart.update();
 
+        theBandPlot.myDos.options.pan = {
+            enabled: true,
+            mode: "y",
+            onPanComplete: function(chart) {
+                theBandPlot.myChart.options.scales.yAxes[0].ticks.min = theBandPlot.myDos.options.scales.yAxes[0].ticks.min;
+                theBandPlot.myChart.options.scales.yAxes[0].ticks.max = theBandPlot.myDos.options.scales.yAxes[0].ticks.max;
+                theBandPlot.myChart.update();
+            }
+        };
+
+        theBandPlot.myDos.options.zoom = {
+            enabled: false,
+            mode: "y",
+            drag: true
+        };
+
+        theBandPlot.myDos.update();
     }
 
     var theDragZoomButton = document.getElementById(bandDivId + "bt-dragZoom");
@@ -169,11 +191,33 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, colorInf
         theBandPlot.myChart.options.zoom = {
             enabled: true,
             mode: "y",
-            drag: true
+            drag: true,
+            onZoomComplete: function(chart) {
+                theBandPlot.myDos.options.scales.yAxes[0].ticks.min = theBandPlot.myChart.options.scales.yAxes[0].ticks.min;
+                theBandPlot.myDos.options.scales.yAxes[0].ticks.max = theBandPlot.myChart.options.scales.yAxes[0].ticks.max;
+                theBandPlot.myDos.update();
+            }
         };
 
         theBandPlot.myChart.update();
 
+        theBandPlot.myDos.options.pan = {
+            enabled: false,
+            mode: "y"
+        };
+
+        theBandPlot.myDos.options.zoom = {
+            enabled: true,
+            mode: "y",
+            drag: true,
+            onZoomComplete: function(chart) {
+                theBandPlot.myChart.options.scales.yAxes[0].ticks.min = theBandPlot.myDos.options.scales.yAxes[0].ticks.min;
+                theBandPlot.myChart.options.scales.yAxes[0].ticks.max = theBandPlot.myDos.options.scales.yAxes[0].ticks.max;
+                theBandPlot.myChart.update();
+            }
+        };
+
+        theBandPlot.myDos.update();
     }
 
     // $(theTextBox).data('bs.tooltip', false).tooltip({title: helperString, html: true})
