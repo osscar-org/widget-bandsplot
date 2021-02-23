@@ -689,8 +689,8 @@ BandPlot.prototype.resZoom = function () {
     bandPlotObject.myChart.update();
 
     bandPlotObject.myDos.resetZoom();
-    bandPlotObject.myDos.options.scales.xAxes[0].ticks.min = bandPlotObject.myChart.options.scales.xAxes[0].ticks.min;
-    bandPlotObject.myDos.options.scales.xAxes[0].ticks.max = bandPlotObject.myChart.options.scales.xAxes[0].ticks.max;
+    bandPlotObject.myDos.options.scales.yAxes[0].ticks.min = bandPlotObject.myChart.options.scales.yAxes[0].ticks.min;
+    bandPlotObject.myDos.options.scales.yAxes[0].ticks.max = bandPlotObject.myChart.options.scales.yAxes[0].ticks.max;
     bandPlotObject.myDos.update();
 };
 
