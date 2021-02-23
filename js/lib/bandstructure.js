@@ -252,7 +252,12 @@ BandPlot.prototype.initChart = function (ticksData) {
             zoom: {
                 enabled: true,
                 mode: "y",
-                drag: true
+                drag: true,
+                onZoomComplete: function (chart) {
+                    bandPlotObject.myDos.options.scales.yAxes[0].ticks.min = bandPlotObject.myChart.options.scales.yAxes[0].ticks.min;
+                    bandPlotObject.myDos.options.scales.yAxes[0].ticks.max = bandPlotObject.myChart.options.scales.yAxes[0].ticks.max;
+                    bandPlotObject.myDos.update();
+                }
             }
         }
     };
@@ -312,8 +317,14 @@ BandPlot.prototype.initChart = function (ticksData) {
                         tickMarkLength: 0,
                     },
                     ticks: {
-                        min: -10.0,
-                        max: 20.0,
+                        min: bandPlotObject.yLimit.ymin,
+                        max: bandPlotObject.yLimit.ymax,
+                        // change the label of the ticks
+                        callback: function (value, index, values) {
+                            if (index !== 0 && index != values.length - 1) {
+                                return value;
+                            }
+                        }
                     },
                     scaleLabel: {
                         display: true,
@@ -335,6 +346,16 @@ BandPlot.prototype.initChart = function (ticksData) {
             },
             elements: {
                 point: { radius: 0 }
+            },
+            zoom: {
+                enabled: true,
+                mode: "y",
+                drag: true,
+                onZoomComplete: function (chart) {
+                    bandPlotObject.myChart.options.scales.yAxes[0].ticks.min = bandPlotObject.myDos.options.scales.yAxes[0].ticks.min;
+                    bandPlotObject.myChart.options.scales.yAxes[0].ticks.max = bandPlotObject.myDos.options.scales.yAxes[0].ticks.max;
+                    bandPlotObject.myChart.update();
+                }
             }
         },
     };
@@ -424,6 +445,7 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
 
     // Clean up old series
     bandPlotObject.allSeries = [];
+    bandPlotObject.dosSeries = [];
 
     // Plot each of the segments
     currentPathSpecification.forEach(function (segmentEdges, segment_idx) {
@@ -607,8 +629,8 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
     var totx = bandPlotObject.dosData['tdos']['energy | eV']['data'];
     var toty = bandPlotObject.dosData['tdos']['values']['dos | states/eV']['data'];
 
-    totx.forEach(function (data, i){
-        curve.push({x: toty[i], y: data })
+    totx.forEach(function (data, i) {
+        curve.push({ x: toty[i], y: data })
     });
 
     var totdos = {
@@ -618,7 +640,7 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
         fill: false,
         showLine: true,
         pointRadius: 0,
-        label: "tot",
+        label: "Total",
     };
 
     bandPlotObject.dosSeries.push(totdos);
@@ -626,11 +648,11 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
     for (let i = 1; i < bandPlotObject.dosColorInfo.length; i++) {
         curve = [];
 
-        var pdosx = bandPlotObject.dosData['pdos'][i-1]['energy | eV']['data'];
-        var pdosy = bandPlotObject.dosData['pdos'][i-1]['pdos | states/eV']['data'];
+        var pdosx = bandPlotObject.dosData['pdos'][i - 1]['energy | eV']['data'];
+        var pdosy = bandPlotObject.dosData['pdos'][i - 1]['pdos | states/eV']['data'];
 
         pdosx.forEach(function (data, k) {
-            curve.push({x: pdosy[k], y: data});
+            curve.push({ x: pdosy[k], y: data });
         });
 
         var pdos = {
@@ -640,7 +662,7 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
             fill: false,
             showLine: true,
             pointRadius: 0,
-            label: bandPlotObject.dosData['pdos'][i-1]['kind'] + ' ' + bandPlotObject.dosData['pdos'][i-1]['orbital'],
+            label: bandPlotObject.dosData['pdos'][i - 1]['kind'] + ' ' + bandPlotObject.dosData['pdos'][i - 1]['orbital'],
         };
 
         bandPlotObject.dosSeries.push(pdos);
@@ -665,6 +687,11 @@ BandPlot.prototype.resZoom = function () {
     bandPlotObject.myChart.options.scales.xAxes[0].ticks.min = bandPlotObject.xLimit.xmin;
     bandPlotObject.myChart.options.scales.xAxes[0].ticks.max = bandPlotObject.xLimit.xmax;
     bandPlotObject.myChart.update();
+
+    bandPlotObject.myDos.resetZoom();
+    bandPlotObject.myDos.options.scales.xAxes[0].ticks.min = bandPlotObject.myChart.options.scales.xAxes[0].ticks.min;
+    bandPlotObject.myDos.options.scales.xAxes[0].ticks.max = bandPlotObject.myChart.options.scales.xAxes[0].ticks.max;
+    bandPlotObject.myDos.update();
 };
 
 // Update both ticks and vertical lines
