@@ -1,5 +1,5 @@
 import ipywidgets as widgets
-from traitlets import Unicode, List, Dict
+from traitlets import Unicode, List, Dict, Float
 
 # See js/lib/example.js for the frontend counterpart to this file.
 
@@ -31,23 +31,30 @@ class Bandsplot(widgets.DOMWidget):
     value = Unicode('This is bandsplot!').tag(sync=True)
 
     #Json fils for the bandstructures
-    files = List().tag(sync=True) 
+    bandsData = List().tag(sync=True) 
 
     #Json file for the DOS plot
-    fdos = Dict().tag(sync=True)
+    dosData = Dict().tag(sync=True)
 
     #The total DOS data x, y
     tdos_x = List().tag(sync=True)
     tdos_y = List().tag(sync=True)
 
-    def __init__(self, files = files, fdos = fdos):
-        super().__init__(files = files, fdos = fdos)
-        self.files = files 
-        self.fdos = fdos
+    #The fermi energy
+    fermiEnergy = Float(0.0).tag(sync=True)
 
-        self.tdos_x = fdos['tdos']['energy | eV']['data']
-        self.tdos_y = fdos['tdos']['values']['dos | states/eV']['data']
+    #yLimit for the plot
+    yLimit = Dict({"ymin": -10.0, "ymax": 10.0}).tag(sync=True)
 
+    def __init__(self, bandsData = bandsData, dosData = dosData, fermiEnergy = 0.0, yLimit = {"ymin": -10.0, "ymax": 10.0}):
+        super().__init__(bandsData = bandsData, dosData = dosData, fermiEnergy = fermiEnergy, yLimit = yLimit)
+        self.bandsData = bandsData 
+        self.dosData = dosData
+        self.fermiEnergy = fermiEnergy
+        self.yLimit = yLimit
+
+        self.tdos_x = dosData['tdos']['energy | eV']['data']
+        self.tdos_y = dosData['tdos']['values']['dos | states/eV']['data']
 
 
 

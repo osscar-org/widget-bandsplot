@@ -20,13 +20,15 @@ h3 {
 }
 
 .span-label {
+    width: 10%;
     font-size: large;
     font-weight: bold;
 }
 
 .bands-input {
-    width: 65%;
+    width: 60%;
     font-size: large;
+    font-size: bold;
 }
 
 .button {

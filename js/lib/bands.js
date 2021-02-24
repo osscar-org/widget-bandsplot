@@ -70,14 +70,14 @@ function dragToPan(plotInfoId, zoomButtonId, panButtonId) {
 }
 
 // get json data and create band plot
-function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, colorInfo) {
+function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, fermiEnergy, yLimit, colorInfo) {
     plots[bandDivId] = {};
 
     var b = window.performance.now();
     console.log("start time: plotting band plot: current time => ", bandDivId, b);
 
     // create band plot object
-    var theBandPlot = new BandPlot(bandDivId, 5.1, { "ymin": -20, "ymax": 32 });
+    var theBandPlot = new BandPlot(bandDivId, fermiEnergy, yLimit);
     var colorDict;
 
     // add data for every band structure
@@ -218,6 +218,28 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, colorInf
         };
 
         theBandPlot.myDos.update();
+    }
+
+    var theTogglePdosButton = document.getElementById(bandDivId + "bt-togglePdos");
+    theTogglePdosButton.onclick = function () {
+        if (theTogglePdosButton.classList.contains("button")) {
+            $("#" + bandDivId + "bt-togglePdos").addClass("button-white");
+            $("#" + bandDivId + "bt-togglePdos").removeClass("button");
+
+            for (var i = 1; i < theBandPlot.dosSeries.length; i++) {
+                theBandPlot.dosSeries[i].hidden = true;
+            };
+            theBandPlot.myDos.update();
+        }
+        else {
+            $("#" + bandDivId + "bt-togglePdos").addClass("button");
+            $("#" + bandDivId + "bt-togglePdos").removeClass("button-white");
+
+            for (var i = 1; i < theBandPlot.dosSeries.length; i++) {
+                theBandPlot.dosSeries[i].hidden = false;
+            };
+            theBandPlot.myDos.update();
+        }
     }
 
     // $(theTextBox).data('bs.tooltip', false).tooltip({title: helperString, html: true})

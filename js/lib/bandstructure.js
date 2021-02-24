@@ -38,6 +38,7 @@
 // https://stackoverflow.com/questions/4856717
 
 var Chart = require('chart.js');
+const { nodeName } = require('jquery');
 var tinycolor = require('tinycolor2');
 require('chartjs-plugin-zoom');
 
@@ -630,7 +631,7 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
     var toty = bandPlotObject.dosData['tdos']['values']['dos | states/eV']['data'];
 
     totx.forEach(function (data, i) {
-        curve.push({ x: toty[i], y: data })
+        curve.push({ x: toty[i], y: data - bandPlotObject.fermiEnergy })
     });
 
     var totdos = {
@@ -652,11 +653,12 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
         var pdosy = bandPlotObject.dosData['pdos'][i - 1]['pdos | states/eV']['data'];
 
         pdosx.forEach(function (data, k) {
-            curve.push({ x: pdosy[k], y: data });
+            curve.push({ x: pdosy[k], y: data - bandPlotObject.fermiEnergy });
         });
 
         var pdos = {
             borderColor: bandPlotObject.dosColorInfo[i][0],
+            hidden: false,
             borderWidth: 1,
             data: curve,
             fill: false,

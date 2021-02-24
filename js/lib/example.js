@@ -57,21 +57,23 @@ var BandsplotView = widgets.DOMWidgetView.extend({
 
         this.el.innerHTML = '<div class="all-widget"><div id="bandsplot-div" class="bands-plot"> <canvas id="'+ this.uuidCanvas + '"> </canvas> </div>'
             + '<div id="dosplot-div" class="dos-plot"> <canvas id="'+ this.uuidCanvas + 'dos"> </canvas> </div>' 
-            + '<p> <span class="span-label"> Edit the path:</span > <input id="' + this.uuidTextbox + '" class="bands-input"></p>'
+            + '<p> <span class="span-label"> Edit the path:</span > <input id="' + this.uuidTextbox + '" class="bands-input" type="text"></input></p>'
             + '<button type="button" id="' + this.uuidCanvas + 'bt-reset" class="button"> Reset default path </button>'
             + '<button type="button" id="' + this.uuidCanvas + 'bt-resetZoom" class="button"> Reset zoom </button>'
             + '<button type="button" id="' + this.uuidCanvas + 'bt-dragZoom" class="button"> Drag (or pinch) to zoom </button>'
             + '<button type="button" id="' + this.uuidCanvas + 'bt-dragPan" class="button-white"> Drag to pan </button>'
+            + '<button type="button" id="' + this.uuidCanvas + 'bt-togglePdos" class="button"> Toggle PDOS </button>'
             + '</div > ';
 
-        var files = this.model.get('files');
-        var fdos = this.model.get('fdos');
+        var bands = this.model.get('bandsData');
+        var fdos = this.model.get('dosData');
+        var fermiEnergy = this.model.get('fermiEnergy');
+        var yLimit = this.model.get('yLimit');
 
         that = this; 
         $(document).ready(function () {
-            bandPlot(that.uuidCanvas, that.uuidTextbox, files, fdos);
+            bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, fermiEnergy, yLimit);
         });
-
     },
 
     value_changed: function () {
