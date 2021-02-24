@@ -126,6 +126,7 @@ var BandPlot = function (divID, fermiEnergy, yLimit) {
     this.dosSeries = [];
     this.allColorInfo = [];
     this.dosColorInfo = [];
+    this.dosBackgroundColorInfo = [];
     // Keep track of the current path to avoid too many refreshes
     this.currentPath = [];
     this.fermiEnergy = fermiEnergy;
@@ -171,13 +172,18 @@ BandPlot.prototype.addDos = function (dosData) {
     this.dosData = dosData;
 
     var Index = 1 + dosData['pdos'].length;
-    var defaultColors = ['#555555', '#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6'];
+    var defaultColors = ['#555555', '#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf','#999999'];
 
     for (let i = 0; i < Index; i++) {
         var newColor = tinycolor(defaultColors[i % defaultColors.length]);
-        colorInfo = [newColor.toHexString(), newColor.darken(20).toHexString(), newColor.brighten(20).toHexString()];
-        this.dosColorInfo.push(colorInfo);
-    }
+        this.dosColorInfo.push(newColor);
+        var bkColor = tinycolor(defaultColors[i % defaultColors.length]);
+        bkColor.setAlpha(0.4);
+        this.dosBackgroundColorInfo.push(bkColor);
+    };
+
+    console.log(this.dosColorInfo);
+    console.log(this.backgroundColor);
 };
 
 BandPlot.prototype.initChart = function (ticksData) {
@@ -635,10 +641,11 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
     });
 
     var totdos = {
-        borderColor: bandPlotObject.dosColorInfo[0][0],
+        borderColor: bandPlotObject.dosColorInfo[0],
+        backgroundColor: bandPlotObject.dosBackgroundColorInfo[0],
         borderWidth: 2,
         data: curve,
-        fill: false,
+        fill: true,
         showLine: true,
         pointRadius: 0,
         label: "Total",
@@ -657,11 +664,12 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
         });
 
         var pdos = {
-            borderColor: bandPlotObject.dosColorInfo[i][0],
+            borderColor: bandPlotObject.dosColorInfo[i],
+            backgroundColor: bandPlotObject.dosBackgroundColorInfo[i],
             hidden: false,
             borderWidth: 1,
             data: curve,
-            fill: false,
+            fill: true,
             showLine: true,
             pointRadius: 0,
             label: bandPlotObject.dosData['pdos'][i - 1]['kind'] + ' ' + bandPlotObject.dosData['pdos'][i - 1]['orbital'],
