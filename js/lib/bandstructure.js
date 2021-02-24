@@ -171,7 +171,7 @@ BandPlot.prototype.addDos = function (dosData) {
     this.dosData = dosData;
 
     var Index = 1 + dosData['pdos'].length;
-    var defaultColors = ['#555555', '#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00'];
+    var defaultColors = ['#555555', '#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6'];
 
     for (let i = 0; i < Index; i++) {
         var newColor = tinycolor(defaultColors[i % defaultColors.length]);
