@@ -1,5 +1,5 @@
 import ipywidgets as widgets
-from traitlets import Unicode, List, Dict, Float
+from traitlets import Unicode, List, Dict, Float, Bool
 
 # See js/lib/example.js for the frontend counterpart to this file.
 
@@ -46,8 +46,11 @@ class Bandsplot(widgets.DOMWidget):
     #yLimit for the plot
     yLimit = Dict({"ymin": -10.0, "ymax": 10.0}).tag(sync=True)
 
-    def __init__(self, bandsData = bandsData, dosData = dosData, fermiEnergy = None, yLimit = {"ymin": -10.0, "ymax": 10.0}):
-        super().__init__(bandsData = bandsData, dosData = dosData, yLimit = yLimit)
+    #visiblity for the Fermi energy level
+    showFermi = Bool(True).tag(sync=True)
+
+    def __init__(self, bandsData = bandsData, dosData = dosData, fermiEnergy = None, showFermi = True, yLimit = {"ymin": -10.0, "ymax": 10.0}):
+        super().__init__(bandsData = bandsData, dosData = dosData, showFermi = showFermi, yLimit = yLimit)
 
         if fermiEnergy is not None:
             self.fermiEnergy = fermiEnergy

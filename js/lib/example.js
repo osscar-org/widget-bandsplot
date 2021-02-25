@@ -69,10 +69,11 @@ var BandsplotView = widgets.DOMWidgetView.extend({
         var fdos = this.model.get('dosData');
         var fermiEnergy = this.model.get('fermiEnergy');
         var yLimit = this.model.get('yLimit');
+        var showFermi = this.model.get('showFermi');
 
         that = this; 
         $(document).ready(function () {
-            bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, fermiEnergy, yLimit);
+            bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, fermiEnergy, showFermi, yLimit);
         });
     },
 

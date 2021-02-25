@@ -70,14 +70,14 @@ function dragToPan(plotInfoId, zoomButtonId, panButtonId) {
 }
 
 // get json data and create band plot
-function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, fermiEnergy, yLimit, colorInfo) {
+function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, fermiEnergy, showFermi, yLimit, colorInfo) {
     plots[bandDivId] = {};
 
     var b = window.performance.now();
     console.log("start time: plotting band plot: current time => ", bandDivId, b);
 
     // create band plot object
-    var theBandPlot = new BandPlot(bandDivId, fermiEnergy, yLimit);
+    var theBandPlot = new BandPlot(bandDivId, fermiEnergy, showFermi, yLimit);
     var colorDict;
 
     // add data for every band structure

@@ -119,7 +119,7 @@ function getValidPointNames(allData) {
 
 
 /////////////// MAIN CLASS DEFINITION /////////////////
-var BandPlot = function (divID, fermiEnergy, yLimit) {
+var BandPlot = function (divID, fermiEnergy, showFermi, yLimit) {
     this.divID = divID;
     this.allData = [];
     this.dosData = {};
@@ -131,6 +131,7 @@ var BandPlot = function (divID, fermiEnergy, yLimit) {
     // Keep track of the current path to avoid too many refreshes
     this.currentPath = [];
     this.fermiEnergy = fermiEnergy;
+    this.showFermi = showFermi;
     this.yLimit = yLimit;
     this.yLabel = "";
 
@@ -296,8 +297,11 @@ BandPlot.prototype.initChart = function (ticksData) {
             enabled: true,
             position: "right",
             content: "Fermi",
+            xAdjust: 4,
         }
     };
+
+    if (this.showFermi === false) annotations = {};
 
     dosOptions = {
         type: 'scatter',
