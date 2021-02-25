@@ -54,6 +54,11 @@ var BandsplotView = widgets.DOMWidgetView.extend({
         // Observe changes in the value traitlet in Python, and define
         // a custom callback.
         this.model.on('change:value', this.value_changed, this);
+        this.model.on('change:showFermi', this.bandsplot_changed, this);
+        this.model.on('change:bandsData', this.bandsplot_changed, this);
+        this.model.on('change:dosData', this.bandsplot_changed, this);
+        this.model.on('change:fermiEnergy', this.bandsplot_changed, this);
+        this.model.on('change:yLimit', this.bandsplot_changed, this);
 
         this.el.innerHTML = '<div class="all-widget"><div id="bandsplot-div" class="bands-plot"> <canvas id="'+ this.uuidCanvas + '"> </canvas> </div>'
             + '<div id="dosplot-div" class="dos-plot"> <canvas id="'+ this.uuidCanvas + 'dos"> </canvas> </div>' 
@@ -79,6 +84,16 @@ var BandsplotView = widgets.DOMWidgetView.extend({
 
     value_changed: function () {
         this.el.textContent = this.model.get('value');
+    },
+
+    bandsplot_changed: function() {
+        var bands = this.model.get('bandsData');
+        var fdos = this.model.get('dosData');
+        var fermiEnergy = this.model.get('fermiEnergy');
+        var yLimit = this.model.get('yLimit');
+        var showFermi = this.model.get('showFermi');
+        
+        bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, fermiEnergy, showFermi, yLimit);
     }
 });
 
