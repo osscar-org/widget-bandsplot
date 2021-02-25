@@ -40,6 +40,7 @@
     "bootstrap": "3.3.7",
     "chart.js": "2.9.4",
     "chartjs-plugin-zoom": "0.7.7",
+    "chartjs-plugin-annotation": "0.5.7",
     "jquery": "3.5.1",
     "lodash": "^4.17.4",
     "tinycolor2": "1.4.2",

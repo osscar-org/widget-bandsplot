@@ -41,6 +41,7 @@ var Chart = require('chart.js');
 const { nodeName } = require('jquery');
 var tinycolor = require('tinycolor2');
 require('chartjs-plugin-zoom');
+require('chartjs-plugin-annotation');
 
 var zip = function () {
     var args = [].slice.call(arguments);
@@ -204,7 +205,7 @@ BandPlot.prototype.initChart = function (ticksData) {
             },
             hover: {
                 animationDuration: 0, // duration of animations when hovering an item
-                mode: null // disable any hovering effects
+                mode: 'point' // disable any hovering effects
             },
             responsiveAnimationDuration: 0, // animation duration after a resize
             elements: {
@@ -283,6 +284,21 @@ BandPlot.prototype.initChart = function (ticksData) {
     var ctx = document.getElementById(this.divID).getContext('2d');
     bandPlotObject.myChart = new Chart(ctx, chartOptions);
 
+    var annotations = {
+        type: 'line',
+        id: 'fermiLine',
+        scaleID: 'dosA',
+        mode: 'horizontal',
+        value: 0,
+        borderColor: 'red',
+        borderWidth: 2,
+        label: {
+            enabled: true,
+            position: "right",
+            content: "Fermi",
+        }
+    };
+
     dosOptions = {
         type: 'scatter',
         data: {
@@ -309,12 +325,14 @@ BandPlot.prototype.initChart = function (ticksData) {
                         display: true,
                         drawBorder: true,
                         drawOnChartArea: false,
+                        zeroLineWidth: 2,
                     },
                     ticks: {
                         min: 0.0,
                     }
                 }],
                 yAxes: [{
+                    id: 'dosA',
                     display: true,
                     position: 'right',
                     gridLines: {
@@ -326,6 +344,7 @@ BandPlot.prototype.initChart = function (ticksData) {
                     ticks: {
                         min: bandPlotObject.yLimit.ymin,
                         max: bandPlotObject.yLimit.ymax,
+                        padding: 10,
                         // change the label of the ticks
                         callback: function (value, index, values) {
                             if (index !== 0 && index != values.length - 1) {
@@ -350,6 +369,9 @@ BandPlot.prototype.initChart = function (ticksData) {
                         display: false,
                     }
                 }]
+            },
+            annotation: {
+                annotations: [annotations]
             },
             elements: {
                 point: { radius: 0 }
