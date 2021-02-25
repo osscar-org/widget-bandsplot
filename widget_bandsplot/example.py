@@ -46,12 +46,13 @@ class Bandsplot(widgets.DOMWidget):
     #yLimit for the plot
     yLimit = Dict({"ymin": -10.0, "ymax": 10.0}).tag(sync=True)
 
-    def __init__(self, bandsData = bandsData, dosData = dosData, fermiEnergy = 0.0, yLimit = {"ymin": -10.0, "ymax": 10.0}):
-        super().__init__(bandsData = bandsData, dosData = dosData, fermiEnergy = fermiEnergy, yLimit = yLimit)
-        self.bandsData = bandsData 
-        self.dosData = dosData
-        self.fermiEnergy = fermiEnergy
-        self.yLimit = yLimit
+    def __init__(self, bandsData = bandsData, dosData = dosData, fermiEnergy = None, yLimit = {"ymin": -10.0, "ymax": 10.0}):
+        super().__init__(bandsData = bandsData, dosData = dosData, yLimit = yLimit)
+
+        if fermiEnergy is not None:
+            self.fermiEnergy = fermiEnergy
+        else:
+            self.fermiEnergy = dosData['fermi_energy']
 
         self.tdos_x = dosData['tdos']['energy | eV']['data']
         self.tdos_y = dosData['tdos']['values']['dos | states/eV']['data']
