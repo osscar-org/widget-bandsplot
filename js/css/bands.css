@@ -5,13 +5,13 @@ h3 {
 
 .bands-plot {
     width: 60%;
-    height: 400px;
+    height: 450px;
     float: left;
 }
 
 .dos-plot {
     width: 40%;
-    height: 400px;
+    height: 450px;
     float: right;
 }
 
