@@ -1,7 +1,15 @@
 widget-bandsplot
 ===============================
 
-A Jupyter widget to plot bandstructures.
+A Jupyter widget to plot bandstructures. The widget is using the bands-widget Javascript
+package, which is developed by Materials Cloud group.
+
+https://github.com/materialscloud-org/bands-widget
+
+
+[![Materials Cloud Tool widget-bandsplot](https://raw.githubusercontent.com/materialscloud-org/mcloud-badge/main/badges/img/mcloud_badge_tools.svg)](https://osscar-widget-bandsplot.matcloud.xyz/)
+
+<img src="./example/widget-bandsplot.gif" width="750" height="400">
 
 Installation
 ------------
@@ -28,3 +36,9 @@ Then you need to rebuild the JS when you make a code change:
     $ yarn run build
 
 You then need to refresh the JupyterLab page when your javascript changes.
+
+## Acknowledgements
+
+We acknowledge support from the EPFL Open Science Fund via the [OSSCAR](http://www.osscar.org) project.
+
+<img src='http://www.osscar.org/wp-content/uploads/2019/03/OSSCAR-logo.png' width='230'>
