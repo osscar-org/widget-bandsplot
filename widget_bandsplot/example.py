@@ -31,34 +31,34 @@ class Bandsplot(widgets.DOMWidget):
     value = Unicode('This is bandsplot!').tag(sync=True)
 
     #Json fils for the bandstructures
-    bandsData = List().tag(sync=True) 
+    bands = List().tag(sync=True) 
 
     #Json file for the DOS plot
-    dosData = Dict().tag(sync=True)
+    dos = Dict().tag(sync=True)
 
     #The total DOS data x, y
     tdos_x = List().tag(sync=True)
     tdos_y = List().tag(sync=True)
 
     #The fermi energy
-    fermiEnergy = Float(0.0).tag(sync=True)
+    fermi_energy = Float(0.0).tag(sync=True)
 
     #yLimit for the plot
-    yLimit = Dict({"ymin": -10.0, "ymax": 10.0}).tag(sync=True)
+    ylimit = Dict({"ymin": -10.0, "ymax": 10.0}).tag(sync=True)
 
     #visiblity for the Fermi energy level
-    showFermi = Bool(True).tag(sync=True)
+    show_fermi = Bool(True).tag(sync=True)
 
-    def __init__(self, bandsData = bandsData, dosData = dosData, fermiEnergy = None, showFermi = True, yLimit = {"ymin": -10.0, "ymax": 10.0}):
-        super().__init__(bandsData = bandsData, dosData = dosData, showFermi = showFermi, yLimit = yLimit)
+    def __init__(self, bands = bands, dos = dos, fermi_energy = None, show_fermi = True, ylimit = {"ymin": -10.0, "ymax": 10.0}):
+        super().__init__(bands = bands, dos = dos, show_fermi = show_fermi, ylimit = ylimit)
 
-        if fermiEnergy is not None:
-            self.fermiEnergy = fermiEnergy
+        if fermi_energy is not None:
+            self.fermi_energy = fermi_energy
         else:
-            self.fermiEnergy = dosData['fermi_energy']
+            self.fermi_energy = dos['fermi_energy']
 
-        self.tdos_x = dosData['tdos']['energy | eV']['data']
-        self.tdos_y = dosData['tdos']['values']['dos | states/eV']['data']
+        self.tdos_x = dos['tdos']['energy | eV']['data']
+        self.tdos_y = dos['tdos']['values']['dos | states/eV']['data']
 
 
 
