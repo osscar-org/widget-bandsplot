@@ -6,7 +6,6 @@ var _ = require('underscore');
 var bandPlot = require('./bands').bandPlot;
 
 require('../css/bands.css');
-require('bootstrap');
 
 // See example.py for the kernel counterpart to this file.
 
