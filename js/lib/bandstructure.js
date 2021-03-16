@@ -119,7 +119,7 @@ function getValidPointNames(allData) {
 
 
 /////////////// MAIN CLASS DEFINITION /////////////////
-var BandPlot = function (divID, fermiEnergy, showFermi, yLimit) {
+var BandPlot = function (divID, showFermi, yLimit) {
     this.divID = divID;
     this.allData = [];
     this.dosData = {};
@@ -130,7 +130,8 @@ var BandPlot = function (divID, fermiEnergy, showFermi, yLimit) {
     this.dosBackgroundColorInfo = [];
     // Keep track of the current path to avoid too many refreshes
     this.currentPath = [];
-    this.fermiEnergy = fermiEnergy;
+    this.bandFermiEnergy = null;
+    this.dosFermiEnergy = null;
     this.showFermi = showFermi;
     this.yLimit = yLimit;
     this.yLabel = "";
@@ -168,6 +169,7 @@ BandPlot.prototype.addBandStructure = function (bandsData, colorInfo) {
 
     this.allColorInfo.push(colorInfo);
     this.allData.push(bandsData);
+    this.bandFermiEnergy = bandsData['fermi_level'];
 };
 
 BandPlot.prototype.addDos = function (dosData) {
@@ -184,8 +186,7 @@ BandPlot.prototype.addDos = function (dosData) {
         this.dosBackgroundColorInfo.push(bkColor);
     };
 
-    console.log(this.dosColorInfo);
-    console.log(this.backgroundColor);
+    this.dosFermiEnergy = dosData['fermi_energy'];
 };
 
 BandPlot.prototype.initChart = function (ticksData) {
@@ -284,6 +285,10 @@ BandPlot.prototype.initChart = function (ticksData) {
 
     var ctx = document.getElementById(this.divID).getContext('2d');
     bandPlotObject.myChart = new Chart(ctx, chartOptions);
+};
+
+BandPlot.prototype.initDosChart = function () {
+    var bandPlotObject = this;
 
     var annotations = {
         type: 'line',
@@ -478,7 +483,6 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
 
     // Clean up old series
     bandPlotObject.allSeries = [];
-    bandPlotObject.dosSeries = [];
 
     // Plot each of the segments
     currentPathSpecification.forEach(function (segmentEdges, segment_idx) {
@@ -564,9 +568,9 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
                         }
 
                         // substract fermi energy from all bands
-                        if (bandPlotObject.fermiEnergy) {
+                        if (bandPlotObject.bandFermiEnergy) {
                             var tmp = theBand.map(function (value) {
-                                return value - bandPlotObject.fermiEnergy;
+                                return value - bandPlotObject.bandFermiEnergy;
                             });
                             theBand = tmp;
                         }
@@ -657,13 +661,19 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
         bandPlotObject.myChart.update();
     }
 
+};
+
+BandPlot.prototype.updateDosPlot = function () {
+    var bandPlotObject = this;
+
     // Plot the density of states
+    bandPlotObject.dosSeries = [];
     curve = [];
     var totx = bandPlotObject.dosData['tdos']['energy | eV']['data'];
     var toty = bandPlotObject.dosData['tdos']['values']['dos | states/eV']['data'];
 
     totx.forEach(function (data, i) {
-        curve.push({ x: toty[i], y: data - bandPlotObject.fermiEnergy })
+        curve.push({ x: toty[i], y: data - bandPlotObject.dosFermiEnergy })
     });
 
     var totdos = {
@@ -686,7 +696,7 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
         var pdosy = bandPlotObject.dosData['pdos'][i - 1]['pdos | states/eV']['data'];
 
         pdosx.forEach(function (data, k) {
-            curve.push({ x: pdosy[k], y: data - bandPlotObject.fermiEnergy });
+            curve.push({ x: pdosy[k], y: data - bandPlotObject.dosFermiEnergy });
         });
 
         var pdos = {
@@ -702,9 +712,16 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
         };
 
         bandPlotObject.dosSeries.push(pdos);
-    }
+    };
 
     console.log(bandPlotObject.dosColorInfo);
+    console.log("**********************");
+    console.log(bandPlotObject.dosSeries);
+    console.log("**********************");
+
+    if (bandPlotObject.myDos === undefined) {
+        bandPlotObject.initDosChart();
+    };
 
     bandPlotObject.myDos.update();
 };
