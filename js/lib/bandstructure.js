@@ -415,7 +415,7 @@ BandPlot.prototype.initDosChart = function (orientation = 'vertical') {
                 enabled: true,
                 position: "top",
                 content: "Fermi",
-                xAdjust: 4,
+                yAdjust: 4,
             }
         };
 
@@ -448,9 +448,11 @@ BandPlot.prototype.initDosChart = function (orientation = 'vertical') {
                             drawBorder: true,
                             drawOnChartArea: false,
                             zeroLineWidth: 2,
+                            tickMarkLength: 0,
                         },
                         ticks: {
                             min: 0.0,
+                            padding: 10,
                         },
                         scaleLabel: {
                             display: true,
@@ -465,12 +467,10 @@ BandPlot.prototype.initDosChart = function (orientation = 'vertical') {
                             display: true,
                             drawBorder: true,
                             drawOnChartArea: false,
-                            tickMarkLength: 0,
                         },
                         ticks: {
                             min: bandPlotObject.yLimit.ymin,
                             max: bandPlotObject.yLimit.ymax,
-                            padding: 10,
                             // change the label of the ticks
                             callback: function (value, index, values) {
                                 if (index !== 0 && index != values.length - 1) {
