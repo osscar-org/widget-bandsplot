@@ -42,25 +42,12 @@ var BandsplotModel = widgets.DOMWidgetModel.extend({
 var BandsplotView = widgets.DOMWidgetView.extend({
     // Defines how the widget gets rendered into the DOM
 
-    initialize: function() {
+    initialize: function () {
         this.uuidCanvas = _.uniqueId("bandsCanvas");
         this.uuidTextbox = _.uniqueId("bandsTextbox");
-    },
 
-    render: function () {
-        this.value_changed();
-
-        // Observe changes in the value traitlet in Python, and define
-        // a custom callback.
-        this.model.on('change:value', this.value_changed, this);
-        this.model.on('change:show_fermi', this.bandsplot_changed, this);
-        this.model.on('change:bands', this.bandsplot_changed, this);
-        this.model.on('change:dos', this.bandsplot_changed, this);
-        this.model.on('change:fermi_energy', this.bandsplot_changed, this);
-        this.model.on('change:ylimit', this.bandsplot_changed, this);
-
-        this.el.innerHTML = '<div class="all-widget"><div id="bandsplot-div" class="bands-plot"> <canvas id="'+ this.uuidCanvas + '"> </canvas> </div>'
-            + '<div id="dosplot-div" class="dos-plot"> <canvas id="'+ this.uuidCanvas + 'dos"> </canvas> </div>' 
+        this.bothPlots = '<div class="all-widget"><div id="bandsplot-div" class="bands-plot"> <canvas id="' + this.uuidCanvas + '"> </canvas> </div>'
+            + '<div id="dosplot-div" class="dos-plot"> <canvas id="' + this.uuidCanvas + 'dos"> </canvas> </div>'
             + '<p> <span class="span-label"> Edit the path:</span > <input id="' + this.uuidTextbox + '" class="bands-input" type="text"></input></p>'
             + '<button type="button" id="' + this.uuidCanvas + 'bt-reset" class="button"> Reset default path </button>'
             + '<button type="button" id="' + this.uuidCanvas + 'bt-resetZoom" class="button"> Reset zoom </button>'
@@ -69,15 +56,60 @@ var BandsplotView = widgets.DOMWidgetView.extend({
             + '<button type="button" id="' + this.uuidCanvas + 'bt-togglePdos" class="button"> Toggle PDOS </button>'
             + '</div > ';
 
+        this.bandPlot = '<div class="all-widget"><div id="bandsplot-div" class="bands-plot-single"> <canvas id="' + this.uuidCanvas + '"> </canvas> </div>'
+            + '<p> <span class="span-label"> Edit the path:</span > <input id="' + this.uuidTextbox + '" class="bands-input" type="text"></input></p>'
+            + '<button type="button" id="' + this.uuidCanvas + 'bt-reset" class="button"> Reset default path </button>'
+            + '<button type="button" id="' + this.uuidCanvas + 'bt-resetZoom" class="button"> Reset zoom </button>'
+            + '<button type="button" id="' + this.uuidCanvas + 'bt-dragZoom" class="button"> Drag (or pinch) to zoom </button>'
+            + '<button type="button" id="' + this.uuidCanvas + 'bt-dragPan" class="button-white"> Drag to pan </button>'
+            + '</div > ';
+
+        this.dosPlot = '<div class="all-widget"><div id="dosplot-div" class="dos-plot-single"> <canvas id="' + this.uuidCanvas + 'dos"> </canvas> </div>'
+            + '<button type="button" id="' + this.uuidCanvas + 'bt-resetZoom" class="button"> Reset zoom </button>'
+            + '<button type="button" id="' + this.uuidCanvas + 'bt-dragZoom" class="button"> Drag (or pinch) to zoom </button>'
+            + '<button type="button" id="' + this.uuidCanvas + 'bt-dragPan" class="button-white"> Drag to pan </button>'
+            + '<button type="button" id="' + this.uuidCanvas + 'bt-togglePdos" class="button"> Toggle PDOS </button>'
+            + '</div >';
+    },
+
+    render: function () {
+        this.value_changed();
+
+        // Observe changes in the value traitlet in Python, and define
+        // a custom callback.
+        this.model.on('change:value', this.value_changed, this);
+        this.model.on('change:plot_fermilevel', this.bandsplot_changed, this);
+        this.model.on('change:bands', this.bandsplot_changed, this);
+        this.model.on('change:dos', this.bandsplot_changed, this);
+        this.model.on('change:ylimit', this.bandsplot_changed, this);
+
         var bands = this.model.get('bands');
         var fdos = this.model.get('dos');
-        var fermiEnergy = this.model.get('fermi_energy');
         var yLimit = this.model.get('ylimit');
-        var showFermi = this.model.get('show_fermi');
+        var showFermi = this.model.get('plot_fermilevel');
 
-        that = this; 
+        console.log("############");
+        console.log(bands.length);
+
+
+        if ( bands.length && !$.isEmptyObject(fdos)) {
+            console.log("working here 111111111");
+            this.el.innerHTML = this.bothPlots;
+        };
+
+        if ( !bands.length && !$.isEmptyObject(fdos)) {
+            console.log("working here 222222222");
+            this.el.innerHTML = this.dosPlot;
+        };
+
+        if ( bands.length && $.isEmptyObject(fdos)) {
+            console.log("working here 333333333");
+            this.el.innerHTML = this.bandPlot;
+        };
+
+        that = this;
         $(document).ready(function () {
-            bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, fermiEnergy, showFermi, yLimit);
+            bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, showFermi, yLimit);
         });
     },
 
@@ -85,14 +117,13 @@ var BandsplotView = widgets.DOMWidgetView.extend({
         this.el.textContent = this.model.get('value');
     },
 
-    bandsplot_changed: function() {
+    bandsplot_changed: function () {
         var bands = this.model.get('bands');
         var fdos = this.model.get('dos');
-        var fermiEnergy = this.model.get('fermi_energy');
         var yLimit = this.model.get('ylimit');
-        var showFermi = this.model.get('show_fermi');
-        
-        bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, fermiEnergy, showFermi, yLimit);
+        var showFermi = this.model.get('plot_fermilevel');
+
+        bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, showFermi, yLimit);
     }
 });
 

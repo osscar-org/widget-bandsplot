@@ -727,7 +727,7 @@ BandPlot.prototype.updateDosPlot = function () {
 };
 
 // Call the reset zoom function of the chart, but also make sure the x ticks are correctly reset
-BandPlot.prototype.resZoom = function () {
+BandPlot.prototype.resBandZoom = function () {
     var bandPlotObject = this;
 
     bandPlotObject.myChart.resetZoom();
@@ -742,6 +742,10 @@ BandPlot.prototype.resZoom = function () {
     bandPlotObject.myChart.options.scales.yAxes[0].ticks.min = bandPlotObject.yLimit.ymin;
     bandPlotObject.myChart.options.scales.yAxes[0].ticks.max = bandPlotObject.yLimit.ymax;
     bandPlotObject.myChart.update();
+};
+
+BandPlot.prototype.resDosZoom = function () {
+    var bandPlotObject = this;
 
     bandPlotObject.myDos.resetZoom();
     bandPlotObject.myDos.options.scales.yAxes[0].ticks.min = bandPlotObject.yLimit.ymin;

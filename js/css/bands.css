@@ -9,10 +9,20 @@ h3 {
     float: left;
 }
 
+.bands-plot-single {
+    width: 70%;
+    height: 450px;
+}
+
 .dos-plot {
     width: 40%;
     height: 450px;
     float: right;
+}
+
+.dos-plot-single {
+    width: 70%;
+    height: 450px;
 }
 
 .all-widget {

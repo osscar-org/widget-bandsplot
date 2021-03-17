@@ -4,7 +4,7 @@ from traitlets import Unicode, List, Dict, Float, Bool
 # See js/lib/example.js for the frontend counterpart to this file.
 
 @widgets.register
-class Bandsplot(widgets.DOMWidget):
+class BandsPlotWidget(widgets.DOMWidget):
     """A Jupyter widget to plot bandstructures and DOS."""
 
     # Name of the widget view class in front-end
@@ -40,25 +40,34 @@ class Bandsplot(widgets.DOMWidget):
     tdos_x = List().tag(sync=True)
     tdos_y = List().tag(sync=True)
 
-    #The fermi energy
-    fermi_energy = Float(0.0).tag(sync=True)
-
     #yLimit for the plot
     ylimit = Dict({"ymin": -10.0, "ymax": 10.0}).tag(sync=True)
 
+    #Band and DOS Fermi energy
+    band_fermienergy = List().tag(sync=True)
+    dos_fermienergy = Float().tag(sync=True)
+
     #visiblity for the Fermi energy level
-    show_fermi = Bool(True).tag(sync=True)
+    plot_fermilevel = Bool(True).tag(sync=True)
 
-    def __init__(self, bands = bands, dos = dos, fermi_energy = None, show_fermi = True, ylimit = {"ymin": -10.0, "ymax": 10.0}):
-        super().__init__(bands = bands, dos = dos, show_fermi = show_fermi, ylimit = ylimit)
+    def __init__(self, bands=None, dos=None, fermi_energy = None, plot_fermilevel = True, ylimit = {"ymin": -10.0, "ymax": 10.0}):
 
-        if fermi_energy is not None:
-            self.fermi_energy = fermi_energy
-        else:
-            self.fermi_energy = dos['fermi_energy']
+        if bands == None and dos == None:
+            raise ImportError("You need give band structure or DOS files.")
 
-        self.tdos_x = dos['tdos']['energy | eV']['data']
-        self.tdos_y = dos['tdos']['values']['dos | states/eV']['data']
+        super().__init__(plot_fermilevel = plot_fermilevel, ylimit = ylimit)
+
+        if bands is not None:
+            self.bands = bands
+            
+            for i in bands:
+                self.band_fermienergy.append(i['fermi_level'])
+        
+        if dos is not None:
+            self.dos = dos
+            self.tdos_x = dos['tdos']['energy | eV']['data']
+            self.tdos_y = dos['tdos']['values']['dos | states/eV']['data']
+            self.dos_fermienergy = dos['fermi_energy']
 
 
 

@@ -70,30 +70,79 @@ function dragToPan(plotInfoId, zoomButtonId, panButtonId) {
 }
 
 // get json data and create band plot
-function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, fermiEnergy, showFermi, yLimit, colorInfo) {
+function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, showFermi, yLimit, colorInfo) {
     plots[bandDivId] = {};
 
     var b = window.performance.now();
     console.log("start time: plotting band plot: current time => ", bandDivId, b);
 
     // create band plot object
-    var theBandPlot = new BandPlot(bandDivId, fermiEnergy, showFermi, yLimit);
+    var theBandPlot = new BandPlot(bandDivId, showFermi, yLimit);
     var colorDict;
 
     // add data for every band structure
-    dataFilePaths.forEach(function (dataFilePath, dataIdx) {
-        var colorDict;
-        if (colorInfo !== undefined) {
-            var newColor = tinycolor(colorInfo[dataIdx]);
-            colorDict = [newColor.toHexString(), newColor.darken(20).toHexString(), newColor.brighten(20).toHexString()];
+    if (dataFilePaths.length) {
+        dataFilePaths.forEach(function (dataFilePath, dataIdx) {
+            var colorDict;
+            if (colorInfo !== undefined) {
+                var newColor = tinycolor(colorInfo[dataIdx]);
+                colorDict = [newColor.toHexString(), newColor.darken(20).toHexString(), newColor.brighten(20).toHexString()];
+            }
+
+            theBandPlot.addBandStructure(dataFilePath, colorDict);
+        });
+
+        // update band structure data for plotting
+        theBandPlot.updateBandPlot();
+
+        var theTextBox = document.getElementById(bandPathTextBoxId);
+        theTextBox.value = getPathStringFromPathArray(theBandPlot.getDefaultPath());
+
+        theTextBox.onkeyup = function () {
+            var theTextBox = document.getElementById(bandPathTextBoxId);
+            var string = theTextBox.value;
+            var finalPath = getPathArrayFromPathString(string);
+            theBandPlot.updateBandPlot(finalPath);
         }
 
-        theBandPlot.addBandStructure(dataFilePath, colorDict);
-    });
+        var helperString = "Use - to define a segment<br>Use | to split the path.<br>Valid point names:<br>";
+        var validPoints = getValidPointNames(theBandPlot.allData);
+        helperString += validPoints.join(', ');
 
-    theBandPlot.addDos(dosFile);
-    // update band structure data for plotting
-    theBandPlot.updateBandPlot();
+        var theResetButton = document.getElementById(bandDivId + "bt-reset");
+        theResetButton.onclick = function () {
+            var theTextBox = document.getElementById(bandPathTextBoxId);
+            theTextBox.value = getPathStringFromPathArray(theBandPlot.getDefaultPath());
+            theBandPlot.updateBandPlot(theBandPlot.getDefaultPath(), true);
+        }
+    };
+
+    if (!$.isEmptyObject(dosFile)) {
+        theBandPlot.addDos(dosFile);
+        theBandPlot.updateDosPlot();
+
+        var theTogglePdosButton = document.getElementById(bandDivId + "bt-togglePdos");
+        theTogglePdosButton.onclick = function () {
+            if (theTogglePdosButton.classList.contains("button")) {
+                $("#" + bandDivId + "bt-togglePdos").addClass("button-white");
+                $("#" + bandDivId + "bt-togglePdos").removeClass("button");
+
+                for (var i = 1; i < theBandPlot.dosSeries.length; i++) {
+                    theBandPlot.dosSeries[i].hidden = true;
+                };
+                theBandPlot.myDos.update();
+            }
+            else {
+                $("#" + bandDivId + "bt-togglePdos").addClass("button");
+                $("#" + bandDivId + "bt-togglePdos").removeClass("button-white");
+
+                for (var i = 1; i < theBandPlot.dosSeries.length; i++) {
+                    theBandPlot.dosSeries[i].hidden = false;
+                };
+                theBandPlot.myDos.update();
+            }
+        }
+    };
 
     // theBandPlot.myChart.options.pan.enabled = true ;
     // theBandPlot.myChart.options.pan.mode = "y";
@@ -104,32 +153,13 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, fermiEne
 
     // theBandPlot.myChart.update();
 
-    var theTextBox = document.getElementById(bandPathTextBoxId);
-    theTextBox.value = getPathStringFromPathArray(theBandPlot.getDefaultPath());
-
-    theTextBox.onkeyup = function () {
-        var theTextBox = document.getElementById(bandPathTextBoxId);
-        var string = theTextBox.value;
-        var finalPath = getPathArrayFromPathString(string);
-        theBandPlot.updateBandPlot(finalPath);
-    }
-
-    var helperString = "Use - to define a segment<br>Use | to split the path.<br>Valid point names:<br>";
-    var validPoints = getValidPointNames(theBandPlot.allData);
-    helperString += validPoints.join(', ');
-
     plots[bandDivId].plotObj = theBandPlot;
 
-    var theResetButton = document.getElementById(bandDivId + "bt-reset");
-    theResetButton.onclick = function () {
-        var theTextBox = document.getElementById(bandPathTextBoxId);
-        theTextBox.value = getPathStringFromPathArray(theBandPlot.getDefaultPath());
-        theBandPlot.updateBandPlot(theBandPlot.getDefaultPath(), true);
-    }
 
     var theResetZoomButton = document.getElementById(bandDivId + "bt-resetZoom");
     theResetZoomButton.onclick = function () {
-        theBandPlot.resZoom();
+        if (dataFilePaths.length) theBandPlot.resBandZoom();
+        if (!$.isEmptyObject(dosFile)) theBandPlot.resDosZoom();
     }
 
     var theDragPanButton = document.getElementById(bandDivId + "bt-dragPan");
@@ -139,41 +169,49 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, fermiEne
         $("#" + bandDivId + "bt-dragZoom").addClass("button-white");
         $("#" + bandDivId + "bt-dragZoom").removeClass("button");
 
-        theBandPlot.myChart.options.pan = {
-            enabled: true,
-            mode: "y",
-            onPanComplete: function(chart) {
-                theBandPlot.myDos.options.scales.yAxes[0].ticks.min = theBandPlot.myChart.options.scales.yAxes[0].ticks.min;
-                theBandPlot.myDos.options.scales.yAxes[0].ticks.max = theBandPlot.myChart.options.scales.yAxes[0].ticks.max;
-                theBandPlot.myDos.update();
-            }
+        if (dataFilePaths.length) {
+            theBandPlot.myChart.options.pan = {
+                enabled: true,
+                mode: "y",
+                onPanComplete: function (chart) {
+                    if (!$.isEmptyObject(dosFile)) {
+                        theBandPlot.myDos.options.scales.yAxes[0].ticks.min = theBandPlot.myChart.options.scales.yAxes[0].ticks.min;
+                        theBandPlot.myDos.options.scales.yAxes[0].ticks.max = theBandPlot.myChart.options.scales.yAxes[0].ticks.max;
+                        theBandPlot.myDos.update();
+                    };
+                }
+            };
+
+            theBandPlot.myChart.options.zoom = {
+                enabled: false,
+                mode: "y",
+                drag: true
+            };
+
+            theBandPlot.myChart.update();
         };
 
-        theBandPlot.myChart.options.zoom = {
-            enabled: false,
-            mode: "y",
-            drag: true
+        if (!$.isEmptyObject(dosFile)) {
+            theBandPlot.myDos.options.pan = {
+                enabled: true,
+                mode: "y",
+                onPanComplete: function (chart) {
+                    if (dataFilePaths.length) {
+                        theBandPlot.myChart.options.scales.yAxes[0].ticks.min = theBandPlot.myDos.options.scales.yAxes[0].ticks.min;
+                        theBandPlot.myChart.options.scales.yAxes[0].ticks.max = theBandPlot.myDos.options.scales.yAxes[0].ticks.max;
+                        theBandPlot.myChart.update();
+                    };
+                }
+            };
+
+            theBandPlot.myDos.options.zoom = {
+                enabled: false,
+                mode: "y",
+                drag: true
+            };
+
+            theBandPlot.myDos.update();
         };
-
-        theBandPlot.myChart.update();
-
-        theBandPlot.myDos.options.pan = {
-            enabled: true,
-            mode: "y",
-            onPanComplete: function(chart) {
-                theBandPlot.myChart.options.scales.yAxes[0].ticks.min = theBandPlot.myDos.options.scales.yAxes[0].ticks.min;
-                theBandPlot.myChart.options.scales.yAxes[0].ticks.max = theBandPlot.myDos.options.scales.yAxes[0].ticks.max;
-                theBandPlot.myChart.update();
-            }
-        };
-
-        theBandPlot.myDos.options.zoom = {
-            enabled: false,
-            mode: "y",
-            drag: true
-        };
-
-        theBandPlot.myDos.update();
     }
 
     var theDragZoomButton = document.getElementById(bandDivId + "bt-dragZoom");
@@ -183,64 +221,51 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, fermiEne
         $("#" + bandDivId + "bt-dragPan").addClass("button-white");
         $("#" + bandDivId + "bt-dragPan").removeClass("button");
 
-        theBandPlot.myChart.options.pan = {
-            enabled: false,
-            mode: "y"
+        if (dataFilePaths.length) {
+            theBandPlot.myChart.options.pan = {
+                enabled: false,
+                mode: "y"
+            };
+
+            theBandPlot.myChart.options.zoom = {
+                enabled: true,
+                mode: "y",
+                drag: true,
+                onZoomComplete: function (chart) {
+                    if (!$.isEmptyObject(dosFile)) {
+                        theBandPlot.myDos.options.scales.yAxes[0].ticks.min = theBandPlot.myChart.options.scales.yAxes[0].ticks.min;
+                        theBandPlot.myDos.options.scales.yAxes[0].ticks.max = theBandPlot.myChart.options.scales.yAxes[0].ticks.max;
+                        theBandPlot.myDos.update();
+                    };
+                }
+            };
+
+            theBandPlot.myChart.update();
         };
 
-        theBandPlot.myChart.options.zoom = {
-            enabled: true,
-            mode: "y",
-            drag: true,
-            onZoomComplete: function(chart) {
-                theBandPlot.myDos.options.scales.yAxes[0].ticks.min = theBandPlot.myChart.options.scales.yAxes[0].ticks.min;
-                theBandPlot.myDos.options.scales.yAxes[0].ticks.max = theBandPlot.myChart.options.scales.yAxes[0].ticks.max;
-                theBandPlot.myDos.update();
-            }
+        if (!$.isEmptyObject(dosFile)) {
+            theBandPlot.myDos.options.pan = {
+                enabled: false,
+                mode: "y"
+            };
+
+            theBandPlot.myDos.options.zoom = {
+                enabled: true,
+                mode: "y",
+                drag: true,
+                onZoomComplete: function (chart) {
+                    if (dataFilePaths.length) {
+                        theBandPlot.myChart.options.scales.yAxes[0].ticks.min = theBandPlot.myDos.options.scales.yAxes[0].ticks.min;
+                        theBandPlot.myChart.options.scales.yAxes[0].ticks.max = theBandPlot.myDos.options.scales.yAxes[0].ticks.max;
+                        theBandPlot.myChart.update();
+                    };
+                }
+            };
+
+            theBandPlot.myDos.update();
         };
-
-        theBandPlot.myChart.update();
-
-        theBandPlot.myDos.options.pan = {
-            enabled: false,
-            mode: "y"
-        };
-
-        theBandPlot.myDos.options.zoom = {
-            enabled: true,
-            mode: "y",
-            drag: true,
-            onZoomComplete: function(chart) {
-                theBandPlot.myChart.options.scales.yAxes[0].ticks.min = theBandPlot.myDos.options.scales.yAxes[0].ticks.min;
-                theBandPlot.myChart.options.scales.yAxes[0].ticks.max = theBandPlot.myDos.options.scales.yAxes[0].ticks.max;
-                theBandPlot.myChart.update();
-            }
-        };
-
-        theBandPlot.myDos.update();
     }
 
-    var theTogglePdosButton = document.getElementById(bandDivId + "bt-togglePdos");
-    theTogglePdosButton.onclick = function () {
-        if (theTogglePdosButton.classList.contains("button")) {
-            $("#" + bandDivId + "bt-togglePdos").addClass("button-white");
-            $("#" + bandDivId + "bt-togglePdos").removeClass("button");
-
-            for (var i = 1; i < theBandPlot.dosSeries.length; i++) {
-                theBandPlot.dosSeries[i].hidden = true;
-            };
-            theBandPlot.myDos.update();
-        }
-        else {
-            $("#" + bandDivId + "bt-togglePdos").addClass("button");
-            $("#" + bandDivId + "bt-togglePdos").removeClass("button-white");
-
-            for (var i = 1; i < theBandPlot.dosSeries.length; i++) {
-                theBandPlot.dosSeries[i].hidden = false;
-            };
-            theBandPlot.myDos.update();
-        }
-    }
 
     // $(theTextBox).data('bs.tooltip', false).tooltip({title: helperString, html: true})
     //                        .tooltip('show'); // Open the tooltip
