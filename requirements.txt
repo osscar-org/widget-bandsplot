@@ -1,5 +1,5 @@
 voila==0.2.7 
 voila-osscar-template==0.2.8
-widget-bandsplot==0.2.0a2
+widget-bandsplot==0.2.0a3
 matplotlib==3.3.4
 ipympl==0.6.3
