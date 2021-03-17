@@ -88,22 +88,15 @@ var BandsplotView = widgets.DOMWidgetView.extend({
         var yLimit = this.model.get('ylimit');
         var showFermi = this.model.get('plot_fermilevel');
 
-        console.log("############");
-        console.log(bands.length);
-
-
         if ( bands.length && !$.isEmptyObject(fdos)) {
-            console.log("working here 111111111");
             this.el.innerHTML = this.bothPlots;
         };
 
         if ( !bands.length && !$.isEmptyObject(fdos)) {
-            console.log("working here 222222222");
             this.el.innerHTML = this.dosPlot;
         };
 
         if ( bands.length && $.isEmptyObject(fdos)) {
-            console.log("working here 333333333");
             this.el.innerHTML = this.bandPlot;
         };
 

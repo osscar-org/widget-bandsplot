@@ -119,7 +119,12 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, showFerm
 
     if (!$.isEmptyObject(dosFile)) {
         theBandPlot.addDos(dosFile);
-        theBandPlot.updateDosPlot();
+
+        if (dataFilePaths.length) {
+            theBandPlot.updateDosPlot('vertical');
+        } else {
+            theBandPlot.updateDosPlot('horizontal');
+        };
 
         var theTogglePdosButton = document.getElementById(bandDivId + "bt-togglePdos");
         theTogglePdosButton.onclick = function () {
@@ -159,7 +164,8 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, showFerm
     var theResetZoomButton = document.getElementById(bandDivId + "bt-resetZoom");
     theResetZoomButton.onclick = function () {
         if (dataFilePaths.length) theBandPlot.resBandZoom();
-        if (!$.isEmptyObject(dosFile)) theBandPlot.resDosZoom();
+        if (!$.isEmptyObject(dosFile) && dataFilePaths.length) theBandPlot.resDosZoom('vertical');
+        if (!$.isEmptyObject(dosFile) && !dataFilePaths.length) theBandPlot.resDosZoom('horizontal');
     }
 
     var theDragPanButton = document.getElementById(bandDivId + "bt-dragPan");
@@ -191,7 +197,7 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, showFerm
             theBandPlot.myChart.update();
         };
 
-        if (!$.isEmptyObject(dosFile)) {
+        if (!$.isEmptyObject(dosFile) && dataFilePaths.length) {
             theBandPlot.myDos.options.pan = {
                 enabled: true,
                 mode: "y",
@@ -207,6 +213,28 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, showFerm
             theBandPlot.myDos.options.zoom = {
                 enabled: false,
                 mode: "y",
+                drag: true
+            };
+
+            theBandPlot.myDos.update();
+        };
+
+        if (!$.isEmptyObject(dosFile) && !dataFilePaths.length) {
+            theBandPlot.myDos.options.pan = {
+                enabled: true,
+                mode: "x",
+                onPanComplete: function (chart) {
+                    if (dataFilePaths.length) {
+                        theBandPlot.myChart.options.scales.xAxes[0].ticks.min = theBandPlot.myDos.options.scales.yAxes[0].ticks.min;
+                        theBandPlot.myChart.options.scales.xAxes[0].ticks.max = theBandPlot.myDos.options.scales.yAxes[0].ticks.max;
+                        theBandPlot.myChart.update();
+                    };
+                }
+            };
+
+            theBandPlot.myDos.options.zoom = {
+                enabled: false,
+                mode: "x",
                 drag: true
             };
 
@@ -243,7 +271,7 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, showFerm
             theBandPlot.myChart.update();
         };
 
-        if (!$.isEmptyObject(dosFile)) {
+        if (!$.isEmptyObject(dosFile) && dataFilePaths.length) {
             theBandPlot.myDos.options.pan = {
                 enabled: false,
                 mode: "y"
@@ -257,6 +285,28 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, showFerm
                     if (dataFilePaths.length) {
                         theBandPlot.myChart.options.scales.yAxes[0].ticks.min = theBandPlot.myDos.options.scales.yAxes[0].ticks.min;
                         theBandPlot.myChart.options.scales.yAxes[0].ticks.max = theBandPlot.myDos.options.scales.yAxes[0].ticks.max;
+                        theBandPlot.myChart.update();
+                    };
+                }
+            };
+
+            theBandPlot.myDos.update();
+        };
+
+        if (!$.isEmptyObject(dosFile) && !dataFilePaths.length) {
+            theBandPlot.myDos.options.pan = {
+                enabled: false,
+                mode: "x"
+            };
+
+            theBandPlot.myDos.options.zoom = {
+                enabled: true,
+                mode: "x",
+                drag: true,
+                onZoomComplete: function (chart) {
+                    if (dataFilePaths.length) {
+                        theBandPlot.myChart.options.scales.xAxes[0].ticks.min = theBandPlot.myDos.options.scales.yAxes[0].ticks.min;
+                        theBandPlot.myChart.options.scales.xAxes[0].ticks.max = theBandPlot.myDos.options.scales.yAxes[0].ticks.max;
                         theBandPlot.myChart.update();
                     };
                 }

@@ -176,7 +176,7 @@ BandPlot.prototype.addDos = function (dosData) {
     this.dosData = dosData;
 
     var Index = 1 + dosData['pdos'].length;
-    var defaultColors = ['#555555', '#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf','#999999'];
+    var defaultColors = ['#555555', '#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33', '#a65628', '#f781bf', '#999999'];
 
     for (let i = 0; i < Index; i++) {
         var newColor = tinycolor(defaultColors[i % defaultColors.length]);
@@ -264,9 +264,11 @@ BandPlot.prototype.initChart = function (ticksData) {
                 mode: "y",
                 drag: true,
                 onZoomComplete: function (chart) {
-                    bandPlotObject.myDos.options.scales.yAxes[0].ticks.min = bandPlotObject.myChart.options.scales.yAxes[0].ticks.min;
-                    bandPlotObject.myDos.options.scales.yAxes[0].ticks.max = bandPlotObject.myChart.options.scales.yAxes[0].ticks.max;
-                    bandPlotObject.myDos.update();
+                    if (bandPlotObject.myDos !== undefined) {
+                        bandPlotObject.myDos.options.scales.yAxes[0].ticks.min = bandPlotObject.myChart.options.scales.yAxes[0].ticks.min;
+                        bandPlotObject.myDos.options.scales.yAxes[0].ticks.max = bandPlotObject.myChart.options.scales.yAxes[0].ticks.max;
+                        bandPlotObject.myDos.update();
+                    }
                 }
             }
         }
@@ -287,117 +289,219 @@ BandPlot.prototype.initChart = function (ticksData) {
     bandPlotObject.myChart = new Chart(ctx, chartOptions);
 };
 
-BandPlot.prototype.initDosChart = function () {
+BandPlot.prototype.initDosChart = function (orientation = 'vertical') {
     var bandPlotObject = this;
 
-    var annotations = {
-        type: 'line',
-        id: 'fermiLine',
-        scaleID: 'dosA',
-        mode: 'horizontal',
-        value: 0,
-        borderColor: 'red',
-        borderWidth: 2,
-        label: {
-            enabled: true,
-            position: "right",
-            content: "Fermi",
-            xAdjust: 4,
-        }
-    };
+    if (orientation === 'vertical') {
+        var annotations = {
+            type: 'line',
+            id: 'fermiLine',
+            scaleID: 'dosA',
+            mode: 'horizontal',
+            value: 0,
+            borderColor: 'red',
+            borderWidth: 2,
+            label: {
+                enabled: true,
+                position: "right",
+                content: "Fermi",
+                xAdjust: 4,
+            }
+        };
 
-    if (this.showFermi === false) annotations = {};
+        if (this.showFermi === false) annotations = {};
 
-    dosOptions = {
-        type: 'scatter',
-        data: {
-            datasets: this.dosSeries
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            animation: {
-                duration: 0
+        dosOptions = {
+            type: 'scatter',
+            data: {
+                datasets: this.dosSeries
             },
-            hover: {
-                animationDuration: 0, // duration of animations when hovering an item
-                mode: null // disable any hovering effects
-            },
-            responsiveAnimationDuration: 0, // animation duration after a resize
-            legend: {
-                display: true,
-                position: 'right',
-            },
-            scales: {
-                xAxes: [{
-                    gridLines: {
-                        display: true,
-                        drawBorder: true,
-                        drawOnChartArea: false,
-                        zeroLineWidth: 2,
-                    },
-                    ticks: {
-                        min: 0.0,
-                    }
-                }],
-                yAxes: [{
-                    id: 'dosA',
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    duration: 0
+                },
+                hover: {
+                    animationDuration: 0, // duration of animations when hovering an item
+                    mode: null // disable any hovering effects
+                },
+                responsiveAnimationDuration: 0, // animation duration after a resize
+                legend: {
                     display: true,
                     position: 'right',
-                    gridLines: {
-                        display: true,
-                        drawBorder: true,
-                        drawOnChartArea: false,
-                        tickMarkLength: 0,
-                    },
-                    ticks: {
-                        min: bandPlotObject.yLimit.ymin,
-                        max: bandPlotObject.yLimit.ymax,
-                        padding: 10,
-                        // change the label of the ticks
-                        callback: function (value, index, values) {
-                            if (index !== 0 && index != values.length - 1) {
-                                return value;
-                            }
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: true,
+                            drawBorder: true,
+                            drawOnChartArea: false,
+                            zeroLineWidth: 2,
+                        },
+                        ticks: {
+                            min: 0.0,
                         }
-                    },
-                    scaleLabel: {
+                    }],
+                    yAxes: [{
+                        id: 'dosA',
                         display: true,
-                        labelString: 'Density of States (eV)',
-                    }
-                }, {
-                    display: true,
-                    position: 'left',
-                    gridLines: {
+                        position: 'right',
+                        gridLines: {
+                            display: true,
+                            drawBorder: true,
+                            drawOnChartArea: false,
+                            tickMarkLength: 0,
+                        },
+                        ticks: {
+                            min: bandPlotObject.yLimit.ymin,
+                            max: bandPlotObject.yLimit.ymax,
+                            padding: 10,
+                            // change the label of the ticks
+                            callback: function (value, index, values) {
+                                if (index !== 0 && index != values.length - 1) {
+                                    return value;
+                                }
+                            }
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Density of States (eV)',
+                        }
+                    }, {
                         display: true,
-                        drawBorder: true,
-                        drawOnChartArea: false,
-                        tickMarkLength: 0,
-                    },
-                    ticks: {
-                        display: false,
+                        position: 'left',
+                        gridLines: {
+                            display: true,
+                            drawBorder: true,
+                            drawOnChartArea: false,
+                            tickMarkLength: 0,
+                        },
+                        ticks: {
+                            display: false,
+                        }
+                    }]
+                },
+                annotation: {
+                    annotations: [annotations]
+                },
+                elements: {
+                    point: { radius: 0 }
+                },
+                zoom: {
+                    enabled: true,
+                    mode: "y",
+                    drag: true,
+                    onZoomComplete: function (chart) {
+                        if (bandPlotObject.myChart !== undefined) {
+                            bandPlotObject.myChart.options.scales.yAxes[0].ticks.min = bandPlotObject.myDos.options.scales.yAxes[0].ticks.min;
+                            bandPlotObject.myChart.options.scales.yAxes[0].ticks.max = bandPlotObject.myDos.options.scales.yAxes[0].ticks.max;
+                            bandPlotObject.myChart.update();
+                        }
                     }
-                }]
-            },
-            annotation: {
-                annotations: [annotations]
-            },
-            elements: {
-                point: { radius: 0 }
-            },
-            zoom: {
-                enabled: true,
-                mode: "y",
-                drag: true,
-                onZoomComplete: function (chart) {
-                    bandPlotObject.myChart.options.scales.yAxes[0].ticks.min = bandPlotObject.myDos.options.scales.yAxes[0].ticks.min;
-                    bandPlotObject.myChart.options.scales.yAxes[0].ticks.max = bandPlotObject.myDos.options.scales.yAxes[0].ticks.max;
-                    bandPlotObject.myChart.update();
                 }
+            },
+        };
+    } else {
+        var annotations = {
+            type: 'line',
+            id: 'fermiLine',
+            scaleID: 'dosA',
+            mode: 'vertical',
+            value: 0,
+            borderColor: 'red',
+            borderWidth: 2,
+            label: {
+                enabled: true,
+                position: "top",
+                content: "Fermi",
+                xAdjust: 4,
             }
-        },
-    };
+        };
 
+        if (this.showFermi === false) annotations = {};
+
+        dosOptions = {
+            type: 'scatter',
+            data: {
+                datasets: this.dosSeries
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    duration: 0
+                },
+                hover: {
+                    animationDuration: 0, // duration of animations when hovering an item
+                    mode: null // disable any hovering effects
+                },
+                responsiveAnimationDuration: 0, // animation duration after a resize
+                legend: {
+                    display: true,
+                    position: 'right',
+                },
+                scales: {
+                    yAxes: [{
+                        gridLines: {
+                            display: true,
+                            drawBorder: true,
+                            drawOnChartArea: false,
+                            zeroLineWidth: 2,
+                        },
+                        ticks: {
+                            min: 0.0,
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Density of States',
+                        }
+                    }],
+                    xAxes: [{
+                        id: 'dosA',
+                        display: true,
+                        position: 'right',
+                        gridLines: {
+                            display: true,
+                            drawBorder: true,
+                            drawOnChartArea: false,
+                            tickMarkLength: 0,
+                        },
+                        ticks: {
+                            min: bandPlotObject.yLimit.ymin,
+                            max: bandPlotObject.yLimit.ymax,
+                            padding: 10,
+                            // change the label of the ticks
+                            callback: function (value, index, values) {
+                                if (index !== 0 && index != values.length - 1) {
+                                    return value;
+                                }
+                            }
+                        },
+                    }],
+                },
+                annotation: {
+                    annotations: [annotations]
+                },
+                elements: {
+                    point: { radius: 0 }
+                },
+                zoom: {
+                    enabled: true,
+                    mode: "x",
+                    drag: true,
+                    onZoomComplete: function (chart) {
+                        if (bandPlotObject.myChart !== undefined) {
+                            bandPlotObject.myChart.options.scales.yAxes[0].ticks.min = bandPlotObject.myDos.options.scales.yAxes[0].ticks.min;
+                            bandPlotObject.myChart.options.scales.yAxes[0].ticks.max = bandPlotObject.myDos.options.scales.yAxes[0].ticks.max;
+                            bandPlotObject.myChart.update();
+                        }
+                    }
+                }
+            },
+        };
+
+    };
 
     var ctd = document.getElementById(this.divID + 'dos').getContext('2d');
     bandPlotObject.myDos = new Chart(ctd, dosOptions);
@@ -663,7 +767,7 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
 
 };
 
-BandPlot.prototype.updateDosPlot = function () {
+BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
     var bandPlotObject = this;
 
     // Plot the density of states
@@ -673,7 +777,11 @@ BandPlot.prototype.updateDosPlot = function () {
     var toty = bandPlotObject.dosData['tdos']['values']['dos | states/eV']['data'];
 
     totx.forEach(function (data, i) {
-        curve.push({ x: toty[i], y: data - bandPlotObject.dosFermiEnergy })
+        if (orientation === 'vertical') {
+            curve.push({ x: toty[i], y: data - bandPlotObject.dosFermiEnergy });
+        } else {
+            curve.push({ x: data - bandPlotObject.dosFermiEnergy, y: toty[i] });
+        };
     });
 
     var totdos = {
@@ -696,7 +804,11 @@ BandPlot.prototype.updateDosPlot = function () {
         var pdosy = bandPlotObject.dosData['pdos'][i - 1]['pdos | states/eV']['data'];
 
         pdosx.forEach(function (data, k) {
-            curve.push({ x: pdosy[k], y: data - bandPlotObject.dosFermiEnergy });
+            if (orientation === 'vertical') {
+                curve.push({ x: pdosy[k], y: data - bandPlotObject.dosFermiEnergy });
+            } else {
+                curve.push({ x: data - bandPlotObject.dosFermiEnergy, y: pdosy[k] });
+            };
         });
 
         var pdos = {
@@ -714,13 +826,8 @@ BandPlot.prototype.updateDosPlot = function () {
         bandPlotObject.dosSeries.push(pdos);
     };
 
-    console.log(bandPlotObject.dosColorInfo);
-    console.log("**********************");
-    console.log(bandPlotObject.dosSeries);
-    console.log("**********************");
-
     if (bandPlotObject.myDos === undefined) {
-        bandPlotObject.initDosChart();
+        bandPlotObject.initDosChart(orientation);
     };
 
     bandPlotObject.myDos.update();
@@ -744,12 +851,19 @@ BandPlot.prototype.resBandZoom = function () {
     bandPlotObject.myChart.update();
 };
 
-BandPlot.prototype.resDosZoom = function () {
+BandPlot.prototype.resDosZoom = function (orientation = 'vertical') {
     var bandPlotObject = this;
 
     bandPlotObject.myDos.resetZoom();
-    bandPlotObject.myDos.options.scales.yAxes[0].ticks.min = bandPlotObject.yLimit.ymin;
-    bandPlotObject.myDos.options.scales.yAxes[0].ticks.max = bandPlotObject.yLimit.ymax;
+
+    if (orientation === 'vertical') {
+        bandPlotObject.myDos.options.scales.yAxes[0].ticks.min = bandPlotObject.yLimit.ymin;
+        bandPlotObject.myDos.options.scales.yAxes[0].ticks.max = bandPlotObject.yLimit.ymax;
+    } else {
+        bandPlotObject.myDos.options.scales.xAxes[0].ticks.min = bandPlotObject.yLimit.ymin;
+        bandPlotObject.myDos.options.scales.xAxes[0].ticks.max = bandPlotObject.yLimit.ymax;
+    };
+
     bandPlotObject.myDos.update();
 };
 
