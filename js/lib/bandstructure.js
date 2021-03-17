@@ -285,6 +285,7 @@ BandPlot.prototype.initChart = function (ticksData) {
     if (bandPlotObject.yLabel)
         chartOptions.options.scales.yAxes[0].scaleLabel.labelString = bandPlotObject.yLabel;
 
+    console.log("The bandstructure Div ID is:" + this.divID);
     var ctx = document.getElementById(this.divID).getContext('2d');
     bandPlotObject.myChart = new Chart(ctx, chartOptions);
 };

@@ -1,7 +1,6 @@
 var widgets = require('@jupyter-widgets/base');
 var _ = require('lodash');
 var $ = require('jquery');
-var _ = require('underscore');
 
 var bandPlot = require('./bands').bandPlot;
 
@@ -43,8 +42,8 @@ var BandsplotView = widgets.DOMWidgetView.extend({
     // Defines how the widget gets rendered into the DOM
 
     initialize: function () {
-        this.uuidCanvas = _.uniqueId("bandsCanvas");
-        this.uuidTextbox = _.uniqueId("bandsTextbox");
+        this.uuidCanvas = _.uniqueId('bandsCanvas');
+        this.uuidTextbox = _.uniqueId('bandsTextbox');
 
         this.bothPlots = '<div class="all-widget"><div id="bandsplot-div" class="bands-plot"> <canvas id="' + this.uuidCanvas + '"> </canvas> </div>'
             + '<div id="dosplot-div" class="dos-plot"> <canvas id="' + this.uuidCanvas + 'dos"> </canvas> </div>'
