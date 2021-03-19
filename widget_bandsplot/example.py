@@ -41,7 +41,7 @@ class BandsPlotWidget(widgets.DOMWidget):
     tdos_y = List().tag(sync=True)
 
     #yLimit for the plot
-    ylimit = Dict({"ymin": -10.0, "ymax": 10.0}).tag(sync=True)
+    energy_range = Dict({"ymin": -10.0, "ymax": 10.0}).tag(sync=True)
 
     #Band and DOS Fermi energy
     band_fermienergy = List().tag(sync=True)
@@ -50,12 +50,12 @@ class BandsPlotWidget(widgets.DOMWidget):
     #visiblity for the Fermi energy level
     plot_fermilevel = Bool(True).tag(sync=True)
 
-    def __init__(self, bands=None, dos=None, fermi_energy = None, plot_fermilevel = True, ylimit = {"ymin": -10.0, "ymax": 10.0}):
+    def __init__(self, bands=None, dos=None, fermi_energy = None, plot_fermilevel = True, energy_range = {"ymin": -10.0, "ymax": 10.0}):
 
         if bands == None and dos == None:
             raise ImportError("You need give band structure or DOS files.")
 
-        super().__init__(plot_fermilevel = plot_fermilevel, ylimit = ylimit)
+        super().__init__(plot_fermilevel = plot_fermilevel, energy_range = energy_range)
 
         if bands is not None:
             self.bands = bands

@@ -44,31 +44,6 @@ var BandsplotView = widgets.DOMWidgetView.extend({
     initialize: function () {
         this.uuidCanvas = _.uniqueId('bandsCanvas');
         this.uuidTextbox = _.uniqueId('bandsTextbox');
-
-        this.bothPlots = '<div class="all-widget"><div id="bandsplot-div" class="bands-plot"> <canvas id="' + this.uuidCanvas + '"> </canvas> </div>'
-            + '<div id="dosplot-div" class="dos-plot"> <canvas id="' + this.uuidCanvas + 'dos"> </canvas> </div>'
-            + '<p> <span class="span-label"> Edit the path:</span > <input id="' + this.uuidTextbox + '" class="bands-input" type="text"></input></p>'
-            + '<button type="button" id="' + this.uuidCanvas + 'bt-reset" class="button"> Reset default path </button>'
-            + '<button type="button" id="' + this.uuidCanvas + 'bt-resetZoom" class="button"> Reset zoom </button>'
-            + '<button type="button" id="' + this.uuidCanvas + 'bt-dragZoom" class="button"> Drag (or pinch) to zoom </button>'
-            + '<button type="button" id="' + this.uuidCanvas + 'bt-dragPan" class="button-white"> Drag to pan </button>'
-            + '<button type="button" id="' + this.uuidCanvas + 'bt-togglePdos" class="button"> Toggle PDOS </button>'
-            + '</div > ';
-
-        this.bandPlot = '<div class="all-widget"><div id="bandsplot-div" class="bands-plot-single"> <canvas id="' + this.uuidCanvas + '"> </canvas> </div>'
-            + '<p> <span class="span-label"> Edit the path:</span > <input id="' + this.uuidTextbox + '" class="bands-input" type="text"></input></p>'
-            + '<button type="button" id="' + this.uuidCanvas + 'bt-reset" class="button"> Reset default path </button>'
-            + '<button type="button" id="' + this.uuidCanvas + 'bt-resetZoom" class="button"> Reset zoom </button>'
-            + '<button type="button" id="' + this.uuidCanvas + 'bt-dragZoom" class="button"> Drag (or pinch) to zoom </button>'
-            + '<button type="button" id="' + this.uuidCanvas + 'bt-dragPan" class="button-white"> Drag to pan </button>'
-            + '</div > ';
-
-        this.dosPlot = '<div class="all-widget"><div id="dosplot-div" class="dos-plot-single"> <canvas id="' + this.uuidCanvas + 'dos"> </canvas> </div>'
-            + '<button type="button" id="' + this.uuidCanvas + 'bt-resetZoom" class="button"> Reset zoom </button>'
-            + '<button type="button" id="' + this.uuidCanvas + 'bt-dragZoom" class="button"> Drag (or pinch) to zoom </button>'
-            + '<button type="button" id="' + this.uuidCanvas + 'bt-dragPan" class="button-white"> Drag to pan </button>'
-            + '<button type="button" id="' + this.uuidCanvas + 'bt-togglePdos" class="button"> Toggle PDOS </button>'
-            + '</div >';
     },
 
     render: function () {
@@ -80,23 +55,42 @@ var BandsplotView = widgets.DOMWidgetView.extend({
         this.model.on('change:plot_fermilevel', this.bandsplot_changed, this);
         this.model.on('change:bands', this.bandsplot_changed, this);
         this.model.on('change:dos', this.bandsplot_changed, this);
-        this.model.on('change:ylimit', this.bandsplot_changed, this);
+        this.model.on('change:energy_range', this.bandsplot_changed, this);
 
         var bands = this.model.get('bands');
         var fdos = this.model.get('dos');
-        var yLimit = this.model.get('ylimit');
+        var yLimit = this.model.get('energy_range');
         var showFermi = this.model.get('plot_fermilevel');
 
-        if ( bands.length && !$.isEmptyObject(fdos)) {
-            this.el.innerHTML = this.bothPlots;
+        if (bands.length && !$.isEmptyObject(fdos)) {
+            this.$el.html('<div class="all-widget"><div id="bandsplot-div" class="bands-plot"> <canvas id="' + this.uuidCanvas + '"> </canvas> </div>'
+                + '<div id="dosplot-div" class="dos-plot"> <canvas id="' + this.uuidCanvas + 'dos"> </canvas> </div>'
+                + '<p> <span class="span-label"> Edit the path:</span > <input id="' + this.uuidTextbox + '" class="bands-input" type="text"></input></p>'
+                + '<button type="button" id="' + this.uuidCanvas + 'bt-reset" class="button"> Reset default path </button>'
+                + '<button type="button" id="' + this.uuidCanvas + 'bt-resetZoom" class="button"> Reset zoom </button>'
+                + '<button type="button" id="' + this.uuidCanvas + 'bt-dragZoom" class="button"> Drag (or pinch) to zoom </button>'
+                + '<button type="button" id="' + this.uuidCanvas + 'bt-dragPan" class="button-white"> Drag to pan </button>'
+                + '<button type="button" id="' + this.uuidCanvas + 'bt-togglePdos" class="button"> Toggle PDOS </button>'
+                + '</div>');
         };
 
-        if ( !bands.length && !$.isEmptyObject(fdos)) {
-            this.el.innerHTML = this.dosPlot;
+        if (!bands.length && !$.isEmptyObject(fdos)) {
+            this.$el.html('<div class="all-widget"><div id="dosplot-div" class="dos-plot-single"> <canvas id="' + this.uuidCanvas + 'dos"> </canvas> </div>'
+                + '<button type="button" id="' + this.uuidCanvas + 'bt-resetZoom" class="button"> Reset zoom </button>'
+                + '<button type="button" id="' + this.uuidCanvas + 'bt-dragZoom" class="button"> Drag (or pinch) to zoom </button>'
+                + '<button type="button" id="' + this.uuidCanvas + 'bt-dragPan" class="button-white"> Drag to pan </button>'
+                + '<button type="button" id="' + this.uuidCanvas + 'bt-togglePdos" class="button"> Toggle PDOS </button>'
+                + '</div>');
         };
 
-        if ( bands.length && $.isEmptyObject(fdos)) {
-            this.el.innerHTML = this.bandPlot;
+        if (bands.length && $.isEmptyObject(fdos)) {
+            this.$el.html('<div class="all-widget"><div id="bandsplot-div" class="bands-plot-single"> <canvas id="' + this.uuidCanvas + '"> </canvas> </div>'
+                + '<p> <span class="span-label"> Edit the path:</span > <input id="' + this.uuidTextbox + '" class="bands-input" type="text"></input></p>'
+                + '<button type="button" id="' + this.uuidCanvas + 'bt-reset" class="button"> Reset default path </button>'
+                + '<button type="button" id="' + this.uuidCanvas + 'bt-resetZoom" class="button"> Reset zoom </button>'
+                + '<button type="button" id="' + this.uuidCanvas + 'bt-dragZoom" class="button"> Drag (or pinch) to zoom </button>'
+                + '<button type="button" id="' + this.uuidCanvas + 'bt-dragPan" class="button-white"> Drag to pan </button>'
+                + '</div>');
         };
 
         that = this;
@@ -112,7 +106,7 @@ var BandsplotView = widgets.DOMWidgetView.extend({
     bandsplot_changed: function () {
         var bands = this.model.get('bands');
         var fdos = this.model.get('dos');
-        var yLimit = this.model.get('ylimit');
+        var yLimit = this.model.get('energy_range');
         var showFermi = this.model.get('plot_fermilevel');
 
         bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, showFermi, yLimit);

@@ -469,6 +469,10 @@ BandPlot.prototype.initDosChart = function (orientation = 'vertical') {
                             drawBorder: true,
                             drawOnChartArea: false,
                         },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'E-Ef (eV)',
+                        },
                         ticks: {
                             min: bandPlotObject.yLimit.ymin,
                             max: bandPlotObject.yLimit.ymax,
