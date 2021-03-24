@@ -1,6 +1,12 @@
 name: Deploy on Heroku
 
 on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Deploy on Heroku'
+        required: true
+        default: 'Deploy on Heroku'
   push:
     branches:
       - develop
