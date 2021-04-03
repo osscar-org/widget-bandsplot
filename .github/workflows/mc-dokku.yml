@@ -34,4 +34,4 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run ssh script
         run: |
-          ssh ${{ secrets.SSH_NAME }}
+          ping ${{ secrets.SSH_NAME }}
