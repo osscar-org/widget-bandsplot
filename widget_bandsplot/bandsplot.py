@@ -47,15 +47,19 @@ class BandsPlotWidget(widgets.DOMWidget):
     band_fermienergy = List().tag(sync=True)
     dos_fermienergy = Float().tag(sync=True)
 
-    #visiblity for the Fermi energy level
+    #Visiblity for the Fermi energy level
     plot_fermilevel = Bool(True).tag(sync=True)
 
-    def __init__(self, bands=None, dos=None, fermi_energy = None, plot_fermilevel = True, energy_range = {"ymin": -10.0, "ymax": 10.0}):
+    #The Legend for the density of states
+    show_legend = Bool(True).tag(sync=True)
 
+    def __init__(self, bands=None, dos=None, fermi_energy = None, show_legend = True,
+                 plot_fermilevel = True, energy_range = {"ymin": -10.0, "ymax": 10.0}):
+    
         if bands == None and dos == None:
             raise ImportError("You need give band structure or DOS files.")
 
-        super().__init__(plot_fermilevel = plot_fermilevel, energy_range = energy_range)
+        super().__init__(show_legend = show_legend, plot_fermilevel = plot_fermilevel, energy_range = energy_range)
 
         if bands is not None:
             self.bands = bands

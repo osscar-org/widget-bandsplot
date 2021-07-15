@@ -56,11 +56,13 @@ var BandsplotView = widgets.DOMWidgetView.extend({
         this.model.on('change:bands', this.bandsplot_changed, this);
         this.model.on('change:dos', this.bandsplot_changed, this);
         this.model.on('change:energy_range', this.bandsplot_changed, this);
+        this.model.on('change:show_legend', this.bandsplot_changed, this);
 
         var bands = this.model.get('bands');
         var fdos = this.model.get('dos');
         var yLimit = this.model.get('energy_range');
         var showFermi = this.model.get('plot_fermilevel');
+        var showLegend = this.model.get('show_legend');
 
         if (bands.length && !$.isEmptyObject(fdos)) {
             this.$el.html('<div class="all-widget"><div id="bandsplot-div" class="bands-plot"> <canvas id="' + this.uuidCanvas + '"> </canvas> </div>'
@@ -95,7 +97,7 @@ var BandsplotView = widgets.DOMWidgetView.extend({
 
         that = this;
         $(document).ready(function () {
-            bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, showFermi, yLimit);
+            bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, showFermi, showLegend, yLimit);
         });
     },
 
@@ -108,8 +110,9 @@ var BandsplotView = widgets.DOMWidgetView.extend({
         var fdos = this.model.get('dos');
         var yLimit = this.model.get('energy_range');
         var showFermi = this.model.get('plot_fermilevel');
+        var showLegend = this.model.get('show_legend');
 
-        bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, showFermi, yLimit);
+        bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, showFermi, showLegend, yLimit);
     }
 });
 
