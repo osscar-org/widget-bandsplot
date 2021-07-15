@@ -1,5 +1,7 @@
 import ipywidgets as widgets
 from traitlets import Unicode, List, Dict, Float, Bool
+from copy import deepcopy
+import numpy as np
 
 # See js/lib/example.js for the frontend counterpart to this file.
 
@@ -68,10 +70,26 @@ class BandsPlotWidget(widgets.DOMWidget):
                 self.band_fermienergy.append(i['fermi_level'])
         
         if dos is not None:
-            self.dos = dos
+            self.dos = deepcopy(dos)
             self.tdos_x = dos['tdos']['energy | eV']['data']
             self.tdos_y = dos['tdos']['values']['dos | states/eV']['data']
             self.dos_fermienergy = dos['fermi_energy']
+
+            pdos_names = []
+            self.dos['pdos'] = []
+            for i in dos['pdos']:
+                name = i['kind'] + i['orbital'][0]
+                i['orbital'] = i['orbital'][0]
+                if name not in pdos_names:
+                    pdos_names.append(name)
+                    self.dos['pdos'].append(i)
+                else:
+                    a = self.dos['pdos'][pdos_names.index(name)]['pdos | states/eV']['data']
+                    b = i['pdos | states/eV']['data']
+                    self.dos['pdos'][pdos_names.index(name)]['pdos | states/eV']['data'] = np.add(a, b).tolist()
+
+            
+                 
 
 
 
