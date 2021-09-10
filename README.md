@@ -1,4 +1,4 @@
-widget-bandsplot
+**widget-bandsplot**: Jupyter Widget to Plot Bandstructure and Density of State
 ===============================
 
 A Jupyter widget to plot bandstructures. The widget is using the bands-widget Javascript
