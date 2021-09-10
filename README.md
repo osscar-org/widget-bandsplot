@@ -1,18 +1,17 @@
 **widget-bandsplot**: Jupyter Widget to Plot Bandstructure and Density of States
 ===============================
+[![PyPI version](https://badge.fury.io/py/widget-bandsplot.svg)](https://badge.fury.io/py/widget-bandsplot)
 
 A Jupyter widget to plot bandstructures and density of states. The widget is using the 
-[bands-widget Javascript package](https://github.com/materialscloud-org/bands-widget), 
+[bands-widget](https://github.com/materialscloud-org/bands-widget) Javascript package, 
 which is developed by Materials Cloud group.
 
 <img src="./example/widget-bandsplot.gif" width="750" height="400">
-
 
 ## Try the widget in the notebook
 
 Check the widget and learn the usage at Materials Cloud:
 [![Materials Cloud Tool widget-bandsplot](https://raw.githubusercontent.com/materialscloud-org/mcloud-badge/main/badges/img/mcloud_badge_tools.svg)](https://osscar-widget-bandsplot.matcloud.xyz/)
-
 
 Installation
 ------------
