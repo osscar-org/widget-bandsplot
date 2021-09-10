@@ -58,7 +58,7 @@ setup_args = dict(
     cmdclass=cmdclass,
     author='Dou Du',
     author_email='dou.du@epfl.ch',
-    url='https://github.com/osscar/widget-bandsplot',
+    url='https://github.com/osscar-org/widget-bandsplot',
     keywords=[
         'ipython',
         'jupyter',
