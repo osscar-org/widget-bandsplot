@@ -70,23 +70,25 @@ class BandsPlotWidget(widgets.DOMWidget):
                 self.band_fermienergy.append(i['fermi_level'])
         
         if dos is not None:
-            self.dos = deepcopy(dos)
+            temp_dos = deepcopy(dos)
             self.tdos_x = dos['tdos']['energy | eV']['data']
             self.tdos_y = dos['tdos']['values']['dos | states/eV']['data']
             self.dos_fermienergy = dos['fermi_energy']
 
             pdos_names = []
-            self.dos['pdos'] = []
+            temp_dos['pdos'] = []
             for i in dos['pdos']:
                 name = i['kind'] + i['orbital'][0]
                 i['orbital'] = i['orbital'][0]
                 if name not in pdos_names:
                     pdos_names.append(name)
-                    self.dos['pdos'].append(i)
+                    temp_dos['pdos'].append(i)
                 else:
-                    a = self.dos['pdos'][pdos_names.index(name)]['pdos | states/eV']['data']
+                    a = temp_dos['pdos'][pdos_names.index(name)]['pdos | states/eV']['data']
                     b = i['pdos | states/eV']['data']
-                    self.dos['pdos'][pdos_names.index(name)]['pdos | states/eV']['data'] = np.add(a, b).tolist()
+                    temp_dos['pdos'][pdos_names.index(name)]['pdos | states/eV']['data'] = np.add(a, b).tolist()
+
+            self.dos = temp_dos
 
             
                  
