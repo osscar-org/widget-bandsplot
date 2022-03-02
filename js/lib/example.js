@@ -112,7 +112,7 @@ var BandsplotView = widgets.DOMWidgetView.extend({
         var showFermi = this.model.get('plot_fermilevel');
         var showLegend = this.model.get('show_legend');
 
-        bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, showFermi, showLegend, yLimit);
+        bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, showFermi, showLegend, yLimit, ['#000000', '#de2d26', '#444444']);
     }
 });
 

@@ -84,9 +84,15 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, showFerm
     if (dataFilePaths.length) {
         dataFilePaths.forEach(function (dataFilePath, dataIdx) {
             var colorDict;
+
             if (colorInfo !== undefined) {
                 var newColor = tinycolor(colorInfo[dataIdx]);
-                colorDict = [newColor.toHexString(), newColor.darken(20).toHexString(), newColor.brighten(20).toHexString()];
+                if (colorInfo === 3) {
+                    colorDict = colorInfo;
+                }
+                else {
+                    colorDict = [newColor.toHexString(), newColor.darken(20).toHexString(), newColor.brighten(20).toHexString()];
+                }
             }
 
             theBandPlot.addBandStructure(dataFilePath, colorDict);
