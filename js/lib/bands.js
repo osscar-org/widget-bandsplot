@@ -3,6 +3,7 @@ var BandPlot = require('./bandstructure').BandPlot;
 var getPathStringFromPathArray = require('./bandstructure').getPathStringFromPathArray;
 var getValidPointNames = require('./bandstructure').getValidPointNames;
 var getPathArrayFromPathString = require('./bandstructure').getPathArrayFromPathString;
+var tinycolor = require("tinycolor2");
 
 // require('bootstrap');
 var $ = require('jquery');
@@ -87,7 +88,7 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, showFerm
 
             if (colorInfo !== undefined) {
                 var newColor = tinycolor(colorInfo[dataIdx]);
-                if (colorInfo[dataIdx].length === 3) {
+                if (colorInfo.length === 3) {
                     colorDict = colorInfo;
                 }
                 else {

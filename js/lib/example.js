@@ -97,7 +97,7 @@ var BandsplotView = widgets.DOMWidgetView.extend({
 
         that = this;
         $(document).ready(function () {
-            bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, showFermi, showLegend, yLimit);
+            bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, showFermi, showLegend, yLimit, ['#000000', '#de2d26', '#444444']);
         });
     },
 
