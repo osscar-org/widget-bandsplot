@@ -829,6 +829,10 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
             label: bandPlotObject.dosData['pdos'][i - 1]['kind'] + ' ' + bandPlotObject.dosData['pdos'][i - 1]['orbital'],
         };
 
+        if (bandPlotObject.dosData['pdos'][i-1]['orbital'].includes('dn')){
+            pdos.borderDash = [10, 5];
+        };
+
         bandPlotObject.dosSeries.push(pdos);
     };
 
