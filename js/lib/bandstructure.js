@@ -37,7 +37,7 @@
 // Utility 'zip' function analogous to python's, from
 // https://stackoverflow.com/questions/4856717
 
-var Chart = require('chart.js');
+const Chart = require('chart.js');
 const { nodeName } = require('jquery');
 var tinycolor = require('tinycolor2');
 require('chartjs-plugin-zoom');
@@ -342,7 +342,7 @@ BandPlot.prototype.initDosChart = function (orientation = 'vertical') {
                             zeroLineWidth: 2,
                         },
                         ticks: {
-                            min: 0.0,
+                            // min: 0.0,
                         }
                     }],
                     yAxes: [{
@@ -453,7 +453,7 @@ BandPlot.prototype.initDosChart = function (orientation = 'vertical') {
                             tickMarkLength: 0,
                         },
                         ticks: {
-                            min: 0.0,
+                            // min: 0.0,
                             padding: 10,
                         },
                         scaleLabel: {
