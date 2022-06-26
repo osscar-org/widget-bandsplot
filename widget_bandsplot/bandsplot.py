@@ -91,6 +91,12 @@ class BandsPlotWidget(widgets.DOMWidget):
             temp_dos['tdos']['energy | eV']['data'] = tx[index].tolist()
             temp_dos['tdos']['values']['dos | states/eV']['data'] = ty[index].tolist()
 
+            if self.spin_polarized:
+                tot_up = np.array(dos['tdos']['values']['dos_spin_up | states/eV']['data'])[index].tolist()
+                tot_dn = np.array(dos['tdos']['values']['dos_spin_down | states/eV']['data'])[index].tolist()
+                temp_dos['tdos']['values']['dos_spin_up | states/eV']['data'] = tot_up
+                temp_dos['tdos']['values']['dos_spin_down | states/eV']['data'] = tot_dn
+
             pdos_names = []
             temp_dos['pdos'] = []
             for i in deepcopy(dos['pdos']):
