@@ -1,6 +1,5 @@
-voila==0.2.16
-osscar-voila==0.2.10.a6
-voila-osscar-template==0.2.10
-widget-bandsplot==0.2.5
-matplotlib==3.4.3
-ipympl==0.7.0
+pip==22.1.2
+voila==0.3.5
+voila-osscar-template==0.3.2
+matplotlib==3.5.2
+ipympl==0.9.1
