@@ -1,3 +1,4 @@
+from turtle import Turtle
 import ipywidgets as widgets
 from traitlets import Unicode, List, Dict, Float, Bool
 from copy import deepcopy
@@ -55,6 +56,9 @@ class BandsPlotWidget(widgets.DOMWidget):
     #The Legend for the density of states
     show_legend = Bool(True).tag(sync=True)
 
+    #Whether is spin polarized calculations
+    spin_polarized = Bool(False).tag(sync=True)
+
     def __init__(self, bands=None, dos=None, fermi_energy = None, show_legend = True,
                  plot_fermilevel = True, energy_range = {"ymin": -10.0, "ymax": 10.0}):
     
@@ -71,6 +75,10 @@ class BandsPlotWidget(widgets.DOMWidget):
         
         if dos is not None:
             temp_dos = deepcopy(dos)
+
+            if 'dos_spin_up | states/eV' in temp_dos['tdos']['values'] and 'dos_spin_down | states/eV' in temp_dos['tdos']['values']:
+                self.spin_polarized = True
+
             self.tdos_x = dos['tdos']['energy | eV']['data']
             self.tdos_y = dos['tdos']['values']['dos | states/eV']['data']
             self.dos_fermienergy = dos['fermi_energy']
