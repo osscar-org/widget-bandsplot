@@ -26,7 +26,7 @@ jobs:
 
     - name: Run the voila server
       run: |
-        voila --template=osscar --enable_nbextensions=True notebook/ --port 8383 --no-browser &
+        voila --template=osscar --enable_nbextensions=True example/ --port 8383 --no-browser &
         pip install --upgrade pytest
         pip install --upgrade selenium
 
