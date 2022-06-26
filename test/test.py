@@ -19,7 +19,7 @@ class TestTest01():
     self.driver.quit()
   
   def test_test01(self):
-    self.driver.get("http://localhost:8383/voila/render/bandsplot-example.ipynb")
+    self.driver.get("http://localhost:8383/voila/render/index.ipynb")
     self.driver.set_window_size(1280, 720)
     self.driver.save_screenshot("widget01.png")
     time.sleep(5)
