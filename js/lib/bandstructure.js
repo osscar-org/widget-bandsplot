@@ -779,80 +779,37 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
     // Plot the density of states
     bandPlotObject.dosSeries = [];
     curve = [];
-    var totx = bandPlotObject.dosData['tdos']['energy | eV']['data'];
-    var toty = bandPlotObject.dosData['tdos']['values']['dos | states/eV']['data'];
+    var totx = bandPlotObject.dosData['tdos']['x'];
+    var toty = bandPlotObject.dosData['tdos']['y'];
 
-    if ('dos_spin_up | states/eV' in bandPlotObject.dosData['tdos']['values']) {
-        var tot_up = bandPlotObject.dosData['tdos']['values']['dos_spin_up | states/eV']['data'];
-        var tot_dn = bandPlotObject.dosData['tdos']['values']['dos_spin_down | states/eV']['data'];
-
-        curve_up = [];
-        curve_dn = [];
-
-        totx.forEach(function (data, i) {
-            if (orientation === 'vertical') {
-                curve_up.push({ x: tot_up[i], y: data - bandPlotObject.dosFermiEnergy });
-                curve_dn.push({ x: -tot_dn[i], y: data - bandPlotObject.dosFermiEnergy });
-            } else {
-                curve_up.push({ x: data - bandPlotObject.dosFermiEnergy, y: tot_up[i] });
-                curve_dn.push({ x: data - bandPlotObject.dosFermiEnergy, y: -tot_dn[i] });
-            };
-        });
-
-        var totdos_up = {
-            borderColor: bandPlotObject.dosColorInfo[0],
-            backgroundColor: bandPlotObject.dosBackgroundColorInfo[0],
-            borderWidth: 2,
-            data: curve_up,
-            fill: true,
-            showLine: true,
-            pointRadius: 0,
-            label: "Total Up",
+    totx.forEach(function (data, i) {
+        if (orientation === 'vertical') {
+            curve.push({ x: toty[i], y: data - bandPlotObject.dosFermiEnergy });
+        } else {
+            curve.push({ x: data - bandPlotObject.dosFermiEnergy, y: toty[i] });
         };
+    });
 
-        var totdos_dn = {
-            borderColor: bandPlotObject.dosColorInfo[0],
-            backgroundColor: bandPlotObject.dosBackgroundColorInfo[0],
-            borderWidth: 2,
-            borderDash: [10, 5],
-            data: curve_dn,
-            fill: true,
-            showLine: true,
-            pointRadius: 0,
-            label: "Total Down",
-        };
+    var totdos = {
+        borderColor: bandPlotObject.dosData['tdos']['borderColor'],
+        backgroundColor: bandPlotObject.dosData['tdos']['backgroundColor'],
+        borderWidth: 2,
+        data: curve,
+        fill: true,
+        showLine: true,
+        pointRadius: 0,
+        label: "Total",
+    };
 
-        bandPlotObject.dosSeries.push(totdos_up);
-        bandPlotObject.dosSeries.push(totdos_dn);
-    }
-    else {
-        totx.forEach(function (data, i) {
-            if (orientation === 'vertical') {
-                curve.push({ x: toty[i], y: data - bandPlotObject.dosFermiEnergy });
-            } else {
-                curve.push({ x: data - bandPlotObject.dosFermiEnergy, y: toty[i] });
-            };
-        });
+    if (bandPlotObject.dosData['tdos']['lineStyle'] == 'dash') totdos.borderDash =[10, 5]; 
 
-        var totdos = {
-            borderColor: bandPlotObject.dosColorInfo[0],
-            backgroundColor: bandPlotObject.dosBackgroundColorInfo[0],
-            borderWidth: 2,
-            data: curve,
-            fill: true,
-            showLine: true,
-            pointRadius: 0,
-            label: "Total",
-        };
+    bandPlotObject.dosSeries.push(totdos);
 
-        bandPlotObject.dosSeries.push(totdos);
-    }
-
-    for (let i = 1; i < bandPlotObject.dosColorInfo.length; i++) {
+    for (let i = 0; i < bandPlotObject.dosData['pdos'].length; i++) {
         curve = [];
 
-        var pdosx = bandPlotObject.dosData['pdos'][i - 1]['energy | eV']['data'];
-        var pdosy = bandPlotObject.dosData['pdos'][i - 1]['pdos | states/eV']['data'];
+        var pdosx = bandPlotObject.dosData['pdos'][i]['x'];
+        var pdosy = bandPlotObject.dosData['pdos'][i]['y'];
 
         pdosx.forEach(function (data, k) {
             if (orientation === 'vertical') {
@@ -863,20 +820,18 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
         });
 
         var pdos = {
-            borderColor: bandPlotObject.dosColorInfo[i],
-            backgroundColor: bandPlotObject.dosBackgroundColorInfo[i],
+            borderColor: bandPlotObject.dosData['pdos'][i]['borderColor'],
+            backgroundColor: bandPlotObject.dosData['pdos'][i]['backgroundColor'],
             hidden: false,
             borderWidth: 1,
             data: curve,
             fill: true,
             showLine: true,
             pointRadius: 0,
-            label: bandPlotObject.dosData['pdos'][i - 1]['kind'] + ' ' + bandPlotObject.dosData['pdos'][i - 1]['orbital'],
+            label: bandPlotObject.dosData['pdos'][i]['label'],
         };
 
-        if (bandPlotObject.dosData['pdos'][i - 1]['orbital'].includes('dn')) {
-            pdos.borderDash = [10, 5];
-        };
+        if (bandPlotObject.dosData['pdos'][i]['lineStyle'] === 'dash') pdos.borderDash = [10, 5];
 
         bandPlotObject.dosSeries.push(pdos);
     };

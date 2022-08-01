@@ -72,65 +72,37 @@ class BandsPlotWidget(widgets.DOMWidget):
             
             for i in bands:
                 self.band_fermienergy.append(i['fermi_level'])
-        
+
         if dos is not None:
+            self.dos_fermienergy = dos['fermi_energy']
             temp_dos = deepcopy(dos)
 
-            if 'dos_spin_up | states/eV' in temp_dos['tdos']['values'] and 'dos_spin_down | states/eV' in temp_dos['tdos']['values']:
-                self.spin_polarized = True
-
-            self.tdos_x = dos['tdos']['energy | eV']['data']
-            self.tdos_y = dos['tdos']['values']['dos | states/eV']['data']
-            self.dos_fermienergy = dos['fermi_energy']
+            self.tdos_x = dos['tdos']['x']
+            self.tdos_y = dos['tdos']['y']
 
             tx = np.array(self.tdos_x)
             ty = np.array(self.tdos_y)
 
             index = np.where(np.logical_and(tx > energy_range['ymin']+self.dos_fermienergy, tx < energy_range['ymax']+self.dos_fermienergy))
 
-            temp_dos['tdos']['energy | eV']['data'] = tx[index].tolist()
-            temp_dos['tdos']['values']['dos | states/eV']['data'] = ty[index].tolist()
-
-            if self.spin_polarized:
-                tot_up = np.array(dos['tdos']['values']['dos_spin_up | states/eV']['data'])[index].tolist()
-                tot_dn = np.array(dos['tdos']['values']['dos_spin_down | states/eV']['data'])[index].tolist()
-                temp_dos['tdos']['values']['dos_spin_up | states/eV']['data'] = tot_up
-                temp_dos['tdos']['values']['dos_spin_down | states/eV']['data'] = tot_dn
-
-            pdos_names = []
-            temp_dos['pdos'] = []
-            for i in deepcopy(dos['pdos']):
-                if '-' in i['orbital']:
-                    name = i['kind'] + i['orbital'][0] + ' ' + i['orbital'].split('-')[-1]
-                    i['orbital'] = i['orbital'][0] + ' ' + i['orbital'].split('-')[-1]
-                else:
-                    name = i['kind'] + i['orbital'][0]
-                    i['orbital'] = i['orbital'][0] 
-                if name not in pdos_names:
-                    pdos_names.append(name)
-                    temp_dos['pdos'].append(i)
-                else:
-                    a = temp_dos['pdos'][pdos_names.index(name)]['pdos | states/eV']['data']
-                    b = i['pdos | states/eV']['data']
-                    temp_dos['pdos'][pdos_names.index(name)]['pdos | states/eV']['data'] = np.add(a, b).tolist()
+            temp_dos['tdos']['x'] = tx[index].tolist()
+            temp_dos['tdos']['y'] = ty[index].tolist()
 
             for i,j in enumerate(temp_dos['pdos']):
-                tx = j['energy | eV']['data']
-                ty = j['pdos | states/eV']['data']
+                tx = j['x']
+                ty = j['y']
 
                 tx = np.array(tx)
                 ty = np.array(ty)
 
                 index = np.where(np.logical_and(tx > energy_range['ymin']+self.dos_fermienergy, tx < energy_range['ymax']+self.dos_fermienergy))
 
-                if 'dn' in j['orbital']:
-                    temp_dos['pdos'][i]['pdos | states/eV']['data'] = (-ty[index]).tolist()
-                else:
-                    temp_dos['pdos'][i]['pdos | states/eV']['data'] = ty[index].tolist()
-
-                temp_dos['pdos'][i]['energy | eV']['data'] = tx[index].tolist()
+                temp_dos['pdos'][i]['x'] = tx[index].tolist()
+                temp_dos['pdos'][i]['y'] = ty[index].tolist()
 
             self.dos = deepcopy(temp_dos)
+
+
             
                  
 
