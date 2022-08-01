@@ -154,6 +154,15 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, showFerm
                 theBandPlot.myDos.update();
             }
         }
+
+        var theDownloadFigureButton = document.getElementById(bandDivId + "bt-downloadFigure");
+        theDownloadFigureButton.onclick = function () {
+            var a = document.createElement('a');
+            a.href = theBandPlot.myDos.toBase64Image();
+            a.download = 'dos.png';
+            a.click();
+        }
+
     };
 
     // theBandPlot.myChart.options.pan.enabled = true ;
