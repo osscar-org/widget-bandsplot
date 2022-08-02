@@ -1,4 +1,3 @@
-from turtle import Turtle
 import ipywidgets as widgets
 from traitlets import Unicode, List, Dict, Float, Bool
 from copy import deepcopy
