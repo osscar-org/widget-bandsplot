@@ -11,7 +11,7 @@ which is developed by Materials Cloud group.
 ## Try the widget in the notebook
 
 Check the widget and learn the usage at Materials Cloud:
-[![Materials Cloud Tool widget-bandsplot](https://raw.githubusercontent.com/materialscloud-org/mcloud-badge/main/badges/img/mcloud_badge_tools.svg)](https://osscar-widget-bandsplot.matcloud.xyz/)
+[![Materials Cloud Tool widget-bandsplot](https://raw.githubusercontent.com/materialscloud-org/mcloud-badge/main/badges/img/mcloud_badge_tools.svg)](https://osscar-widgets.matcloud.xyz/voila/render/bandsplot/widget-bandsplot.ipynb)
 
 Installation
 ------------
