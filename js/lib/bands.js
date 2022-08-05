@@ -4,7 +4,6 @@ var getPathStringFromPathArray = require('./bandstructure').getPathStringFromPat
 var getValidPointNames = require('./bandstructure').getValidPointNames;
 var getPathArrayFromPathString = require('./bandstructure').getPathArrayFromPathString;
 var tinycolor = require("tinycolor2");
-const mergeImages = require('merge-base64');
 
 // require('bootstrap');
 var $ = require('jquery');
