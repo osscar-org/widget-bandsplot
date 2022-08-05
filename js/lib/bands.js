@@ -4,6 +4,7 @@ var getPathStringFromPathArray = require('./bandstructure').getPathStringFromPat
 var getValidPointNames = require('./bandstructure').getValidPointNames;
 var getPathArrayFromPathString = require('./bandstructure').getPathArrayFromPathString;
 var tinycolor = require("tinycolor2");
+const mergeImages = require('merge-base64');
 
 // require('bootstrap');
 var $ = require('jquery');
@@ -122,6 +123,17 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, showFerm
             theTextBox.value = getPathStringFromPathArray(theBandPlot.getDefaultPath());
             theBandPlot.updateBandPlot(theBandPlot.getDefaultPath(), true);
         }
+
+        var theDownloadFigureButton = document.getElementById(bandDivId + "bt-downloadFigure");
+        theDownloadFigureButton.onclick = function () {
+            if ($.isEmptyObject(dosFile)) {
+                var a = document.createElement('a');
+
+                a.href = theBandPlot.myChart.toBase64Image('bandstructure.png', 1);
+                a.download = 'bandstructure.png';
+                a.click();
+            }
+        }
     };
 
     if (!$.isEmptyObject(dosFile)) {
@@ -158,11 +170,23 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, showFerm
         var theDownloadFigureButton = document.getElementById(bandDivId + "bt-downloadFigure");
         theDownloadFigureButton.onclick = function () {
             var a = document.createElement('a');
-            a.href = theBandPlot.myDos.toBase64Image();
-            a.download = 'dos.png';
+            if (dataFilePaths.length) {
+                var b = document.createElement('a');
+
+                a.href = theBandPlot.myDos.toBase64Image('dos.png', 1);
+                b.href = theBandPlot.myChart.toBase64Image('bandstructure.png', 1);
+
+                a.download = 'dos.png';
+                b.download = 'bandstructure.png';
+
+                b.click();
+            }
+            else {
+                a.href = theBandPlot.myDos.toBase64Image('dos.png', 1);
+                a.download = 'dos.png';
+            };
             a.click();
         }
-
     };
 
     // theBandPlot.myChart.options.pan.enabled = true ;

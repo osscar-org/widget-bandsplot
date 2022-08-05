@@ -94,6 +94,7 @@ var BandsplotView = widgets.DOMWidgetView.extend({
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-resetZoom" class="button"> Reset zoom </button>'
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-dragZoom" class="button"> Drag (or pinch) to zoom </button>'
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-dragPan" class="button-white"> Drag to pan </button>'
+                + '<button type="button" id="' + this.uuidCanvas + 'bt-downloadFigure" class="button"> Download Figure </button>'
                 + '</div>');
         };
 
