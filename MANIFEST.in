@@ -12,6 +12,9 @@ include setup.py
 include pyproject.toml
 include install.json
 
+# schemas
+include widget_bandsplot/schemas/*.json
+
 # Patterns to exclude from any directory
 global-exclude *~
 global-exclude *.pyc
