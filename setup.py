@@ -1,8 +1,7 @@
-from __future__ import print_function
-
 import os
 from distutils import log
 from os.path import join as pjoin
+from pathlib import Path
 
 from jupyter_packaging import (
     combine_commands,
@@ -53,15 +52,22 @@ cmdclass["jsdeps"] = combine_commands(
     ensure_targets(jstargets),
 )
 
+TOP_DIR = Path(__file__).resolve().parent
+
+with open(TOP_DIR.joinpath("requirements.txt")) as handle:
+    BASE = [f"{_.strip()}" for _ in handle.readlines() if " " not in _]
+
+with open(TOP_DIR.joinpath("requirements_dev.txt")) as handle:
+    DEV = [f"{_.strip()}" for _ in handle.readlines()]
+
 setup_args = dict(
     name=name,
     version=version,
     description="A Jupyter widget to plot bandstructures.",
     long_description=LONG_DESCRIPTION,
     include_package_data=True,
-    install_requires=[
-        "ipywidgets>=7.6.0",
-    ],
+    install_requires=BASE,
+    extras_require={"dev": DEV},
     packages=find_packages(),
     zip_safe=False,
     cmdclass=cmdclass,
@@ -79,7 +85,6 @@ setup_args = dict(
         "Intended Audience :: Developers",
         "Intended Audience :: Science/Research",
         "Topic :: Multimedia :: Graphics",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
