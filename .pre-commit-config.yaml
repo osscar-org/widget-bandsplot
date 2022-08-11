@@ -35,15 +35,10 @@ repos:
           - id: isort
             args: [--profile, black, --filter-files]
 
-    - repo: https://github.com/asottile/setup-cfg-fmt
-      rev: v2.0.0
-      hooks:
-          - id: setup-cfg-fmt
-
     - repo: https://github.com/sirosen/check-jsonschema
       rev: 0.17.1
       hooks:
           - id: check-github-workflows
           - id: check-jsonschema
-            files: ^examples/data/*\_dos\.json$
+            files: ^examples/data/.*\_dos\.json$
             args: [--schemafile, widget_bandsplot/schemas/pdos.json]
