@@ -44,3 +44,6 @@ repos:
       rev: 0.17.1
       hooks:
           - id: check-github-workflows
+          - id: check-jsonschema
+            files: ^examples/data/*\_dos\.json$
+            args: [--schemafile, widget_bandsplot/schemas/pdos.json]

@@ -11237,8 +11237,7 @@
         "backgroundColor": "#51258b",
         "lineStyle": "dash"
     },
-    "pdos": [
-        {
+    "Co|S|up": {
             "x": [
                 -77.703,
                 -77.683,
@@ -22478,7 +22477,7 @@
             "backgroundColor": "#59595c",
             "label": "CoS up"
         },
-        {
+    "Co|P|up": {
             "x": [
                 -77.703,
                 -77.683,
@@ -33718,7 +33717,7 @@
             "backgroundColor": "#a16c5e",
             "label": "CoP up"
         },
-        {
+    "CoD up": {
             "x": [
                 -77.703,
                 -77.683,
@@ -44958,7 +44957,7 @@
             "backgroundColor": "#95db40",
             "label": "CoD up"
         },
-        {
+    "CoS dn": {
             "x": [
                 -77.703,
                 -77.683,
@@ -56198,7 +56197,7 @@
             "backgroundColor": "#236d8d",
             "label": "CoS dn"
         },
-        {
+    "CoP dn": {
             "x": [
                 -77.703,
                 -77.683,
@@ -67438,7 +67437,7 @@
             "backgroundColor": "#2b95ba",
             "label": "CoP dn"
         },
-        {
+    "CoD dn": {
             "x": [
                 -77.703,
                 -77.683,
@@ -78678,5 +78677,4 @@
             "backgroundColor": "#c384fc",
             "label": "CoD dn"
         }
-    ]
 }
