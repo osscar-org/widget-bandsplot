@@ -1,4 +1,2 @@
 pre-commit~=2.11
 pylint~=2.14
-jsonschema~=3.2
-pytest~=7.1

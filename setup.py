@@ -60,6 +60,9 @@ with open(TOP_DIR.joinpath("requirements.txt")) as handle:
 with open(TOP_DIR.joinpath("requirements_dev.txt")) as handle:
     DEV = [f"{_.strip()}" for _ in handle.readlines()]
 
+with open(TOP_DIR.joinpath("requirements_tests.txt")) as handle:
+    TESTS = [f"{_.strip()}" for _ in handle.readlines()]
+
 setup_args = dict(
     name=name,
     version=version,
@@ -67,7 +70,7 @@ setup_args = dict(
     long_description=LONG_DESCRIPTION,
     include_package_data=True,
     install_requires=BASE,
-    extras_require={"dev": DEV},
+    extras_require={"dev": DEV, "tests": TESTS},
     packages=find_packages(),
     zip_safe=False,
     cmdclass=cmdclass,
