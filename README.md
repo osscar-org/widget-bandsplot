@@ -2,8 +2,8 @@
 ===============================
 [![PyPI version](https://badge.fury.io/py/widget-bandsplot.svg)](https://badge.fury.io/py/widget-bandsplot)
 
-A Jupyter widget to plot bandstructures and density of states. The widget is using the
-[bands-widget](https://github.com/materialscloud-org/bands-widget) Javascript package,
+A Jupyter widget to plot bandstructures and density of states. The widget is using the 
+[bands-widget](https://github.com/materialscloud-org/bands-widget) Javascript package, 
 which is developed by Materials Cloud group.
 
 <img src="./example/widget-bandsplot.gif" width="750" height="400">

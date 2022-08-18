@@ -233,7 +233,7 @@ BandPlot.prototype.initChart = function (ticksData) {
                     customTicks: ticksData,
                     afterBuildTicks: function (axis, ticks) {
                         // Must return 'filtered' ticks, i.e. a list of
-                        // *positions* of the ticks only.
+                        // *positions* of the ticks only. 
                         // Here I instead just discart the old ticks
                         // and create new ones. The label
                         // will be changed in the ticks.callback call.
@@ -801,7 +801,7 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
         label: "Total",
     };
 
-    if (bandPlotObject.dosData['tdos']['lineStyle'] == 'dash') totdos.borderDash =[10, 5];
+    if (bandPlotObject.dosData['tdos']['lineStyle'] == 'dash') totdos.borderDash =[10, 5]; 
 
     bandPlotObject.dosSeries.push(totdos);
 
@@ -852,7 +852,7 @@ BandPlot.prototype.resBandZoom = function () {
     // Sometimes these are wrongly set (e.g. if I:
     // 1. zoom
     // 2. change the path to something shorter than the default
-    // 3. reset the Zoom).
+    // 3. reset the Zoom). 
     // So, we reset them according to the current path
     bandPlotObject.myChart.options.scales.xAxes[0].ticks.min = bandPlotObject.xLimit.xmin;
     bandPlotObject.myChart.options.scales.xAxes[0].ticks.max = bandPlotObject.xLimit.xmax;
