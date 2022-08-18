@@ -38,10 +38,6 @@ class BandsPlotWidget(widgets.DOMWidget):
     #Json file for the DOS plot
     dos = Dict().tag(sync=True)
 
-    #The total DOS data x, y
-    tdos_x = List().tag(sync=True)
-    tdos_y = List().tag(sync=True)
-
     #yLimit for the plot
     energy_range = Dict({"ymin": -10.0, "ymax": 10.0}).tag(sync=True)
 
@@ -76,18 +72,7 @@ class BandsPlotWidget(widgets.DOMWidget):
             self.dos_fermienergy = dos['fermi_energy']
             temp_dos = deepcopy(dos)
 
-            self.tdos_x = dos['tdos']['x']
-            self.tdos_y = dos['tdos']['y']
-
-            tx = np.array(self.tdos_x)
-            ty = np.array(self.tdos_y)
-
-            index = np.where(np.logical_and(tx > energy_range['ymin']+self.dos_fermienergy, tx < energy_range['ymax']+self.dos_fermienergy))
-
-            temp_dos['tdos']['x'] = tx[index].tolist()
-            temp_dos['tdos']['y'] = ty[index].tolist()
-
-            for i,j in enumerate(temp_dos['pdos']):
+            for i,j in enumerate(temp_dos['dos']):
                 tx = j['x']
                 ty = j['y']
 
@@ -96,8 +81,8 @@ class BandsPlotWidget(widgets.DOMWidget):
 
                 index = np.where(np.logical_and(tx > energy_range['ymin']+self.dos_fermienergy, tx < energy_range['ymax']+self.dos_fermienergy))
 
-                temp_dos['pdos'][i]['x'] = tx[index].tolist()
-                temp_dos['pdos'][i]['y'] = ty[index].tolist()
+                temp_dos['dos'][i]['x'] = tx[index].tolist()
+                temp_dos['dos'][i]['y'] = ty[index].tolist()
 
             self.dos = deepcopy(temp_dos)
 
