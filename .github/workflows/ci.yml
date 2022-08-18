@@ -1,0 +1,86 @@
+---
+# Run basic CI tests.
+
+name: continuous-integration
+
+on: [push, pull_request]
+
+jobs:
+    pre-commit:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Setup Python
+              uses: actions/setup-python@v2
+              with:
+                  python-version: 3.8
+
+            - name: Install dependencies
+              run: |
+                  python -m pip install pre-commit==2.11.1
+
+            - name: Run pre-commit
+              run: pre-commit run --all-files || ( git status --short ; git diff ; exit 1 )
+
+    voila-test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+            - name: Install node
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 15.x
+            - name: Install Python
+              uses: actions/setup-python@v2
+              with:
+                  python-version: '3.8'
+                  architecture: x64
+            - name: Install dependencies
+              run: |
+                  pip install --upgrade pip setuptools wheel
+                  pip install -e .[tests]
+
+            - name: Run the voila server
+              run: |
+                  voila --template=osscar --enable_nbextensions=True example/ --port 8383 --no-browser &
+
+            - uses: nanasess/setup-chromedriver@master
+              with:
+          # Optional: do not specify to match Chrome's version
+                  chromedriver-version: 102.0.5005.61
+            - run: |
+                  export DISPLAY=:99
+                  chromedriver --url-base=/wd/hub &
+                  sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
+                  python3 $GITHUB_WORKSPACE/test/voila-test.py
+
+            - uses: actions/upload-artifact@v2
+              with:
+                  name: screenshot
+                  path: ./*.png
+
+    tests:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                python-version: ['3.7', '3.8', '3.9']
+
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Set up Python ${{ matrix.python-version }}
+              uses: actions/setup-python@v2
+              with:
+                  python-version: ${{ matrix.python-version }}
+
+            - name: Install Python dependencies
+              run: |
+                  pip install --upgrade pip setuptools wheel
+                  pip install -e .[dev]
+
+            - name: Run pytest
+              run: pytest -sv tests
