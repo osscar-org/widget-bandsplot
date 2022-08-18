@@ -11234,8 +11234,8 @@
                 6.064e-05,
                 1.395e-05
             ],
-            "borderColor": "#700149",
-            "backgroundColor": "#abdac4",
+            "borderColor": "#d15f42",
+            "backgroundColor": "#ff8ad8",
             "lineStyle": "dash",
             "label": "Total DOS"
         },
@@ -22474,9 +22474,9 @@
                 0.0,
                 0.0
             ],
-            "lineStyle": "soild",
-            "borderColor": "#e734a8",
-            "backgroundColor": "#4f74d1",
+            "lineStyle": "solid",
+            "borderColor": "#bf83f1",
+            "backgroundColor": "#e0103b",
             "label": "CoS up"
         },
         {
@@ -33714,9 +33714,9 @@
                 0.0,
                 0.0
             ],
-            "lineStyle": "soild",
-            "borderColor": "#1804f7",
-            "backgroundColor": "#881b52",
+            "lineStyle": "solid",
+            "borderColor": "#316b3e",
+            "backgroundColor": "#9667fa",
             "label": "CoP up"
         },
         {
@@ -44954,9 +44954,9 @@
                 0.0,
                 0.0
             ],
-            "lineStyle": "soild",
-            "borderColor": "#c5ffc9",
-            "backgroundColor": "#651501",
+            "lineStyle": "solid",
+            "borderColor": "#0b22d9",
+            "backgroundColor": "#d44816",
             "label": "CoD up"
         },
         {
@@ -56194,9 +56194,9 @@
                 -4.6459999999999996e-07,
                 -0.0
             ],
-            "lineStyle": "soild",
-            "borderColor": "#5c050c",
-            "backgroundColor": "#2231e6",
+            "lineStyle": "solid",
+            "borderColor": "#899dc1",
+            "backgroundColor": "#307933",
             "label": "CoS dn"
         },
         {
@@ -67434,9 +67434,9 @@
                 -1.1721520000000001e-05,
                 -0.0
             ],
-            "lineStyle": "soild",
-            "borderColor": "#2070ba",
-            "backgroundColor": "#683bad",
+            "lineStyle": "solid",
+            "borderColor": "#ca033d",
+            "backgroundColor": "#56dc7d",
             "label": "CoP dn"
         },
         {
@@ -78674,9 +78674,9 @@
                 -5.592399999999999e-07,
                 0.0
             ],
-            "lineStyle": "soild",
-            "borderColor": "#979bff",
-            "backgroundColor": "#e62fa1",
+            "lineStyle": "solid",
+            "borderColor": "#186eb9",
+            "backgroundColor": "#621b0c",
             "label": "CoD dn"
         }
     ]

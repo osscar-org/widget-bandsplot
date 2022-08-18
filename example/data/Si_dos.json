@@ -442,8 +442,8 @@
                 0.001431,
                 0.0001299
             ],
-            "borderColor": "#3d9d26",
-            "backgroundColor": "#b05d88",
+            "borderColor": "#d972c9",
+            "backgroundColor": "#7fe119",
             "lineStyle": "dash",
             "label": "Total DOS"
         },
@@ -890,9 +890,9 @@
                 2.32e-07,
                 0.0
             ],
-            "lineStyle": "soild",
-            "borderColor": "#903497",
-            "backgroundColor": "#6e35f8",
+            "lineStyle": "solid",
+            "borderColor": "#3ebf58",
+            "backgroundColor": "#579349",
             "label": "Si S"
         },
         {
@@ -1338,9 +1338,9 @@
                 7.04e-05,
                 0.0
             ],
-            "lineStyle": "soild",
-            "borderColor": "#50ac22",
-            "backgroundColor": "#e48a6b",
+            "lineStyle": "solid",
+            "borderColor": "#aa44ea",
+            "backgroundColor": "#593817",
             "label": "Si PZ"
         },
         {
@@ -1786,9 +1786,9 @@
                 6.1e-05,
                 0.0
             ],
-            "lineStyle": "soild",
-            "borderColor": "#329d4f",
-            "backgroundColor": "#d20b94",
+            "lineStyle": "solid",
+            "borderColor": "#73648f",
+            "backgroundColor": "#423e11",
             "label": "Si PX"
         },
         {
@@ -2234,9 +2234,9 @@
                 6.1e-05,
                 0.0
             ],
-            "lineStyle": "soild",
-            "borderColor": "#0766a0",
-            "backgroundColor": "#d27876",
+            "lineStyle": "solid",
+            "borderColor": "#232db9",
+            "backgroundColor": "#296eb3",
             "label": "Si PY"
         }
     ]
