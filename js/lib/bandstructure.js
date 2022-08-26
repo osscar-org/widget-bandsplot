@@ -176,7 +176,7 @@ BandPlot.prototype.addBandStructure = function (bandsData, colorInfo) {
 BandPlot.prototype.addDos = function (dosData) {
     this.dosData = dosData;
 
-    var Index = 1 + dosData['dos'].length;
+    var Index = dosData['dos'].length;
     var defaultColors = ['#555555', '#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33', '#a65628', '#f781bf', '#999999'];
 
     for (let i = 0; i < Index; i++) {
