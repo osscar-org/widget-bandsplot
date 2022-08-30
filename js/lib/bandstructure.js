@@ -176,7 +176,7 @@ BandPlot.prototype.addBandStructure = function (bandsData, colorInfo) {
 BandPlot.prototype.addDos = function (dosData) {
     this.dosData = dosData;
 
-    var Index = 1 + dosData['pdos'].length;
+    var Index = dosData['dos'].length;
     var defaultColors = ['#555555', '#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33', '#a65628', '#f781bf', '#999999'];
 
     for (let i = 0; i < Index; i++) {
@@ -779,61 +779,36 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
     // Plot the density of states
     bandPlotObject.dosSeries = [];
     curve = [];
-    var totx = bandPlotObject.dosData['tdos']['x'];
-    var toty = bandPlotObject.dosData['tdos']['y'];
 
-    totx.forEach(function (data, i) {
-        if (orientation === 'vertical') {
-            curve.push({ x: toty[i], y: data - bandPlotObject.dosFermiEnergy });
-        } else {
-            curve.push({ x: data - bandPlotObject.dosFermiEnergy, y: toty[i] });
-        };
-    });
-
-    var totdos = {
-        borderColor: bandPlotObject.dosData['tdos']['borderColor'],
-        backgroundColor: bandPlotObject.dosData['tdos']['backgroundColor'],
-        borderWidth: 2,
-        data: curve,
-        fill: true,
-        showLine: true,
-        pointRadius: 0,
-        label: "Total",
-    };
-
-    if (bandPlotObject.dosData['tdos']['lineStyle'] == 'dash') totdos.borderDash =[10, 5]; 
-
-    bandPlotObject.dosSeries.push(totdos);
-
-    for (let i = 0; i < bandPlotObject.dosData['pdos'].length; i++) {
+    for (let i = 0; i < bandPlotObject.dosData['dos'].length; i++) {
         curve = [];
 
-        var pdosx = bandPlotObject.dosData['pdos'][i]['x'];
-        var pdosy = bandPlotObject.dosData['pdos'][i]['y'];
+        var dosx = bandPlotObject.dosData['dos'][i]['x'];
+        var dosy = bandPlotObject.dosData['dos'][i]['y'];
 
-        pdosx.forEach(function (data, k) {
+        dosx.forEach(function (data, k) {
             if (orientation === 'vertical') {
-                curve.push({ x: pdosy[k], y: data - bandPlotObject.dosFermiEnergy });
+                curve.push({ x: dosy[k], y: data - bandPlotObject.dosFermiEnergy });
             } else {
-                curve.push({ x: data - bandPlotObject.dosFermiEnergy, y: pdosy[k] });
+                curve.push({ x: data - bandPlotObject.dosFermiEnergy, y: dosy[k] });
             };
         });
 
-        var pdos = {
-            borderColor: bandPlotObject.dosData['pdos'][i]['borderColor'],
-            backgroundColor: bandPlotObject.dosData['pdos'][i]['backgroundColor'],
+        var dos = {
+            borderColor: bandPlotObject.dosData['dos'][i]['borderColor'],
+            backgroundColor: bandPlotObject.dosData['dos'][i]['backgroundColor'],
             hidden: false,
             borderWidth: 1,
             data: curve,
             fill: true,
             showLine: true,
             pointRadius: 0,
-            label: bandPlotObject.dosData['pdos'][i]['label'],
+            label: bandPlotObject.dosData['dos'][i]['label'],
         };
 
-        if (bandPlotObject.dosData['pdos'][i]['lineStyle'] === 'dash') pdos.borderDash = [10, 5];
+        if (bandPlotObject.dosData['dos'][i]['lineStyle'] === 'dash') dos.borderDash = [10, 5];
 
-        bandPlotObject.dosSeries.push(pdos);
+        bandPlotObject.dosSeries.push(dos);
     };
 
     if (bandPlotObject.myDos === undefined) {
