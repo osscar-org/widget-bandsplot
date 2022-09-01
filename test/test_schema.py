@@ -1,8 +1,8 @@
 import json
 from importlib import resources
 
-import jsonschema
 import pytest
+from jsonschema import exceptions, validate
 
 
 @pytest.fixture(scope="module")
@@ -41,4 +41,22 @@ def test_valid_pdos_default(pdos_schema):
             },
         ],
     }
-    jsonschema.validate(instance=data, schema=pdos_schema)
+    validate(instance=data, schema=pdos_schema)
+
+
+def test_linestyle_typo_catch(pdos_schema):
+    data = {
+        "fermi_energy": -7.0,
+        "dos": [
+            {
+                "label": "Total DOS",
+                "x": [0.0, 0.1, 0.2],
+                "y": [1.2, 3.2, 0.0],
+                "borderColor": "#41e2b3",
+                "backgroundColor": "#51258b",
+                "lineStyle": "soild",  # <- TYPO: can only be solid or dash.
+            },
+        ],
+    }
+    with pytest.raises(exceptions.ValidationError):
+        validate(instance=data, schema=pdos_schema)
