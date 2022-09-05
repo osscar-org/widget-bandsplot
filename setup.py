@@ -3,6 +3,7 @@ from setuptools import setup, find_packages
 import os
 from os.path import join as pjoin
 from distutils import log
+from pathlib import Path
 
 from jupyter_packaging import (
     create_cmdclass,
@@ -44,15 +45,22 @@ cmdclass['jsdeps'] = combine_commands(
     install_npm(js_dir, npm=['yarn'], build_cmd='build:prod'), ensure_targets(jstargets),
 )
 
+TOP_DIR = Path(__file__).resolve().parent
+
+with open(TOP_DIR.joinpath("requirements.txt")) as handle:
+    BASE = [f"{_.strip()}" for _ in handle.readlines() if " " not in _]
+
+with open(TOP_DIR.joinpath("requirements_tests.txt")) as handle:
+    TESTS = [f"{_.strip()}" for _ in handle.readlines()]
+
 setup_args = dict(
     name=name,
     version=version,
     description='A Jupyter widget to plot bandstructures.',
     long_description=LONG_DESCRIPTION,
     include_package_data=True,
-    install_requires=[
-        'ipywidgets>=7.6.0',
-    ],
+    install_requires=BASE,
+    extras_require={"tests": TESTS},
     packages=find_packages(),
     zip_safe=False,
     cmdclass=cmdclass,
