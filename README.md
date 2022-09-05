@@ -13,6 +13,10 @@ which is developed by Materials Cloud group.
 Check the widget and learn the usage at Materials Cloud:
 [![Materials Cloud Tool widget-bandsplot](https://raw.githubusercontent.com/materialscloud-org/mcloud-badge/main/badges/img/mcloud_badge_tools.svg)](https://osscar-widgets.matcloud.xyz/voila/render/bandsplot/widget-bandsplot.ipynb)
 
+## Try the widget in Binder
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/osscar-org/widget-bandsplot/binder?labpath=example%2Fbandsplot-example.ipynb)
+
 Installation
 ------------
 
