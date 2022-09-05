@@ -30,8 +30,8 @@ var BandsplotModel = widgets.DOMWidgetModel.extend({
         _view_name: 'BandsplotView',
         _model_module: 'widget-bandsplot',
         _view_module: 'widget-bandsplot',
-        _model_module_version: '0.1.0',
-        _view_module_version: '0.1.0',
+        _model_module_version: '0.2.4',
+        _view_module_version: '0.2.4',
         value: 'Hello World!'
     })
 });
