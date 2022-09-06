@@ -15,7 +15,7 @@ Check the widget and learn the usage at Materials Cloud:
 
 ## Try the widget in Binder
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/osscar-org/widget-bandsplot/binder?labpath=example%2Fbandsplot-example.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/osscar-org/widget-bandsplot/binder?labpath=examples%2Fbandsplot-example.ipynb)
 
 Installation
 ------------

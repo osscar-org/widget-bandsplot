@@ -2,6 +2,9 @@ import ipywidgets as widgets
 from traitlets import Unicode, List, Dict, Float, Bool
 from copy import deepcopy
 import numpy as np
+import json
+from jsonschema import validate
+from importlib import resources
 
 # See js/lib/example.js for the frontend counterpart to this file.
 
@@ -69,6 +72,11 @@ class BandsPlotWidget(widgets.DOMWidget):
                 self.band_fermienergy.append(i['fermi_level'])
 
         if dos is not None:
+            # validate the pdos inputs on schema
+            with resources.open_text("widget_bandsplot.schemas", "pdos.json") as fh:
+                schema = json.load(fh)
+                validate(instance=dos, schema=schema)
+                
             self.dos_fermienergy = dos['fermi_energy']
             temp_dos = deepcopy(dos)
 
