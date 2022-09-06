@@ -1,6 +1,6 @@
 {
   "name": "widget-bandsplot",
-  "version": "0.3.5",
+  "version": "0.2.4",
   "description": "A Jupyter widget to plot bandstructures.",
   "author": "Dou Du",
   "main": "lib/index.js",
