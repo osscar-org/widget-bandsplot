@@ -45,7 +45,7 @@ jobs:
 
             - name: Run the voila server
               run: |
-                  voila --template=osscar --enable_nbextensions=True example/ --port 8383 --no-browser &
+                  voila --template=osscar --enable_nbextensions=True examples/ --port 8383 --no-browser &
 
             - uses: nanasess/setup-chromedriver@master
             - run: |
