@@ -20,5 +20,3 @@ dependencies:
   - numpy
   - jupyter_packaging
   - yarn
-  # additional packages for demos
-  # - ipywidgets
