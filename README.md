@@ -7,7 +7,7 @@ A Jupyter widget to plot bandstructures and density of states. The widget is usi
 [bands-widget](https://github.com/materialscloud-org/bands-widget) Javascript package,
 which is developed by Materials Cloud group.
 
-<img src="./example/widget-bandsplot.gif" width="750" height="400">
+<img src="./examples/widget-bandsplot.gif" height="380">
 
 Installation
 ------------
