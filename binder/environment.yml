@@ -1,3 +1,4 @@
+---
 # a mybinder.org-ready environment for demoing jupyterlab_mol_visualizer
 # this environment may also be used locally on Linux/MacOS/Windows, e.g.
 #
@@ -7,16 +8,16 @@
 name: widget-bandsplot
 
 channels:
-  - conda-forge
+    - conda-forge
 
 dependencies:
   # runtime dependencies
-  - python >=3.9,<4.0.0a0
-  - jupyterlab >=3,<4.0.0a0
+    - python >=3.9,<4.0.0a0
+    - jupyterlab >=3,<4.0.0a0
   # labextension build dependencies
-  - nodejs >=18,<19
-  - pip
-  - wheel
-  - numpy
-  - jupyter_packaging
-  - yarn
+    - nodejs >=18,<19
+    - pip
+    - wheel
+    - numpy
+    - jupyter_packaging
+    - yarn
