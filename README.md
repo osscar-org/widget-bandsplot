@@ -7,7 +7,7 @@ A Jupyter widget to plot bandstructures and density of states. The widget is usi
 [bands-widget](https://github.com/materialscloud-org/bands-widget) Javascript package,
 which is developed by Materials Cloud group.
 
-<img src="./examples/widget-bandsplot.gif" height="380">
+<img src="./examples/widget-bandsplot.gif" height="350">
 
 Installation
 ------------
@@ -19,17 +19,42 @@ To install use pip:
 Usage
 -----
 
+### 1. Plot both bandstucture and density of states (DOS) side by side
+
 ```python
-w = BandsPlotWidget(bands=[banddata1, banddata2], dos=dosdata, plot_fermilevel = True, show_legend = True, energy_range = {"ymin": -13.0, "ymax": 10.0})
+w = BandsPlotWidget(bands=[banddata1, banddata2], dos=dosdata, plot_fermilevel = True, show_legend = True, energy_range = {"ymin": -10.0, "ymax": 10.0})
 display(w)
 ```
 
 In order to plot the bandstructure and density of states fiugres, one needs
 to provide band data and DOS data as json files. The examples of the input
 json files are given in the `test/data` folder. The json files for the
-bandstructure can be exported from the AiiDA program. One can import
-several bandstructure input files.
+bandstructure can be exported from the AiiDA verdi program, as demonstrated in
+the code below:
 
+```bash
+verdi data band export PK --format=json
+```
+
+One can plot several bandstructure input files together with the 
+"widget-bandsplot".
+
+### 2. Plot only the bandstructure
+
+```python
+w = BandsPlotWidget(bands=[banddata1, banddata2], plot_fermilevel = True, show_legend = True, energy_range = {"ymin": -10.0, "ymax": 10.0})
+display(w)
+```
+
+### 3. Plot only the density of states (DOS)
+
+```python
+w = BandsPlotWidget(dos=dosdata, plot_fermilevel = True, show_legend = True, energy_range = {"ymin": -10.0, "ymax": 10.0})
+display(w)
+```
+
+When only plotting the density of states, the figure will be shown in 
+horizontal format.
 
 For developer
 -------------
