@@ -1,0 +1,6 @@
+#!/bin/bash
+
+pip install -e .
+jupyter nbextension install --py --symlink --overwrite --sys-prefix widget_bandsplot
+jupyter nbextension enable --py --sys-prefix widget_bandsplot
+jupyter labextension develop --overwrite widget_bandsplot

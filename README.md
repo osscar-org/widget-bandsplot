@@ -1,17 +1,13 @@
 **widget-bandsplot**: Jupyter Widget to Plot Bandstructure and Density of States
 ===============================
 [![PyPI version](https://badge.fury.io/py/widget-bandsplot.svg)](https://badge.fury.io/py/widget-bandsplot)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/osscar-org/widget-bandsplot/binder?labpath=examples%2Fbandsplot-example.ipynb)
 
 A Jupyter widget to plot bandstructures and density of states. The widget is using the
 [bands-widget](https://github.com/materialscloud-org/bands-widget) Javascript package,
 which is developed by Materials Cloud group.
 
-<img src="./example/widget-bandsplot.gif" width="750" height="400">
-
-## Try the widget in the notebook
-
-Check the widget and learn the usage at Materials Cloud:
-[![Materials Cloud Tool widget-bandsplot](https://raw.githubusercontent.com/materialscloud-org/mcloud-badge/main/badges/img/mcloud_badge_tools.svg)](https://osscar-widgets.matcloud.xyz/voila/render/bandsplot/widget-bandsplot.ipynb)
+<img src="./examples/widget-bandsplot.gif" height="380">
 
 Installation
 ------------
@@ -19,6 +15,24 @@ Installation
 To install use pip:
 
     $ pip install widget_bandsplot
+
+Usage
+-----
+
+```python
+w = BandsPlotWidget(bands=[banddata1, banddata2], dos=dosdata, plot_fermilevel = True, show_legend = True, energy_range = {"ymin": -13.0, "ymax": 10.0})
+display(w)
+```
+
+In order to plot the bandstructure and density of states fiugres, one needs
+to provide band data and DOS data as json files. The examples of the input
+json files are given in the `test/data` folder. The json files for the
+bandstructure can be exported from the AiiDA program. One can import
+several bandstructure input files.
+
+
+For developer
+-------------
 
 For a development installation (requires [Node.js](https://nodejs.org) and [Yarn version 1](https://classic.yarnpkg.com/)),
 
@@ -38,6 +52,7 @@ Then you need to rebuild the JS when you make a code change:
     $ yarn run build
 
 You then need to refresh the JupyterLab page when your javascript changes.
+
 
 ## Acknowledgements
 
