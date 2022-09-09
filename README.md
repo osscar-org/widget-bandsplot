@@ -36,7 +36,7 @@ the code below:
 verdi data band export PK --format=json
 ```
 
-One can plot several bandstructure input files together with the 
+One can plot several bandstructure input files together with the
 "widget-bandsplot".
 
 ### 2. Plot only the bandstructure
@@ -53,7 +53,7 @@ w = BandsPlotWidget(dos=dosdata, plot_fermilevel = True, show_legend = True, ene
 display(w)
 ```
 
-When only plotting the density of states, the figure will be shown in 
+When only plotting the density of states, the figure will be shown in
 horizontal format.
 
 For developer
