@@ -54,7 +54,7 @@ demonstrated below:
                 "lineStyle": "dash",
             },
             {
-                "label": "Co_s(up)",
+                "label": "Co (s↑)",
                 "x": [0.0, 0.1, 0.2],
                 "y": [1.2, 3.2, 0.0],
                 "lineStyle": "solid",
@@ -62,7 +62,7 @@ demonstrated below:
                 "backgroundColor": "#59595c",
             },
             {
-                "label": "Co_d(dn)",
+                "label": "Co (s↓)",
                 "x": [0.0, 0.1, 0.2],
                 "y": [1.2, 3.2, 0.0],
                 "lineStyle": "solid",
