@@ -37,7 +37,41 @@ verdi data band export PK --format=json
 ```
 
 One can plot several bandstructure input files together with the
-"widget-bandsplot".
+"widget-bandsplot". However, one can only give one input file 
+for density of states. The format of the DOS input json file is
+demonstrated below:
+
+```bash
+    dos_data = {
+        "fermi_energy": -7.0,
+        "dos": [
+            {
+                "label": "Total DOS",
+                "x": [0.0, 0.1, 0.2],
+                "y": [1.2, 3.2, 0.0],
+                "borderColor": "#41e2b3",
+                "backgroundColor": "#51258b",
+                "lineStyle": "dash",
+            },
+            {
+                "label": "Co_s(up)",
+                "x": [0.0, 0.1, 0.2],
+                "y": [1.2, 3.2, 0.0],
+                "lineStyle": "solid",
+                "borderColor": "#43ee8b",
+                "backgroundColor": "#59595c",
+            },
+            {
+                "label": "Co_d(dn)",
+                "x": [0.0, 0.1, 0.2],
+                "y": [1.2, 3.2, 0.0],
+                "lineStyle": "solid",
+                "borderColor": "#403bae",
+                "backgroundColor": "#a16c5e",
+            },
+        ],
+    }
+```
 
 ### 2. Plot only the bandstructure
 
