@@ -90,7 +90,7 @@ display(w)
 When only plotting the density of states, the figure will be shown in
 horizontal format.
 
-For developer
+For developers
 -------------
 
 For a development installation (requires [Node.js](https://nodejs.org) and [Yarn version 1](https://classic.yarnpkg.com/)),
