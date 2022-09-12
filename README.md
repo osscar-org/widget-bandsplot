@@ -19,7 +19,7 @@ To install use pip:
 Usage
 -----
 
-### 1. Plot both bandstucture and density of states (DOS) side by side
+### 1. Plot both the band structure and the density of states (DOS) side by side
 
 ```python
 w = BandsPlotWidget(bands=[banddata1, banddata2], dos=dosdata, plot_fermilevel = True, show_legend = True, energy_range = {"ymin": -10.0, "ymax": 10.0})
