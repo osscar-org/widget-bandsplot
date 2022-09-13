@@ -37,7 +37,7 @@
 // Utility 'zip' function analogous to python's, from
 // https://stackoverflow.com/questions/4856717
 
-const Chart = require('chart.js');
+require('chart.js/dist/chart');
 const { nodeName } = require('jquery');
 var tinycolor = require('tinycolor2');
 require('chartjs-plugin-zoom');
