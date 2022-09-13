@@ -33,7 +33,7 @@ bandstructure can be exported with the [AiiDA command line interface (CLI) `verd
 the code below:
 
 ```bash
-verdi data band export PK --format=json
+verdi data band export <PK> --format=json
 ```
 
 One can plot several bandstructure input files together with the
