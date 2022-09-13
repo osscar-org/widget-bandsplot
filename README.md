@@ -87,7 +87,7 @@ w = BandsPlotWidget(dos=dosdata, plot_fermilevel = True, show_legend = True, ene
 display(w)
 ```
 
-When only plotting the density of states, the figure will be shown in
+When only plotting the density of states, the plot will be shown in
 horizontal format.
 
 For developers
