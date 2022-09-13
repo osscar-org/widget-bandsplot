@@ -28,7 +28,7 @@ display(w)
 
 In order to plot the bandstructure and density of states fiugres, one needs
 to provide bands data and DOS data as JSON-files. The examples of the input
-JSON-files are provided in the `test/data` folder. The JSON-files for the
+JSON-files are provided in the `examples/data` folder. The JSON-files for the
 bandstructure can be exported with the [AiiDA command line interface (CLI) `verdi`](https://aiida.readthedocs.io/projects/aiida-core/en/latest/reference/command_line.html#reference-command-line) as demonstrated in
 the code below:
 
