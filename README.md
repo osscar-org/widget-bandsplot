@@ -3,7 +3,7 @@
 [![PyPI version](https://badge.fury.io/py/widget-bandsplot.svg)](https://badge.fury.io/py/widget-bandsplot)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/osscar-org/widget-bandsplot/binder?labpath=examples%2Fbandsplot-example.ipynb)
 
-A Jupyter widget to plot bandstructures and density of states. The widget is using the
+A Jupyter widget to plot band structures and density of states. The widget is using the
 [bands-widget](https://github.com/materialscloud-org/bands-widget) Javascript package,
 which is developed by Materials Cloud group.
 
@@ -26,17 +26,17 @@ w = BandsPlotWidget(bands=[banddata1, banddata2], dos=dosdata, plot_fermilevel =
 display(w)
 ```
 
-In order to plot the bandstructure and density of states fiugres, one needs
+In order to plot the band structure and density of states fiugres, one needs
 to provide bands data and DOS data as JSON-files. The examples of the input
 JSON-files are provided in the `examples/data` folder. The JSON-files for the
-bandstructure can be exported with the [AiiDA command line interface (CLI) `verdi`](https://aiida.readthedocs.io/projects/aiida-core/en/latest/reference/command_line.html#reference-command-line) as demonstrated in
+band structure can be exported with the [AiiDA command line interface (CLI) `verdi`](https://aiida.readthedocs.io/projects/aiida-core/en/latest/reference/command_line.html#reference-command-line) as demonstrated in
 the code below:
 
 ```bash
 verdi data band export <PK> --format=json
 ```
 
-One can plot several bandstructure input files together with the
+One can plot several band structure input files together with the
 widget. However, one can only give one input file
 for the density of states. The format of the DOS input JSON-file is
 shown below:
@@ -73,7 +73,7 @@ shown below:
     }
 ```
 
-### 2. Plot only the bandstructure
+### 2. Plot only the band structure
 
 ```python
 w = BandsPlotWidget(bands=[banddata1, banddata2], plot_fermilevel = True, show_legend = True, energy_range = {"ymin": -10.0, "ymax": 10.0})
