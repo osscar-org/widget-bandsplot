@@ -26,7 +26,7 @@ w = BandsPlotWidget(bands=[banddata1, banddata2], dos=dosdata, plot_fermilevel =
 display(w)
 ```
 
-In order to plot the band structure and density of states fiugres, one needs
+In order to plot the band structure and density of states, one needs
 to provide bands data and DOS data as JSON-files. The examples of the input
 JSON-files are provided in the `examples/data` folder. The JSON-files for the
 band structure can be exported with the [AiiDA command line interface (CLI) `verdi`](https://aiida.readthedocs.io/projects/aiida-core/en/latest/reference/command_line.html#reference-command-line) as demonstrated in
