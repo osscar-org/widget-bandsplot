@@ -49,6 +49,7 @@ class BandsPlotWidget(widgets.DOMWidget):
 
     # yLimit for the plot
     energy_range = Dict({"ymin": -10.0, "ymax": 10.0}).tag(sync=True)
+    dos_range = List().tag(sync=True)
 
     # Band and DOS Fermi energy
     band_fermienergy = List().tag(sync=True)
@@ -98,6 +99,8 @@ class BandsPlotWidget(widgets.DOMWidget):
             self.dos_fermienergy = dos["fermi_energy"]
             temp_dos = deepcopy(dos)
 
+            ymin = []
+            ymax = []
             for i, j in enumerate(temp_dos["dos"]):
                 tx = j["x"]
                 ty = j["y"]
@@ -112,7 +115,12 @@ class BandsPlotWidget(widgets.DOMWidget):
                     )
                 )
 
-                temp_dos["dos"][i]["x"] = tx[index].tolist()
-                temp_dos["dos"][i]["y"] = ty[index].tolist()
+                ymin.append(min(ty[index]))
+                ymax.append(max(ty[index]))
+
+            self.dos_range = [min(ymin)*1.05, max(ymax)*1.05]
+
+            #     temp_dos["dos"][i]["x"] = tx[index].tolist()
+            #     temp_dos["dos"][i]["y"] = ty[index].tolist()
 
             self.dos = deepcopy(temp_dos)

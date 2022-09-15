@@ -119,7 +119,7 @@ function getValidPointNames(allData) {
 
 
 /////////////// MAIN CLASS DEFINITION /////////////////
-var BandPlot = function (divID, showFermi, showLegend, yLimit) {
+var BandPlot = function (divID, showFermi, showLegend, yLimit, dosRange) {
     this.divID = divID;
     this.allData = [];
     this.dosData = {};
@@ -135,6 +135,7 @@ var BandPlot = function (divID, showFermi, showLegend, yLimit) {
     this.showFermi = showFermi;
     this.showLegend = showLegend;
     this.yLimit = yLimit;
+    this.dosRange = dosRange;
     this.yLabel = "";
 
     if (typeof (this.myChart) != "undefined") {
@@ -231,7 +232,7 @@ BandPlot.prototype.initChart = function (ticksData) {
                     // Important to set this, will give access to the
                     // ticks in the various callbacks.
                     customTicks: ticksData,
-                    afterBuildTicks: function (axis, ticks) {
+                    afterBuildTicks: function (axis, ticks) { 
                         // Must return 'filtered' ticks, i.e. a list of
                         // *positions* of the ticks only.
                         // Here I instead just discart the old ticks
@@ -342,7 +343,8 @@ BandPlot.prototype.initDosChart = function (orientation = 'vertical') {
                             zeroLineWidth: 2,
                         },
                         ticks: {
-                            // min: 0.0,
+                            min: bandPlotObject.dosRange[0],
+                            max: bandPlotObject.dosRange[1],
                         }
                     }],
                     yAxes: [{
@@ -453,7 +455,8 @@ BandPlot.prototype.initDosChart = function (orientation = 'vertical') {
                             tickMarkLength: 0,
                         },
                         ticks: {
-                            // min: 0.0,
+                            min: bandPlotObject.dosRange[0],
+                            max: bandPlotObject.dosRange[1],
                             padding: 10,
                         },
                         scaleLabel: {
