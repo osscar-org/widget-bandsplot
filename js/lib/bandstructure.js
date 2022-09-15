@@ -232,7 +232,7 @@ BandPlot.prototype.initChart = function (ticksData) {
                     // Important to set this, will give access to the
                     // ticks in the various callbacks.
                     customTicks: ticksData,
-                    afterBuildTicks: function (axis, ticks) { 
+                    afterBuildTicks: function (axis, ticks) {
                         // Must return 'filtered' ticks, i.e. a list of
                         // *positions* of the ticks only.
                         // Here I instead just discart the old ticks

@@ -101,9 +101,10 @@ class BandsPlotWidget(widgets.DOMWidget):
 
             ymin = []
             ymax = []
-            for i, j in enumerate(temp_dos["dos"]):
-                tx = j["x"]
-                ty = j["y"]
+
+            for i in temp_dos["dos"]:
+                tx = i["x"]
+                ty = i["y"]
 
                 tx = np.array(tx)
                 ty = np.array(ty)
@@ -118,9 +119,5 @@ class BandsPlotWidget(widgets.DOMWidget):
                 ymin.append(min(ty[index]))
                 ymax.append(max(ty[index]))
 
-            self.dos_range = [min(ymin)*1.05, max(ymax)*1.05]
-
-            #     temp_dos["dos"][i]["x"] = tx[index].tolist()
-            #     temp_dos["dos"][i]["y"] = ty[index].tolist()
-
+            self.dos_range = [min(ymin) * 1.05, max(ymax) * 1.05]
             self.dos = deepcopy(temp_dos)
