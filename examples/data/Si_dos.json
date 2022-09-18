@@ -445,6 +445,7 @@
             "borderColor": "#d972c9",
             "backgroundColor": "#7fe119",
             "lineStyle": "dash",
+            "backgroundAlpha": "50%",
             "label": "Total DOS"
         },
         {

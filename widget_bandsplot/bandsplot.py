@@ -11,6 +11,16 @@ from traitlets import Bool, Dict, Float, List, Unicode
 
 with resources.open_text("widget_bandsplot.schemas", "pdos.json") as fh:
     PDOS_SCHEMA = json.load(fh)
+    
+def hex_alpha_to_rgba(color_hex: str, alpha: float=None) -> str:
+    h = color_hex.lstrip("#")
+    rgb = tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
+    
+    if alpha is None:
+        alpha = 0.0
+
+    rgba = (*rgb, alpha)
+    return f'rgba{str(rgba)}'
 
 
 @widgets.register
@@ -98,9 +108,11 @@ class BandsPlotWidget(widgets.DOMWidget):
             self.dos_fermienergy = dos["fermi_energy"]
             temp_dos = deepcopy(dos)
 
-            for i, j in enumerate(temp_dos["dos"]):
-                tx = j["x"]
-                ty = j["y"]
+            # Convert data to the format for which chart.js can plot directly
+            for i, d_dos in enumerate(temp_dos["dos"]):
+                # Truncate the data under given energy range [ymin, ymax]
+                tx = d_dos["x"]
+                ty = d_dos["y"]
 
                 tx = np.array(tx)
                 ty = np.array(ty)
@@ -114,5 +126,11 @@ class BandsPlotWidget(widgets.DOMWidget):
 
                 temp_dos["dos"][i]["x"] = tx[index].tolist()
                 temp_dos["dos"][i]["y"] = ty[index].tolist()
+                
+                # backgroundColor and backgroundAlpha combined to rgba value
+                bg_color = d_dos.get("backgroundColor", "#DCDCDC")   # grey for as default
+                bg_alpha = d_dos.get("backgroundAlpha", "0%")
+                
+                d_dos['backgroundColor'] = hex_alpha_to_rgba(bg_color, bg_alpha)
 
             self.dos = deepcopy(temp_dos)

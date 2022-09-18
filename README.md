@@ -36,41 +36,40 @@ the code below:
 verdi data band export <PK> --format=json
 ```
 
-One can plot several band structure input files together with the
-widget. However, one can only give one input file
-for the density of states. The format of the DOS input JSON-file is
-shown below:
+One can plot several band structure input files together with the widget. 
+The format of the DOS input dict is validate by the [PDOS Schema](https://raw.githubusercontent.com/osscar-org/widget-bandsplot/main/widget_bandsplot/schemas/pdos.json), the exampla valid input is:
 
-```bash
-    dos_data = {
-        "fermi_energy": -7.0,
-        "dos": [
-            {
-                "label": "Total DOS",
-                "x": [0.0, 0.1, 0.2],
-                "y": [1.2, 3.2, 0.0],
-                "borderColor": "#41e2b3",
-                "backgroundColor": "#51258b",
-                "lineStyle": "dash",
-            },
-            {
-                "label": "Co (s↑)",
-                "x": [0.0, 0.1, 0.2],
-                "y": [1.2, 3.2, 0.0],
-                "lineStyle": "solid",
-                "borderColor": "#43ee8b",
-                "backgroundColor": "#59595c",
-            },
-            {
-                "label": "Co (s↓)",
-                "x": [0.0, 0.1, 0.2],
-                "y": [1.2, 3.2, 0.0],
-                "lineStyle": "solid",
-                "borderColor": "#403bae",
-                "backgroundColor": "#a16c5e",
-            },
-        ],
-    }
+```python
+dos_data = {
+    "fermi_energy": -7.0,
+    "dos": [
+        {
+            "label": "Total DOS",   # required
+            "x": [0.0, 0.1, 0.2],   # required
+            "y": [1.2, 3.2, 0.0],   # required
+            "borderColor": "#41e2b3",   # optional
+            "backgroundColor": "#51258b",   # optional
+            "backgroundAlpha": "52%",  #optional: A string with integer between 0-100 and '%' in end.
+            "lineStyle": "dash",    # optional
+        },
+        {
+            "label": "Co (s↑)",
+            "x": [0.0, 0.1, 0.2],
+            "y": [1.2, 3.2, 0.0],
+            "lineStyle": "solid",
+            "borderColor": "#43ee8b",
+            "backgroundColor": "#59595c",
+        },
+        {
+            "label": "Co (s↓)",
+            "x": [0.0, 0.1, 0.2],
+            "y": [1.2, 3.2, 0.0],
+            "lineStyle": "solid",
+            "borderColor": "#403bae",
+            "backgroundColor": "#a16c5e",
+        },
+    ],
+}
 ```
 
 ### 2. Plot only the band structure
