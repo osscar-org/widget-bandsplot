@@ -62,6 +62,7 @@ def test_linestyle_typo_catch(pdos_schema):
     with pytest.raises(exceptions.ValidationError):
         validate(instance=data, schema=pdos_schema)
 
+
 def test_valid_background_alpha(pdos_schema):
     """The alpha can only be a string with integer 0-99 with % at end"""
     data = {

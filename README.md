@@ -36,7 +36,7 @@ the code below:
 verdi data band export <PK> --format=json
 ```
 
-One can plot several band structure input files together with the widget. 
+One can plot several band structure input files together with the widget.
 The format of the DOS input dict is validate by the [PDOS Schema](https://raw.githubusercontent.com/osscar-org/widget-bandsplot/main/widget_bandsplot/schemas/pdos.json), the exampla valid input is:
 
 ```python
