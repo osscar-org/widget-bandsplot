@@ -11236,6 +11236,7 @@
             ],
             "borderColor": "#d15f42",
             "backgroundColor": "#ff8ad8",
+            "backgroundAlpha": "52%",
             "lineStyle": "dash",
             "label": "Total DOS"
         },

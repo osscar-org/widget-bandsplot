@@ -1,5 +1,5 @@
 {
-    "$id": "https://raw.githubusercontent.com/osscar-org/widget-bandsplot/fea/xx/add-schema/widget_bandsplot/schemas/pdos.json",
+    "$id": "https://raw.githubusercontent.com/osscar-org/widget-bandsplot/main/widget_bandsplot/schemas/pdos.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "description": "JSON Schema for a PDOS entry",
     "type": "object",
@@ -23,7 +23,11 @@
                     },
                     "lineStyle": {"enum": ["solid", "dash"]},
                     "borderColor": {"type": "string"},
-                    "backgroundColor": {"type": "string"}
+                    "backgroundColor": {"type": "string"},
+                    "backgroundAlpha": {
+                        "type": "string",
+                        "pattern": "^[1-9][0-9]?\\%$"
+                    }
                 }
             }
         }
