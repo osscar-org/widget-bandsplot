@@ -102,7 +102,7 @@ class BandsPlotWidget(widgets.DOMWidget):
             ymin = []
             ymax = []
 
-            for i, d_dos in enumerate(temp_dos["dos"]):
+            for i in temp_dos["dos"]:
                 tx = i["x"]
                 ty = i["y"]
 
