@@ -21,6 +21,7 @@ def test_valid_pdos_default(pdos_schema):
                 "y": [1.2, 3.2, 0.0],
                 "borderColor": "#41e2b3",
                 "backgroundColor": "#51258b",
+                "backgroundAlpha": "50%",
                 "lineStyle": "dash",
             },
             {
@@ -55,6 +56,23 @@ def test_linestyle_typo_catch(pdos_schema):
                 "borderColor": "#41e2b3",
                 "backgroundColor": "#51258b",
                 "lineStyle": "soild",  # <- TYPO: can only be solid or dash.
+            },
+        ],
+    }
+    with pytest.raises(exceptions.ValidationError):
+        validate(instance=data, schema=pdos_schema)
+
+
+def test_valid_background_alpha(pdos_schema):
+    """The alpha can only be a string with integer 0-99 with % at end"""
+    data = {
+        "fermi_energy": -7.0,
+        "dos": [
+            {
+                "label": "Total DOS",
+                "x": [0.0, 0.1, 0.2],
+                "y": [1.2, 3.2, 0.0],
+                "backgroundAlpha": "10.1%",
             },
         ],
     }

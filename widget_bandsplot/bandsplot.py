@@ -13,6 +13,17 @@ with resources.open_text("widget_bandsplot.schemas", "pdos.json") as fh:
     PDOS_SCHEMA = json.load(fh)
 
 
+def hex_alpha_to_rgba(color_hex: str, alpha: float = None) -> str:
+    h = color_hex.lstrip("#")
+    rgb = tuple(int(h[i : i + 2], 16) for i in (0, 2, 4))  # noqa: E203
+
+    if alpha is None:
+        alpha = 0.0
+
+    rgba = (*rgb, alpha)
+    return f"rgba{str(rgba)}"
+
+
 @widgets.register
 class BandsPlotWidget(widgets.DOMWidget):
     """A Jupyter widget to plot bandstructures and DOS."""
@@ -102,9 +113,11 @@ class BandsPlotWidget(widgets.DOMWidget):
             ymin = []
             ymax = []
 
+            # Convert data to the format for which chart.js can plot directly
             for i, d_dos in enumerate(temp_dos["dos"]):
-                tx = i["x"]
-                ty = i["y"]
+                # Truncate the data under given energy range [ymin, ymax]
+                tx = d_dos["x"]
+                ty = d_dos["y"]
 
                 tx = np.array(tx)
                 ty = np.array(ty)
@@ -119,7 +132,6 @@ class BandsPlotWidget(widgets.DOMWidget):
                 ymin.append(min(ty[index]))
                 ymax.append(max(ty[index]))
 
-
                 # backgroundColor and backgroundAlpha combined to rgba value
                 bg_color = d_dos.get(
                     "backgroundColor", "#DCDCDC"
@@ -127,8 +139,11 @@ class BandsPlotWidget(widgets.DOMWidget):
 
                 bg_alpha = d_dos.get("backgroundAlpha", "0%")
                 bg_alpha = float(bg_alpha.strip("%") / 100)
+                
+                d_dos["backgroundColor"] = hex_alpha_to_rgba(bg_color, bg_alpha)
 
             # Set the range of the axis of the density acoording to the
             # maximum and minimum of the DOS. Some empty margin was employed
             self.dos_range = [min(ymin) * 1.05, max(ymax) * 1.05]
+            
             self.dos = deepcopy(temp_dos)
