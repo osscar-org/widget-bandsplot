@@ -102,7 +102,7 @@ class BandsPlotWidget(widgets.DOMWidget):
             ymin = []
             ymax = []
 
-            for i in temp_dos["dos"]:
+            for i, d_dos in enumerate(temp_dos["dos"]):
                 tx = i["x"]
                 ty = i["y"]
 
@@ -118,6 +118,15 @@ class BandsPlotWidget(widgets.DOMWidget):
 
                 ymin.append(min(ty[index]))
                 ymax.append(max(ty[index]))
+
+
+                # backgroundColor and backgroundAlpha combined to rgba value
+                bg_color = d_dos.get(
+                    "backgroundColor", "#DCDCDC"
+                )  # grey for as default
+
+                bg_alpha = d_dos.get("backgroundAlpha", "0%")
+                bg_alpha = float(bg_alpha.strip("%") / 100)
 
             # Set the range of the axis of the density acoording to the
             # maximum and minimum of the DOS. Some empty margin was employed
