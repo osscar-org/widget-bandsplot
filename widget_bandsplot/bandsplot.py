@@ -114,7 +114,7 @@ class BandsPlotWidget(widgets.DOMWidget):
             ymax = []
 
             # Convert data to the format for which chart.js can plot directly
-            for i, d_dos in enumerate(temp_dos["dos"]):
+            for _i, d_dos in enumerate(temp_dos["dos"]):
                 # Truncate the data under given energy range [ymin, ymax]
                 tx = d_dos["x"]
                 ty = d_dos["y"]
@@ -139,11 +139,11 @@ class BandsPlotWidget(widgets.DOMWidget):
 
                 bg_alpha = d_dos.get("backgroundAlpha", "0%")
                 bg_alpha = float(bg_alpha.strip("%") / 100)
-                
+
                 d_dos["backgroundColor"] = hex_alpha_to_rgba(bg_color, bg_alpha)
 
             # Set the range of the axis of the density acoording to the
             # maximum and minimum of the DOS. Some empty margin was employed
             self.dos_range = [min(ymin) * 1.05, max(ymax) * 1.05]
-            
+
             self.dos = deepcopy(temp_dos)
