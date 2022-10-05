@@ -1,10 +1,7 @@
 {
+    "fermi_energy": 18.249471602831,
     "dos": [
         {
-            "backgroundColor": "rgba(148,89,60,0.2)",
-            "borderColor": "#d15f42",
-            "label": "Total DOS",
-            "lineStyle": "dash",
             "x": [
                 -77.703,
                 -77.683,
@@ -11236,13 +11233,14 @@
                 0.0001402,
                 6.064e-05,
                 1.395e-05
-            ]
+            ],
+            "borderColor": "#d15f42",
+            "backgroundColor": "#ff8ad8",
+            "backgroundAlpha": "52%",
+            "lineStyle": "dash",
+            "label": "Total DOS"
         },
         {
-            "backgroundColor": "rgba(81,158,147,0.2)",
-            "borderColor": "#bf83f1",
-            "label": "CoS up",
-            "lineStyle": "solid",
             "x": [
                 -77.703,
                 -77.683,
@@ -22476,13 +22474,13 @@
                 0.0,
                 0.0,
                 0.0
-            ]
+            ],
+            "lineStyle": "solid",
+            "borderColor": "#bf83f1",
+            "backgroundColor": "#e0103b",
+            "label": "CoS up"
         },
         {
-            "backgroundColor": "rgba(173,194,116,0.2)",
-            "borderColor": "#316b3e",
-            "label": "CoP up",
-            "lineStyle": "solid",
             "x": [
                 -77.703,
                 -77.683,
@@ -33716,13 +33714,13 @@
                 0.0,
                 0.0,
                 0.0
-            ]
+            ],
+            "lineStyle": "solid",
+            "borderColor": "#316b3e",
+            "backgroundColor": "#9667fa",
+            "label": "CoP up"
         },
         {
-            "backgroundColor": "rgba(63,166,240,0.2)",
-            "borderColor": "#0b22d9",
-            "label": "CoD up",
-            "lineStyle": "solid",
             "x": [
                 -77.703,
                 -77.683,
@@ -44956,13 +44954,13 @@
                 0.0,
                 0.0,
                 0.0
-            ]
+            ],
+            "lineStyle": "solid",
+            "borderColor": "#0b22d9",
+            "backgroundColor": "#d44816",
+            "label": "CoD up"
         },
         {
-            "backgroundColor": "rgba(185,209,30,0.2)",
-            "borderColor": "#899dc1",
-            "label": "CoS dn",
-            "lineStyle": "solid",
             "x": [
                 -77.703,
                 -77.683,
@@ -56196,13 +56194,13 @@
                 -2.3657e-06,
                 -4.6459999999999996e-07,
                 -0.0
-            ]
+            ],
+            "lineStyle": "solid",
+            "borderColor": "#899dc1",
+            "backgroundColor": "#307933",
+            "label": "CoS dn"
         },
         {
-            "backgroundColor": "rgba(239,69,145,0.2)",
-            "borderColor": "#ca033d",
-            "label": "CoP dn",
-            "lineStyle": "solid",
             "x": [
                 -77.703,
                 -77.683,
@@ -67436,13 +67434,13 @@
                 -5.0430100000000004e-05,
                 -1.1721520000000001e-05,
                 -0.0
-            ]
+            ],
+            "lineStyle": "solid",
+            "borderColor": "#ca033d",
+            "backgroundColor": "#56dc7d",
+            "label": "CoP dn"
         },
         {
-            "backgroundColor": "rgba(55,48,37,0.2)",
-            "borderColor": "#186eb9",
-            "label": "CoD dn",
-            "lineStyle": "solid",
             "x": [
                 -77.703,
                 -77.683,
@@ -78676,8 +78674,11 @@
                 -2.4290000000000004e-06,
                 -5.592399999999999e-07,
                 0.0
-            ]
+            ],
+            "lineStyle": "solid",
+            "borderColor": "#186eb9",
+            "backgroundColor": "#621b0c",
+            "label": "CoD dn"
         }
-    ],
-    "fermi_energy": 18.249471602831
+    ]
 }
