@@ -119,7 +119,7 @@ class BandsPlotWidget(widgets.DOMWidget):
                 ymin.append(min(ty[index]))
                 ymax.append(max(ty[index]))
 
-            # Set the range of the axis of the density acoording to the 
+            # Set the range of the axis of the density acoording to the
             # maximum and minimum of the DOS. Some empty margin was employed
             self.dos_range = [min(ymin) * 1.05, max(ymax) * 1.05]
             self.dos = deepcopy(temp_dos)
