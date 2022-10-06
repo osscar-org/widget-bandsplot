@@ -60,6 +60,7 @@ class BandsPlotWidget(widgets.DOMWidget):
 
     # yLimit for the plot
     energy_range = Dict({"ymin": -10.0, "ymax": 10.0}).tag(sync=True)
+    dos_range = List().tag(sync=True)
 
     # Band and DOS Fermi energy
     band_fermienergy = List().tag(sync=True)
@@ -109,8 +110,11 @@ class BandsPlotWidget(widgets.DOMWidget):
             self.dos_fermienergy = dos["fermi_energy"]
             temp_dos = deepcopy(dos)
 
+            ymin = []
+            ymax = []
+
             # Convert data to the format for which chart.js can plot directly
-            for i, d_dos in enumerate(temp_dos["dos"]):
+            for d_dos in temp_dos["dos"]:
                 # Truncate the data under given energy range [ymin, ymax]
                 tx = d_dos["x"]
                 ty = d_dos["y"]
@@ -125,8 +129,8 @@ class BandsPlotWidget(widgets.DOMWidget):
                     )
                 )
 
-                temp_dos["dos"][i]["x"] = tx[index].tolist()
-                temp_dos["dos"][i]["y"] = ty[index].tolist()
+                ymin.append(min(ty[index]))
+                ymax.append(max(ty[index]))
 
                 # backgroundColor and backgroundAlpha combined to rgba value
                 bg_color = d_dos.get(
@@ -134,8 +138,12 @@ class BandsPlotWidget(widgets.DOMWidget):
                 )  # grey for as default
 
                 bg_alpha = d_dos.get("backgroundAlpha", "0%")
-                bg_alpha = float(bg_alpha.strip("%") / 100)
+                bg_alpha = float(bg_alpha.strip("%")) / 100
 
                 d_dos["backgroundColor"] = hex_alpha_to_rgba(bg_color, bg_alpha)
+
+            # Set the range of the axis of the density acoording to the
+            # maximum and minimum of the DOS. Some empty margin was employed
+            self.dos_range = [min(ymin) * 1.05, max(ymax) * 1.05]
 
             self.dos = deepcopy(temp_dos)
