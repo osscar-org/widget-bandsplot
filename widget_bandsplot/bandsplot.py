@@ -138,7 +138,7 @@ class BandsPlotWidget(widgets.DOMWidget):
                 )  # grey for as default
 
                 bg_alpha = d_dos.get("backgroundAlpha", "0%")
-                bg_alpha = float(bg_alpha.strip("%") / 100)
+                bg_alpha = float(bg_alpha.strip("%")) / 100
 
                 d_dos["backgroundColor"] = hex_alpha_to_rgba(bg_color, bg_alpha)
 
