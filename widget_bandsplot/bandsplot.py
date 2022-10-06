@@ -114,7 +114,7 @@ class BandsPlotWidget(widgets.DOMWidget):
             ymax = []
 
             # Convert data to the format for which chart.js can plot directly
-            for _i, d_dos in enumerate(temp_dos["dos"]):
+            for d_dos in temp_dos["dos"]:
                 # Truncate the data under given energy range [ymin, ymax]
                 tx = d_dos["x"]
                 ty = d_dos["y"]
