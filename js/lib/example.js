@@ -44,6 +44,19 @@ var BandsplotView = widgets.DOMWidgetView.extend({
     initialize: function () {
         this.uuidCanvas = _.uniqueId('bandsCanvas');
         this.uuidTextbox = _.uniqueId('bandsTextbox');
+	
+	var uuidCanvas = this.uuidCanvas;
+	var uuidTextbox = this.uuidTextbox;
+        var bands = this.model.get('bands');
+        var fdos = this.model.get('dos');
+        var yLimit = this.model.get('energy_range');
+        var dosRange = this.model.get('dos_range');
+        var showFermi = this.model.get('plot_fermilevel');
+        var showLegend = this.model.get('show_legend');
+	
+        $(document).ready(function () {
+            bandPlot(uuidCanvas, uuidTextbox, bands, fdos, showFermi, showLegend, yLimit, dosRange, ['#000000', '#de2d26', '#444444']);
+        });
     },
 
     render: function () {
@@ -99,11 +112,6 @@ var BandsplotView = widgets.DOMWidgetView.extend({
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-downloadFigure" class="button"> Download Figure </button>'
                 + '</div>');
         };
-
-        that = this;
-        $(document).ready(function () {
-            bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, showFermi, showLegend, yLimit, dosRange, ['#000000', '#de2d26', '#444444']);
-        });
     },
 
     value_changed: function () {
