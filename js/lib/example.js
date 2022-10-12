@@ -44,7 +44,7 @@ var BandsplotView = widgets.DOMWidgetView.extend({
     initialize: function () {
         this.uuidCanvas = _.uniqueId('bandsCanvas');
         this.uuidTextbox = _.uniqueId('bandsTextbox');
-	
+
 	var uuidCanvas = this.uuidCanvas;
 	var uuidTextbox = this.uuidTextbox;
         var bands = this.model.get('bands');
@@ -53,7 +53,7 @@ var BandsplotView = widgets.DOMWidgetView.extend({
         var dosRange = this.model.get('dos_range');
         var showFermi = this.model.get('plot_fermilevel');
         var showLegend = this.model.get('show_legend');
-	
+
         $(document).ready(function () {
             bandPlot(uuidCanvas, uuidTextbox, bands, fdos, showFermi, showLegend, yLimit, dosRange, ['#000000', '#de2d26', '#444444']);
         });
