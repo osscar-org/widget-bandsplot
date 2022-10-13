@@ -45,8 +45,8 @@ var BandsplotView = widgets.DOMWidgetView.extend({
         this.uuidCanvas = _.uniqueId('bandsCanvas');
         this.uuidTextbox = _.uniqueId('bandsTextbox');
 
-	var uuidCanvas = this.uuidCanvas;
-	var uuidTextbox = this.uuidTextbox;
+        var uuidCanvas = this.uuidCanvas;
+        var uuidTextbox = this.uuidTextbox;
         var bands = this.model.get('bands');
         var fdos = this.model.get('dos');
         var yLimit = this.model.get('energy_range');
