@@ -54,7 +54,7 @@ var BandsplotView = widgets.DOMWidgetView.extend({
         var showFermi = this.model.get('plot_fermilevel');
         var showLegend = this.model.get('show_legend');
         var bandsColor = this.model.get('bands_color');
-        
+
         $(document).ready(function () {
             bandPlot(uuidCanvas, uuidTextbox, bands, fdos, showFermi, showLegend, yLimit, dosRange, bandsColor);
         });

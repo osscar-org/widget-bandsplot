@@ -1,7 +1,7 @@
 import json
+import random
 from copy import deepcopy
 from importlib import resources
-import random
 
 import ipywidgets as widgets
 import numpy as np
@@ -24,17 +24,19 @@ def hex_alpha_to_rgba(color_hex: str, alpha: float = None) -> str:
     rgba = (*rgb, alpha)
     return f"rgba{str(rgba)}"
 
+
 def generate_random_colors(num: int) -> list:
     colors = []
 
     for _ in range(num):
-        x = "#"+''.join([random.choice('ABCDEF0123456789') for i in range(6)])
-        y = "#"+''.join([random.choice('ABCDEF0123456789') for i in range(6)])
-        z = "#"+''.join([random.choice('ABCDEF0123456789') for i in range(6)])
+        x = "#" + "".join([random.choice("ABCDEF0123456789") for i in range(6)])
+        y = "#" + "".join([random.choice("ABCDEF0123456789") for i in range(6)])
+        z = "#" + "".join([random.choice("ABCDEF0123456789") for i in range(6)])
 
         colors.append([x, y, z])
 
     return colors
+
 
 @widgets.register
 class BandsPlotWidget(widgets.DOMWidget):
@@ -88,7 +90,7 @@ class BandsPlotWidget(widgets.DOMWidget):
     spin_polarized = Bool(False).tag(sync=True)
 
     # The colors for bands data
-    bands_color = List().tag(sync=True) 
+    bands_color = List().tag(sync=True)
 
     def __init__(
         self,
@@ -109,7 +111,7 @@ class BandsPlotWidget(widgets.DOMWidget):
         super().__init__(
             show_legend=show_legend,
             plot_fermilevel=plot_fermilevel,
-            energy_range=energy_range
+            energy_range=energy_range,
         )
 
         if bands is not None:
