@@ -88,8 +88,8 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, showFerm
 
             if (colorInfo !== undefined) {
                 var newColor = tinycolor(colorInfo[dataIdx]);
-                if (colorInfo.length === 3) {
-                    colorDict = colorInfo;
+                if (colorInfo[dataIdx].length === 3) {
+                    colorDict = colorInfo[dataIdx];
                 }
                 else {
                     colorDict = [newColor.toHexString(), newColor.darken(20).toHexString(), newColor.brighten(20).toHexString()];

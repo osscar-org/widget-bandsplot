@@ -1,6 +1,7 @@
 import json
 from copy import deepcopy
 from importlib import resources
+import random
 
 import ipywidgets as widgets
 import numpy as np
@@ -23,6 +24,17 @@ def hex_alpha_to_rgba(color_hex: str, alpha: float = None) -> str:
     rgba = (*rgb, alpha)
     return f"rgba{str(rgba)}"
 
+def generate_random_colors(num: int) -> list:
+    colors = []
+
+    for _ in range(num):
+        x = "#"+''.join([random.choice('ABCDEF0123456789') for i in range(6)])
+        y = "#"+''.join([random.choice('ABCDEF0123456789') for i in range(6)])
+        z = "#"+''.join([random.choice('ABCDEF0123456789') for i in range(6)])
+
+        colors.append([x, y, z])
+
+    return colors
 
 @widgets.register
 class BandsPlotWidget(widgets.DOMWidget):
@@ -75,6 +87,9 @@ class BandsPlotWidget(widgets.DOMWidget):
     # Whether is spin polarized calculations
     spin_polarized = Bool(False).tag(sync=True)
 
+    # The colors for bands data
+    bands_color = List().tag(sync=True) 
+
     def __init__(
         self,
         bands=None,
@@ -83,6 +98,7 @@ class BandsPlotWidget(widgets.DOMWidget):
         show_legend=True,
         plot_fermilevel=True,
         energy_range=None,
+        bands_color=None,
     ):
         if energy_range is None:
             energy_range = {"ymin": -10.0, "ymax": 10.0}
@@ -93,7 +109,7 @@ class BandsPlotWidget(widgets.DOMWidget):
         super().__init__(
             show_legend=show_legend,
             plot_fermilevel=plot_fermilevel,
-            energy_range=energy_range,
+            energy_range=energy_range
         )
 
         if bands is not None:
@@ -101,6 +117,11 @@ class BandsPlotWidget(widgets.DOMWidget):
 
             for i in bands:
                 self.band_fermienergy.append(i["fermi_level"])
+
+            if bands_color is None:
+                self.bands_color = generate_random_colors(len(bands))
+            else:
+                self.bands_color = bands_color
 
         if dos is not None:
             # validate the pdos inputs on schema,
