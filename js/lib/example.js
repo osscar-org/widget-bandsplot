@@ -44,6 +44,19 @@ var BandsplotView = widgets.DOMWidgetView.extend({
     initialize: function () {
         this.uuidCanvas = _.uniqueId('bandsCanvas');
         this.uuidTextbox = _.uniqueId('bandsTextbox');
+
+        var uuidCanvas = this.uuidCanvas;
+        var uuidTextbox = this.uuidTextbox;
+        var bands = this.model.get('bands');
+        var fdos = this.model.get('dos');
+        var yLimit = this.model.get('energy_range');
+        var dosRange = this.model.get('dos_range');
+        var showFermi = this.model.get('plot_fermilevel');
+        var showLegend = this.model.get('show_legend');
+
+        $(document).ready(function () {
+            bandPlot(uuidCanvas, uuidTextbox, bands, fdos, showFermi, showLegend, yLimit, dosRange, ['#000000', '#de2d26', '#444444']);
+        });
     },
 
     render: function () {
@@ -67,8 +80,8 @@ var BandsplotView = widgets.DOMWidgetView.extend({
         var showLegend = this.model.get('show_legend');
 
         if (bands.length && !$.isEmptyObject(fdos)) {
-            this.$el.html('<div class="all-widget"><div id="bandsplot-div" class="bands-plot"> <canvas id="' + this.uuidCanvas + '"> </canvas> </div>'
-                + '<div id="dosplot-div" class="dos-plot"> <canvas id="' + this.uuidCanvas + 'dos"> </canvas> </div>'
+            this.$el.html('<div class="all-widget"><div id="bandsplot-' + this.uuidCanvas + '-div" class="bands-plot"> <canvas id="' + this.uuidCanvas + '"> </canvas> </div>'
+                + '<div id="dosplot-' + this.uuidCanvas + '-div" class="dos-plot"> <canvas id="' + this.uuidCanvas + 'dos"> </canvas> </div>'
                 + '<p> <span class="span-label"> Edit the path:</span > <input id="' + this.uuidTextbox + '" class="bands-input" type="text"></input></p>'
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-reset" class="button"> Reset default path </button>'
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-resetZoom" class="button"> Reset zoom </button>'
@@ -80,7 +93,7 @@ var BandsplotView = widgets.DOMWidgetView.extend({
         };
 
         if (!bands.length && !$.isEmptyObject(fdos)) {
-            this.$el.html('<div class="all-widget"><div id="dosplot-div" class="dos-plot-single"> <canvas id="' + this.uuidCanvas + 'dos"> </canvas> </div>'
+            this.$el.html('<div class="all-widget"><div id="dosplot-' + this.uuidCanvas + '-div" class="dos-plot-single"> <canvas id="' + this.uuidCanvas + 'dos"> </canvas> </div>'
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-resetZoom" class="button"> Reset zoom </button>'
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-dragZoom" class="button"> Drag (or pinch) to zoom </button>'
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-dragPan" class="button-white"> Drag to pan </button>'
@@ -90,7 +103,7 @@ var BandsplotView = widgets.DOMWidgetView.extend({
         };
 
         if (bands.length && $.isEmptyObject(fdos)) {
-            this.$el.html('<div class="all-widget"><div id="bandsplot-div" class="bands-plot-single"> <canvas id="' + this.uuidCanvas + '"> </canvas> </div>'
+            this.$el.html('<div class="all-widget"><div id="bandsplot-' + this.uuidCanvas + '-div" class="bands-plot-single"> <canvas id="' + this.uuidCanvas + '"> </canvas> </div>'
                 + '<p> <span class="span-label"> Edit the path:</span > <input id="' + this.uuidTextbox + '" class="bands-input" type="text"></input></p>'
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-reset" class="button"> Reset default path </button>'
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-resetZoom" class="button"> Reset zoom </button>'
@@ -99,11 +112,6 @@ var BandsplotView = widgets.DOMWidgetView.extend({
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-downloadFigure" class="button"> Download Figure </button>'
                 + '</div>');
         };
-
-        that = this;
-        $(document).ready(function () {
-            bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, showFermi, showLegend, yLimit, dosRange, ['#000000', '#de2d26', '#444444']);
-        });
     },
 
     value_changed: function () {
