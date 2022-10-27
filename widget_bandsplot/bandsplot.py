@@ -31,9 +31,8 @@ def generate_random_colors(num: int) -> list:
     for _ in range(num):
         x = "#" + "".join([random.choice("ABCDEF0123456789") for i in range(6)])
         y = "#" + "".join([random.choice("ABCDEF0123456789") for i in range(6)])
-        z = "#" + "".join([random.choice("ABCDEF0123456789") for i in range(6)])
 
-        colors.append([x, y, z])
+        colors.append([x, y])
 
     return colors
 
