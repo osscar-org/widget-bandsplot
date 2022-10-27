@@ -717,7 +717,7 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
                             showLine: true,
                             pointRadius: 0
                         };
-                        
+
                         if (twoBandTypes && band_idx * 2 >= numBands) series.borderDash = [10, 5];
 
                         bandPlotObject.allSeries.push(series);
