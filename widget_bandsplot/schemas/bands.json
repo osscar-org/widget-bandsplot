@@ -10,7 +10,7 @@
             "type": "array",
             "items": {
                 "type": "array",
-                "items": {"type": "number"}
+                "items": {"type": "string"}
             }
         },
         "paths": {
