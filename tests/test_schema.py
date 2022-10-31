@@ -97,7 +97,7 @@ def test_valid_pdos_default(pdos_schema):
 
 def test_linestyle_typo_catch(pdos_schema):
     data = {
-        "fermi_energy": -7.0,
+        "fermi_level": -7.0,
         "dos": [
             {
                 "label": "Total DOS",
