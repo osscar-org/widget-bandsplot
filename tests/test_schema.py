@@ -10,19 +10,17 @@ def pdos_schema():
     with resources.open_text("widget_bandsplot.schemas", "pdos.json") as fh:
         return json.load(fh)
 
+
 @pytest.fixture(scope="module")
 def bands_schema():
     with resources.open_text("widget_bandsplot.schemas", "bands.json") as fh:
         return json.load(fh)
 
+
 def test_valid_bands_default(bands_schema):
     data = {
         "fermi_energy": -7.0,
-        "path": [
-            ["GAMMA", "Y"],
-            ["Y", "C_0"],
-            ["SIGMA_0", "GAMMA"]
-        ],
+        "path": [["GAMMA", "Y"], ["Y", "C_0"], ["SIGMA_0", "GAMMA"]],
         "paths": [
             {
                 "length": 3,
@@ -33,7 +31,7 @@ def test_valid_bands_default(bands_schema):
                     [1.0, 1.1, 1.2],
                     [2.0, 2.1, 2.2],
                 ],
-                "x": [0.0, 1.0, 2.0]
+                "x": [0.0, 1.0, 2.0],
             },
             {
                 "length": 3,
@@ -44,7 +42,7 @@ def test_valid_bands_default(bands_schema):
                     [1.0, 1.1, 1.2],
                     [2.0, 2.1, 2.2],
                 ],
-                "x": [0.0, 1.0, 2.0]
+                "x": [0.0, 1.0, 2.0],
             },
             {
                 "length": 3,
@@ -55,12 +53,13 @@ def test_valid_bands_default(bands_schema):
                     [1.0, 1.1, 1.2],
                     [2.0, 2.1, 2.2],
                 ],
-                "x": [0.0, 1.0, 2.0]
-            }
-        ]
+                "x": [0.0, 1.0, 2.0],
+            },
+        ],
     }
 
     validate(instance=data, schema=bands_schema)
+
 
 def test_valid_pdos_default(pdos_schema):
     data = {
@@ -94,6 +93,7 @@ def test_valid_pdos_default(pdos_schema):
         ],
     }
     validate(instance=data, schema=pdos_schema)
+
 
 def test_linestyle_typo_catch(pdos_schema):
     data = {

@@ -16,6 +16,7 @@ with resources.open_text("widget_bandsplot.schemas", "pdos.json") as fh:
 with resources.open_text("widget_bandsplot.schemas", "bands.json") as fh:
     BANDS_SCHEMA = json.load(fh)
 
+
 def hex_alpha_to_rgba(color_hex: str, alpha: float = None) -> str:
     h = color_hex.lstrip("#")
     rgb = tuple(int(h[i : i + 2], 16) for i in (0, 2, 4))  # noqa: E203
