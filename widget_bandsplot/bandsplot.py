@@ -13,6 +13,8 @@ from traitlets import Bool, Dict, Float, List, Unicode
 with resources.open_text("widget_bandsplot.schemas", "pdos.json") as fh:
     PDOS_SCHEMA = json.load(fh)
 
+with resources.open_text("widget_bandsplot.schemas", "bands.json") as fh:
+    BANDS_SCHEMA = json.load(fh)
 
 def hex_alpha_to_rgba(color_hex: str, alpha: float = None) -> str:
     h = color_hex.lstrip("#")
@@ -117,6 +119,7 @@ class BandsPlotWidget(widgets.DOMWidget):
             self.bands = bands
 
             for i in bands:
+                validate(instance=i, schema=BANDS_SCHEMA)
                 self.band_fermienergy.append(i["fermi_level"])
 
             if bands_color is None:
