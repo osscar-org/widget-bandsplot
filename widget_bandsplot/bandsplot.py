@@ -1,5 +1,4 @@
 import json
-import random
 from copy import deepcopy
 from importlib import resources
 
@@ -26,18 +25,6 @@ def hex_alpha_to_rgba(color_hex: str, alpha: float = None) -> str:
 
     rgba = (*rgb, alpha)
     return f"rgba{str(rgba)}"
-
-
-def generate_random_colors(num: int) -> list:
-    colors = []
-
-    for _ in range(num):
-        x = "#" + "".join([random.choice("ABCDEF0123456789") for i in range(6)])
-        y = "#" + "".join([random.choice("ABCDEF0123456789") for i in range(6)])
-
-        colors.append([x, y])
-
-    return colors
 
 
 @widgets.register
@@ -116,6 +103,8 @@ class BandsPlotWidget(widgets.DOMWidget):
             energy_range=energy_range,
         )
 
+        default_colors = ["black", "red", "blue", "yellow"]
+
         if bands is not None:
             self.bands = bands
 
@@ -124,7 +113,9 @@ class BandsPlotWidget(widgets.DOMWidget):
                 self.band_fermienergy.append(i["fermi_level"])
 
             if bands_color is None:
-                self.bands_color = generate_random_colors(len(bands))
+                from itertools import cycle, islice
+
+                self.bands_color = list(islice(cycle(default_colors), len(bands)))
             else:
                 self.bands_color = bands_color
 
