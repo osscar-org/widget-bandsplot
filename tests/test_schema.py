@@ -11,6 +11,56 @@ def pdos_schema():
         return json.load(fh)
 
 
+@pytest.fixture(scope="module")
+def bands_schema():
+    with resources.open_text("widget_bandsplot.schemas", "bands.json") as fh:
+        return json.load(fh)
+
+
+def test_valid_bands_default(bands_schema):
+    data = {
+        "fermi_level": -7.0,
+        "path": [["GAMMA", "Y"], ["Y", "C_0"], ["SIGMA_0", "GAMMA"]],
+        "paths": [
+            {
+                "length": 3,
+                "from": "GAMMA",
+                "to": "Y",
+                "values": [
+                    [0.0, 0.1, 0.2],
+                    [1.0, 1.1, 1.2],
+                    [2.0, 2.1, 2.2],
+                ],
+                "x": [0.0, 1.0, 2.0],
+            },
+            {
+                "length": 3,
+                "from": "Y",
+                "to": "C_0",
+                "values": [
+                    [0.0, 0.1, 0.2],
+                    [1.0, 1.1, 1.2],
+                    [2.0, 2.1, 2.2],
+                ],
+                "x": [0.0, 1.0, 2.0],
+            },
+            {
+                "length": 3,
+                "from": "SIGMA_0",
+                "to": "GAMMA",
+                "values": [
+                    [0.0, 0.1, 0.2],
+                    [1.0, 1.1, 1.2],
+                    [2.0, 2.1, 2.2],
+                ],
+                "x": [0.0, 1.0, 2.0],
+            },
+        ],
+    }
+
+    validate(instance=data, schema=bands_schema)
+
+
 def test_valid_pdos_default(pdos_schema):
     data = {
         "fermi_energy": -7.0,

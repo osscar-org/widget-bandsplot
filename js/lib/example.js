@@ -53,9 +53,10 @@ var BandsplotView = widgets.DOMWidgetView.extend({
         var dosRange = this.model.get('dos_range');
         var showFermi = this.model.get('plot_fermilevel');
         var showLegend = this.model.get('show_legend');
+        var bandsColor = this.model.get('bands_color');
 
         $(document).ready(function () {
-            bandPlot(uuidCanvas, uuidTextbox, bands, fdos, showFermi, showLegend, yLimit, dosRange, ['#000000', '#de2d26', '#444444']);
+            bandPlot(uuidCanvas, uuidTextbox, bands, fdos, showFermi, showLegend, yLimit, dosRange, bandsColor);
         });
     },
 
@@ -125,8 +126,9 @@ var BandsplotView = widgets.DOMWidgetView.extend({
         var dosRange = this.model.get('dos_range');
         var showFermi = this.model.get('plot_fermilevel');
         var showLegend = this.model.get('show_legend');
+        var bandsColor = this.model.get('bands_color');
 
-        bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, showFermi, showLegend, yLimit, dosRange, ['#000000', '#de2d26', '#444444']);
+        bandPlot(that.uuidCanvas, that.uuidTextbox, bands, fdos, showFermi, showLegend, yLimit, dosRange, bandsColor);
     }
 });
 

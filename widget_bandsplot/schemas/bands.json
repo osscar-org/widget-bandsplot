@@ -1,0 +1,40 @@
+{
+    "$id": "https://raw.githubusercontent.com/osscar-org/widget-bandsplot/main/widget_bandsplot/schemas/bands.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "description": "JSON Schema for a bandstructure entry",
+    "type": "object",
+    "required": ["path", "paths", "fermi_level"],
+    "properties": {
+        "fermi_level": {"type": "number"},
+        "path": {
+            "type": "array",
+            "items": {
+                "type": "array",
+                "items": {"type": "string"}
+            }
+        },
+        "paths": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": ["from", "to", "values", "x"],
+                "properties": {
+                    "from": {"type": "string"},
+                    "to": {"type": "string"},
+                    "x": {
+                        "type": "array",
+                        "items": {"type": "number"}
+                    },
+                    "values": {
+                        "type": "array",
+                        "items": {
+                            "type": "array",
+                            "items": {"type": "number"}
+                        }
+                    },
+                    "two_band_types": {"type": "boolean"}
+                }
+            }
+        }
+    }
+}

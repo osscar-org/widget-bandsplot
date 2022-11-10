@@ -87,11 +87,17 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, showFerm
             var colorDict;
 
             if (colorInfo !== undefined) {
-                var newColor = tinycolor(colorInfo[dataIdx]);
-                if (colorInfo.length === 3) {
-                    colorDict = colorInfo;
+                if (typeof colorInfo[dataIdx] === "object") {
+                    var newColor = tinycolor('red');
+                    colorDict = [newColor, colorInfo[dataIdx][0], colorInfo[dataIdx][1]];
+                }
+                else if (typeof colorInfo[dataIdx] === "string") {
+                    var newColor = tinycolor(colorInfo[dataIdx]);
+                    colorDict = [newColor.toHexString(), newColor.darken(20).toHexString(), newColor.brighten(20).toHexString()];
                 }
                 else {
+                    // default bandstructure color is red
+                    var newColor = tinycolor('red');
                     colorDict = [newColor.toHexString(), newColor.darken(20).toHexString(), newColor.brighten(20).toHexString()];
                 }
             }

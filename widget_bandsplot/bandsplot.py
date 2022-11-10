@@ -12,6 +12,9 @@ from traitlets import Bool, Dict, Float, List, Unicode
 with resources.open_text("widget_bandsplot.schemas", "pdos.json") as fh:
     PDOS_SCHEMA = json.load(fh)
 
+with resources.open_text("widget_bandsplot.schemas", "bands.json") as fh:
+    BANDS_SCHEMA = json.load(fh)
+
 
 def hex_alpha_to_rgba(color_hex: str, alpha: float = None) -> str:
     h = color_hex.lstrip("#")
@@ -75,6 +78,9 @@ class BandsPlotWidget(widgets.DOMWidget):
     # Whether is spin polarized calculations
     spin_polarized = Bool(False).tag(sync=True)
 
+    # The colors for bands data
+    bands_color = List().tag(sync=True)
+
     def __init__(
         self,
         bands=None,
@@ -83,6 +89,7 @@ class BandsPlotWidget(widgets.DOMWidget):
         show_legend=True,
         plot_fermilevel=True,
         energy_range=None,
+        bands_color=None,
     ):
         if energy_range is None:
             energy_range = {"ymin": -10.0, "ymax": 10.0}
@@ -96,11 +103,21 @@ class BandsPlotWidget(widgets.DOMWidget):
             energy_range=energy_range,
         )
 
+        default_colors = ["black", "red", "blue", "yellow"]
+
         if bands is not None:
             self.bands = bands
 
             for i in bands:
+                validate(instance=i, schema=BANDS_SCHEMA)
                 self.band_fermienergy.append(i["fermi_level"])
+
+            if bands_color is None:
+                from itertools import cycle, islice
+
+                self.bands_color = list(islice(cycle(default_colors), len(bands)))
+            else:
+                self.bands_color = bands_color
 
         if dos is not None:
             # validate the pdos inputs on schema,
