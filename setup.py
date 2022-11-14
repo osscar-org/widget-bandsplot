@@ -16,12 +16,12 @@ jstargets = [JS_DIR / "dist" / "index.js"]
 data_files_spec = [
     (
         "share/jupyter/nbextensions/widget-bandsplot",
-        "widget-bandsplot/nbextension",
+        "widget_bandsplot/nbextension",
         "*.*",
     ),
     (
         "share/jupyter/labextensions/widget-bandsplot",
-        "widget-bandsplot/labextension",
+        "widget_bandsplot/labextension",
         "**",
     ),
     ("share/jupyter/labextensions/widget-bandsplot", ".", "install.json"),
