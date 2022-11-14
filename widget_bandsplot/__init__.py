@@ -1,5 +1,5 @@
-from ._version import __version__, version_info
 from .bandsplot import *
+from .version import __version__
 
 
 def _jupyter_labextension_paths():
