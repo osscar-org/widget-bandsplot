@@ -1,0 +1,23 @@
+---
+# Run binder build for downstream test and quick binder load.
+
+name: downstream-integration
+
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: 41 3 * * *
+    push:
+        branches:
+            - main
+
+jobs:
+
+    trigger-binder-build:
+        if: github.repository == 'osscar-org/widget-bandsplot'
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: s-weigand/trigger-mybinder-build@v1
+              with:
+                  target-repo: osscar-org/widget-bandsplot/main
