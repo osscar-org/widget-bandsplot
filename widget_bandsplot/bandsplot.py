@@ -7,7 +7,7 @@ import numpy as np
 from jsonschema import validate
 from traitlets import Bool, Dict, Float, List, Unicode
 
-# See js/lib/example.js for the frontend counterpart to this file.
+# See js/lib/bandsplot.js for the frontend counterpart to this file.
 
 with resources.open_text("widget_bandsplot.schemas", "pdos.json") as fh:
     PDOS_SCHEMA = json.load(fh)
