@@ -3,13 +3,13 @@ name: Publish on Test PyPI and PyPI
 
 on:
     push:
-      #   branches:
-      # # Commits pushed to release/ branches are published on Test PyPI if they
-      # # have a new version number.
-      #       - release/**
-      #   tags:
-      # # Tags that start with the "v" prefix are published on PyPI.
-      #       - v*
+        branches:
+      # Commits pushed to release/ branches are published on Test PyPI if they
+      # have a new version number.
+            - release/**
+        tags:
+      # Tags that start with the "v" prefix are published on PyPI.
+            - v*
 
 jobs:
 
