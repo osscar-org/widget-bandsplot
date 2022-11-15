@@ -1,7 +1,7 @@
 **widget-bandsplot**: Jupyter Widget to Plot Band Structure and Density of States
 ===============================
 [![PyPI version](https://badge.fury.io/py/widget-bandsplot.svg)](https://badge.fury.io/py/widget-bandsplot)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/osscar-org/widget-bandsplot/binder?labpath=examples%2Fbandsplot-example.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/osscar-org/widget-bandsplot/main?labpath=%2Fexamples%2Fbandsplot-example.ipynb)
 
 A Jupyter widget to plot band structures and density of states. The widget is using the
 [bands-widget](https://github.com/materialscloud-org/bands-widget) Javascript package,
