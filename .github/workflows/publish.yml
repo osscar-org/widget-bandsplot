@@ -3,13 +3,13 @@ name: Publish on Test PyPI and PyPI
 
 on:
     push:
-        branches:
-      # Commits pushed to release/ branches are published on Test PyPI if they
-      # have a new version number.
-            - release/**
-        tags:
-      # Tags that start with the "v" prefix are published on PyPI.
-            - v*
+      #   branches:
+      # # Commits pushed to release/ branches are published on Test PyPI if they
+      # # have a new version number.
+      #       - release/**
+      #   tags:
+      # # Tags that start with the "v" prefix are published on PyPI.
+      #       - v*
 
 jobs:
 
@@ -43,36 +43,66 @@ jobs:
                   name: release
                   path: dist/
 
-    publish:
+    publish-test:
 
-        name: Build and publish on PyPI
-        if: startsWith(github.ref, 'refs/tags')
+        name: Build and publish on TestPyPI
+        if: >
+            startsWith(github.ref, 'refs/heads/release/') ||
+            startsWith(github.ref, 'refs/tags/')
 
         needs: [build]
         runs-on: ubuntu-latest
 
         environment:
-            name: PyPI
-            url: https://pypi.org/project/widget-bandsplot/
+            name: Test PyPI
+            url: https://test.pypi.org/project/widget-bandsplot/
 
         steps:
-
             - uses: actions/download-artifact@v2
               name: Download distribution artifact
               with:
                   name: release
                   path: dist/
 
-            - uses: softprops/action-gh-release@v0.1.14
-              name: Create release
-              if: startsWith(github.ref, 'refs/tags/v')
-              with:
-                  files: |
-                      dist/*
-                  generate_release_notes: true
-
-            - name: Publish distribution on PyPI
+            - name: Publish distribution on Test PyPI
               uses: pypa/gh-action-pypi-publish@release/v1
+              if: startsWith(github.ref, 'refs/heads/release/')
               with:
                   user: __token__
                   password: ${{ secrets.PYPI_API_TOKEN }}
+                  repository_url: https://test.pypi.org/legacy/
+                  skip_existing: true
+
+    # publish:
+
+    #     name: Build and publish on PyPI
+    #     if: startsWith(github.ref, 'refs/tags')
+
+    #     needs: [build]
+    #     runs-on: ubuntu-latest
+
+    #     environment:
+    #         name: PyPI
+    #         url: https://pypi.org/project/widget-bandsplot/
+
+    #     steps:
+
+    #         - uses: actions/download-artifact@v2
+    #           name: Download distribution artifact
+    #           with:
+    #               name: release
+    #               path: dist/
+
+    #         - uses: softprops/action-gh-release@v0.1.14
+    #           name: Create release
+    #           if: startsWith(github.ref, 'refs/tags/v')
+    #           with:
+    #               files: |
+    #                   dist/*
+    #               generate_release_notes: true
+
+    #         - name: Publish distribution on PyPI
+    #           uses: pypa/gh-action-pypi-publish@release/v1
+    #           with:
+    #               user: __token__
+    #               password: ${{ secrets.PYPI_API_TOKEN }}
