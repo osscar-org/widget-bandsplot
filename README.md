@@ -111,6 +111,20 @@ Then you need to rebuild the JS when you make a code change:
 
 You then need to refresh the JupyterLab page when your javascript changes.
 
+## For maintainers
+
+To create a new release, clone the repository, install development dependencies with `pip install -e '.[dev]'`, and then execute `bumpver update [--major|--minor|--patch] [--tag [alpha|beta|rc]]`.
+This will:
+
+  1. Create a tagged release with bumped version and push it to the repository.
+  2. Trigger a GitHub actions workflow that creates a GitHub release and publishes it on PyPI.
+
+Additional notes:
+
+  - Use the `--dry` option to preview the release change.
+  - The release tag (e.g. a/b/rc) is determined from the last release.
+    Use the `--tag` option to switch the release tag.
+  - This packages follows semantic versioning.
 
 ## Acknowledgements
 
