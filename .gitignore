@@ -8,6 +8,7 @@ node_modules/
 # Compiled javascript
 widget_bandsplot/nbextension/
 widget_bandsplot/labextension/
+js/yarn.lock
 
 # OS X
 .DS_Store
