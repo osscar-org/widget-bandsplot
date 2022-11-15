@@ -43,6 +43,36 @@ jobs:
                   name: release
                   path: dist/
 
+    publish-test:
+
+        name: Build and publish on TestPyPI
+        if: >
+            startsWith(github.ref, 'refs/heads/release/') ||
+            startsWith(github.ref, 'refs/tags/')
+
+        needs: [build]
+        runs-on: ubuntu-latest
+
+        environment:
+            name: Test PyPI
+            url: https://test.pypi.org/project/widget-bandsplot/
+
+        steps:
+            - uses: actions/download-artifact@v2
+              name: Download distribution artifact
+              with:
+                  name: release
+                  path: dist/
+
+            - name: Publish distribution on Test PyPI
+              uses: pypa/gh-action-pypi-publish@release/v1
+              if: startsWith(github.ref, 'refs/heads/release/')
+              with:
+                  user: __token__
+                  password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+                  repository_url: https://test.pypi.org/legacy/
+                  skip_existing: true
+
     publish:
 
         name: Build and publish on PyPI
