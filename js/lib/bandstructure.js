@@ -760,7 +760,7 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
 
     bandPlotObject.yLabel = bandPlotObject.allData[0].Y_label;
     if (bandPlotObject.yLabel === undefined) {
-        bandPlotObject.yLabel = 'Electronic bands (eV)';
+        bandPlotObject.yLabel = 'E - Ef (eV)';
     }
 
     if (bandPlotObject.myChart === undefined) {
