@@ -261,6 +261,19 @@ BandPlot.prototype.initChart = function (ticksData) {
                     }
                 }]
             },
+            annotation: {
+                annotations: [
+                    {
+                        type: 'line',
+                        id: 'band-fermi',
+                        scaleID: 'bandA',
+                        mode: 'vertical',
+                        value: 0,
+                        borderColor: 'red',
+                        borderWidth: 2,
+                    }
+                ]
+            },
             zoom: {
                 enabled: true,
                 mode: "y",
