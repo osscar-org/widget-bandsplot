@@ -20,6 +20,7 @@ def bands_schema():
 def test_valid_bands_default(bands_schema):
     data = {
         "fermi_level": -7.0,
+        "color-partial bands (only one field is needed for this case.)": "blue",
         "path": [["GAMMA", "Y"], ["Y", "C_0"], ["SIGMA_0", "GAMMA"]],
         "paths": [
             {
@@ -31,6 +32,11 @@ def test_valid_bands_default(bands_schema):
                     [1.0, 1.1, 1.2],
                     [2.0, 2.1, 2.2],
                 ],
+                "highlight (thickness of the bands) (optional)": [
+                    [0.0, 0.1, 0.2],
+                    [1.0, 1.1, 1.2],
+                    [2.0, 2.1, 2.2],
+                ]
                 "x": [0.0, 1.0, 2.0],
             },
             {
