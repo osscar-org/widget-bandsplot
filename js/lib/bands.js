@@ -139,6 +139,20 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, showFerm
                 a.click();
             }
         }
+
+        var theDownloadJsonButton = document.getElementById(bandDivId + "bt-downloadJson");
+        theDownloadJsonButton.onclick = function () {
+            if ($.isEmptyObject(dosFile)) {
+                var a = document.createElement('a');
+                if (dataFilePaths.length) {
+                    dataFilePaths.forEach(function (dataFilePath, dataIdx) {
+                        a.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataFilePath));
+                        a.download = 'bandData'+dataIdx+'.json';
+                        a.click();
+                    })
+                }
+            }
+        }
     };
 
     if (!$.isEmptyObject(dosFile)) {
