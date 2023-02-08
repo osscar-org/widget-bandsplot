@@ -139,6 +139,20 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, showFerm
                 a.click();
             }
         }
+
+        var theDownloadJsonButton = document.getElementById(bandDivId + "bt-downloadJson");
+        theDownloadJsonButton.onclick = function () {
+            if ($.isEmptyObject(dosFile)) {
+                var a = document.createElement('a');
+                if (dataFilePaths.length) {
+                    dataFilePaths.forEach(function (dataFilePath, dataIdx) {
+                        a.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataFilePath));
+                        a.download = 'bandData' + dataIdx + '.json';
+                        a.click();
+                    })
+                }
+            }
+        }
     };
 
     if (!$.isEmptyObject(dosFile)) {
@@ -191,6 +205,28 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, showFerm
                 a.download = 'dos.png';
             };
             a.click();
+        }
+
+        var theDownloadJsonButton = document.getElementById(bandDivId + "bt-downloadJson");
+        theDownloadJsonButton.onclick = function () {
+            var a = document.createElement('a');
+
+            if (dataFilePaths.length) {
+                dataFilePaths.forEach(function (dataFilePath, dataIdx) {
+                    a.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataFilePath));
+                    a.download = 'bandData' + dataIdx + '.json';
+                    a.click();
+
+                })
+                a.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dosFile));
+                a.download = 'dosData.json';
+                a.click();
+            }
+            else {
+                a.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dosFile));
+                a.download = 'dosData.json';
+                a.click();
+            }
         }
     };
 

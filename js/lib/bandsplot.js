@@ -90,6 +90,7 @@ var BandsplotView = widgets.DOMWidgetView.extend({
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-dragPan" class="button-white"> Drag to pan </button>'
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-togglePdos" class="button"> Toggle PDOS </button>'
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-downloadFigure" class="button"> Download Figure </button>'
+                + '<button type="button" id="' + this.uuidCanvas + 'bt-downloadJson" class="button"> Download Json </button>'
                 + '</div>');
         };
 
@@ -100,6 +101,7 @@ var BandsplotView = widgets.DOMWidgetView.extend({
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-dragPan" class="button-white"> Drag to pan </button>'
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-togglePdos" class="button"> Toggle PDOS </button>'
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-downloadFigure" class="button"> Download Figure </button>'
+                + '<button type="button" id="' + this.uuidCanvas + 'bt-downloadJson" class="button"> Download Json </button>'
                 + '</div>');
         };
 
@@ -111,6 +113,7 @@ var BandsplotView = widgets.DOMWidgetView.extend({
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-dragZoom" class="button"> Drag (or pinch) to zoom </button>'
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-dragPan" class="button-white"> Drag to pan </button>'
                 + '<button type="button" id="' + this.uuidCanvas + 'bt-downloadFigure" class="button"> Download Figure </button>'
+                + '<button type="button" id="' + this.uuidCanvas + 'bt-downloadJson" class="button"> Download Json </button>'
                 + '</div>');
         };
     },
