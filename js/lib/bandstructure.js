@@ -803,7 +803,7 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
     });
 
     var dos = {
-        borderColor: 'black',
+        borderColor: 'white',
         hidden: false,
         borderWidth: 1,
         data: curve,
