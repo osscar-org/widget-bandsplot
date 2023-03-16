@@ -332,6 +332,12 @@ BandPlot.prototype.initDosChart = function (orientation = 'vertical') {
                 legend: {
                     display: this.showLegend,
                     position: 'right',
+                    labels: {
+                        filter: function(item, chart) {
+                        // Logic to remove a particular legend item goes here
+                            return !item.text.includes('test');
+                        }
+                    }
                 },
                 scales: {
                     xAxes: [{
@@ -784,6 +790,31 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
     bandPlotObject.dosSeries = [];
     curve = [];
 
+
+    var dosx = bandPlotObject.dosData['dos'][0]['x'];
+    var dosy = bandPlotObject.dosData['dos'][0]['y'];
+
+    dosx.forEach(function (data, k) {
+        if (orientation === 'vertical') {
+            curve.push({ x: 0, y: data - bandPlotObject.dosFermiEnergy });
+        } else {
+            curve.push({ x: data - bandPlotObject.dosFermiEnergy, y: 0 });
+        };
+    });
+
+    var dos = {
+        borderColor: 'black',
+        hidden: false,
+        borderWidth: 1,
+        data: curve,
+        fill: false,
+        showLine: true,
+        pointRadius: 0,
+        label: 'test'
+    };
+
+    bandPlotObject.dosSeries.push(dos);
+
     for (let i = 0; i < bandPlotObject.dosData['dos'].length; i++) {
         curve = [];
 
@@ -804,7 +835,7 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
             hidden: false,
             borderWidth: 1,
             data: curve,
-            fill: true,
+            fill: '-1',
             showLine: true,
             pointRadius: 0,
             label: bandPlotObject.dosData['dos'][i]['label'],
