@@ -170,7 +170,7 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, showFerm
                 $("#" + bandDivId + "bt-togglePdos").addClass("button-white");
                 $("#" + bandDivId + "bt-togglePdos").removeClass("button");
 
-                for (var i = 1; i < theBandPlot.dosSeries.length; i++) {
+                for (var i = 2; i < theBandPlot.dosSeries.length; i++) {
                     theBandPlot.dosSeries[i].hidden = true;
                 };
                 theBandPlot.myDos.update();
@@ -179,7 +179,7 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, showFerm
                 $("#" + bandDivId + "bt-togglePdos").addClass("button");
                 $("#" + bandDivId + "bt-togglePdos").removeClass("button-white");
 
-                for (var i = 1; i < theBandPlot.dosSeries.length; i++) {
+                for (var i = 2; i < theBandPlot.dosSeries.length; i++) {
                     theBandPlot.dosSeries[i].hidden = false;
                 };
                 theBandPlot.myDos.update();
