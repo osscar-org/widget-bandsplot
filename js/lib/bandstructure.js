@@ -335,7 +335,7 @@ BandPlot.prototype.initDosChart = function (orientation = 'vertical') {
                     labels: {
                         filter: function(item, chart) {
                         // Logic to remove a particular legend item goes here
-                            return !item.text.includes('test');
+                            return !item.text.includes('y axis');
                         }
                     }
                 },
@@ -810,7 +810,7 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
         fill: false,
         showLine: true,
         pointRadius: 0,
-        label: 'test'
+        label: 'y axis'
     };
 
     bandPlotObject.dosSeries.push(dos);
