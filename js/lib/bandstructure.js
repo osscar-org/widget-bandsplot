@@ -334,7 +334,7 @@ BandPlot.prototype.initDosChart = function (orientation = 'vertical') {
                     position: 'right',
                     labels: {
                         filter: function(item, chart) {
-                        // Logic to remove a particular legend item goes here
+                        // remove the label for the dumb dataset of the y axis
                             return !item.text.includes('y axis');
                         }
                     }
@@ -791,6 +791,8 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
     curve = [];
 
 
+    // Here, a dumb dataset was created to represent the y axis. 
+    // All the DOS curves were filled to this dumb dataset.
     var dosx = bandPlotObject.dosData['dos'][0]['x'];
     var dosy = bandPlotObject.dosData['dos'][0]['y'];
 
@@ -802,6 +804,7 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
         };
     });
 
+    // The color of the dumb dataset is white, label is 'y axis' 
     var dos = {
         borderColor: 'white',
         hidden: false,
