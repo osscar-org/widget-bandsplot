@@ -791,7 +791,7 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
     curve = [];
 
 
-    // Here, a dumb dataset was created to represent the y axis. 
+    // Here, a dumb dataset was created to represent the y axis.
     // All the DOS curves were filled to this dumb dataset.
     var dosx = bandPlotObject.dosData['dos'][0]['x'];
     var dosy = bandPlotObject.dosData['dos'][0]['y'];
@@ -804,7 +804,7 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
         };
     });
 
-    // The color of the dumb dataset is white, label is 'y axis' 
+    // The color of the dumb dataset is white, label is 'y axis'
     var dos = {
         borderColor: 'white',
         hidden: false,
