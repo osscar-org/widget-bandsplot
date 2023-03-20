@@ -798,9 +798,13 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
 
     dosx.forEach(function (data, k) {
         if (orientation === 'vertical') {
-            curve.push({ x: 0, y: data - bandPlotObject.dosFermiEnergy });
+	    if (data <= bandPlotObject.dosFermiEnergy) {
+            	curve.push({ x: 0, y: data - bandPlotObject.dosFermiEnergy });
+	    };
         } else {
-            curve.push({ x: data - bandPlotObject.dosFermiEnergy, y: 0 });
+	    if (data <= bandPlotObject.dosFermiEnergy) {
+            	curve.push({ x: data - bandPlotObject.dosFermiEnergy, y: 0 });
+	    };
         };
     });
 
