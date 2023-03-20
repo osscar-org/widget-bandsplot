@@ -449,6 +449,12 @@ BandPlot.prototype.initDosChart = function (orientation = 'vertical') {
                 legend: {
                     display: true,
                     position: 'right',
+                    labels: {
+                        filter: function(item, chart) {
+                        // remove the label for the dumb dataset of the y axis
+                            return !item.text.includes('y axis');
+                        }
+                    }
                 },
                 scales: {
                     yAxes: [{
