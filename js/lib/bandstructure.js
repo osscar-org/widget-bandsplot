@@ -826,7 +826,7 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
         label: 'y axis'
     };
 
-    bandPlotObject.dosSeries.push(dos);
+    bandPlotObject.dosSeries.push(dumb_dos);
 
     for (let i = 0; i < bandPlotObject.dosData['dos'].length; i++) {
         curve = [];
