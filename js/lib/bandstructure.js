@@ -848,7 +848,7 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
             hidden: false,
             borderWidth: 1,
             data: curve,
-            fill: '-1',
+            fill: 0,
             showLine: true,
             pointRadius: 0,
             label: bandPlotObject.dosData['dos'][i]['label'],
