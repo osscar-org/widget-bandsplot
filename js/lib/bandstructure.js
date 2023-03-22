@@ -802,6 +802,8 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
     var dosx = bandPlotObject.dosData['dos'][0]['x'];
     var dosy = bandPlotObject.dosData['dos'][0]['y'];
 
+    // The dumb dataset was set to the Fermi level (<= dosFermiEnergy)
+    // So the color fill will up to the Fermi level
     dosx.forEach(function (data, k) {
         if (orientation === 'vertical') {
 	    if (data <= bandPlotObject.dosFermiEnergy) {
