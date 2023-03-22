@@ -170,7 +170,9 @@ function bandPlot(bandDivId, bandPathTextBoxId, dataFilePaths, dosFile, showFerm
                 $("#" + bandDivId + "bt-togglePdos").addClass("button-white");
                 $("#" + bandDivId + "bt-togglePdos").removeClass("button");
 
-		// The PDOS curves start from 2. 0 is for the dumb datset of y axis. And 1 is the total DOS
+		// The PDOS curves start from index 2. 
+		// Index 0 is for the dumb datset of y axis add to workaround the step change issue #49 . 
+		// Index 1 is for total DOS (The widget don't know if the first set of data is TDOS or not, this need to be polish in future.)
                 for (var i = 2; i < theBandPlot.dosSeries.length; i++) {
                     theBandPlot.dosSeries[i].hidden = true;
                 };
