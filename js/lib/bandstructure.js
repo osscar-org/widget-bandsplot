@@ -815,7 +815,7 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
     });
 
     // The color of the dumb dataset is white, label is 'y axis'
-    var dos = {
+    var dumb_dos = {
         borderColor: 'white',
         hidden: false,
         borderWidth: 1,
