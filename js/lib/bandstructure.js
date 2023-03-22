@@ -332,6 +332,12 @@ BandPlot.prototype.initDosChart = function (orientation = 'vertical') {
                 legend: {
                     display: this.showLegend,
                     position: 'right',
+                    labels: {
+                        filter: function(item, chart) {
+                        // remove the label for the dumb dataset of the y axis
+                            return !item.text.includes('y axis');
+                        }
+                    }
                 },
                 scales: {
                     xAxes: [{
@@ -443,6 +449,12 @@ BandPlot.prototype.initDosChart = function (orientation = 'vertical') {
                 legend: {
                     display: true,
                     position: 'right',
+                    labels: {
+                        filter: function(item, chart) {
+                        // remove the label for the dumb dataset of the y axis
+                            return !item.text.includes('y axis');
+                        }
+                    }
                 },
                 scales: {
                     yAxes: [{
@@ -784,6 +796,40 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
     bandPlotObject.dosSeries = [];
     curve = [];
 
+
+    // Here, a dumb dataset was created to represent the y axis.
+    // All the DOS curves were filled to this dumb dataset.
+    var dosx = bandPlotObject.dosData['dos'][0]['x'];
+    var dosy = bandPlotObject.dosData['dos'][0]['y'];
+
+    // The dumb dataset was set to the Fermi level (<= dosFermiEnergy)
+    // So the color fill will up to the Fermi level
+    dosx.forEach(function (data, k) {
+        if (orientation === 'vertical') {
+	    if (data <= bandPlotObject.dosFermiEnergy) {
+            	curve.push({ x: 0, y: data - bandPlotObject.dosFermiEnergy });
+	    };
+        } else {
+	    if (data <= bandPlotObject.dosFermiEnergy) {
+            	curve.push({ x: data - bandPlotObject.dosFermiEnergy, y: 0 });
+	    };
+        };
+    });
+
+    // The color of the dumb dataset is white, label is 'y axis'
+    var dumb_dos = {
+        borderColor: 'white',
+        hidden: false,
+        borderWidth: 1,
+        data: curve,
+        fill: false,
+        showLine: true,
+        pointRadius: 0,
+        label: 'y axis'
+    };
+
+    bandPlotObject.dosSeries.push(dumb_dos);
+
     for (let i = 0; i < bandPlotObject.dosData['dos'].length; i++) {
         curve = [];
 
@@ -804,7 +850,7 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
             hidden: false,
             borderWidth: 1,
             data: curve,
-            fill: true,
+            fill: 0,
             showLine: true,
             pointRadius: 0,
             label: bandPlotObject.dosData['dos'][i]['label'],
