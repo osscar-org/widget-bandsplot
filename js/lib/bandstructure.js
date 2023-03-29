@@ -244,6 +244,7 @@ BandPlot.prototype.initChart = function (ticksData) {
                     }
                 }],
                 yAxes: [{
+                    id: 'bandA',
                     display: true,
                     ticks: {
                         // change the label of the ticks
@@ -267,10 +268,16 @@ BandPlot.prototype.initChart = function (ticksData) {
                         type: 'line',
                         id: 'band-fermi',
                         scaleID: 'bandA',
-                        mode: 'vertical',
+                        mode: 'horizontal',
                         value: 0,
                         borderColor: 'red',
                         borderWidth: 2,
+                        label: {
+                            enabled: true,
+                            position: "center",
+                            content: "Fermi",
+                            yAdjust: 0,
+                        }
                     }
                 ]
             },
