@@ -195,6 +195,21 @@ BandPlot.prototype.initChart = function (ticksData) {
 
     var bandPlotObject = this;
 
+    if (this.showFermi === false) {
+        annotations = {};
+    }
+    else {
+        annotations = {
+            type: 'line',
+            id: 'band-fermi',
+            scaleID: 'bandA',
+            mode: 'horizontal',
+            value: 0,
+            borderColor: 'red',
+            borderWidth: 2
+        }
+    }
+
     var chartOptions = {
         type: 'scatter',
         data: {
@@ -244,6 +259,7 @@ BandPlot.prototype.initChart = function (ticksData) {
                     }
                 }],
                 yAxes: [{
+                    id: 'bandA',
                     display: true,
                     ticks: {
                         // change the label of the ticks
@@ -260,6 +276,9 @@ BandPlot.prototype.initChart = function (ticksData) {
                         display: false
                     }
                 }]
+            },
+            annotation: {
+                annotations: [ annotations ]
             },
             zoom: {
                 enabled: true,
@@ -333,8 +352,8 @@ BandPlot.prototype.initDosChart = function (orientation = 'vertical') {
                     display: this.showLegend,
                     position: 'right',
                     labels: {
-                        filter: function(item, chart) {
-                        // remove the label for the dumb dataset of the y axis
+                        filter: function (item, chart) {
+                            // remove the label for the dumb dataset of the y axis
                             return !item.text.includes('y axis');
                         }
                     }
@@ -450,8 +469,8 @@ BandPlot.prototype.initDosChart = function (orientation = 'vertical') {
                     display: true,
                     position: 'right',
                     labels: {
-                        filter: function(item, chart) {
-                        // remove the label for the dumb dataset of the y axis
+                        filter: function (item, chart) {
+                            // remove the label for the dumb dataset of the y axis
                             return !item.text.includes('y axis');
                         }
                     }
@@ -772,7 +791,7 @@ BandPlot.prototype.updateBandPlot = function (bandPath, forceRedraw) {
 
     bandPlotObject.yLabel = bandPlotObject.allData[0].Y_label;
     if (bandPlotObject.yLabel === undefined) {
-        bandPlotObject.yLabel = 'Electronic bands (eV)';
+        bandPlotObject.yLabel = 'E - Ef (eV)';
     }
 
     if (bandPlotObject.myChart === undefined) {
@@ -806,13 +825,13 @@ BandPlot.prototype.updateDosPlot = function (orientation = 'vertical') {
     // So the color fill will up to the Fermi level
     dosx.forEach(function (data, k) {
         if (orientation === 'vertical') {
-	    if (data <= bandPlotObject.dosFermiEnergy) {
-            	curve.push({ x: 0, y: data - bandPlotObject.dosFermiEnergy });
-	    };
+            if (data <= bandPlotObject.dosFermiEnergy) {
+                curve.push({ x: 0, y: data - bandPlotObject.dosFermiEnergy });
+            };
         } else {
-	    if (data <= bandPlotObject.dosFermiEnergy) {
-            	curve.push({ x: data - bandPlotObject.dosFermiEnergy, y: 0 });
-	    };
+            if (data <= bandPlotObject.dosFermiEnergy) {
+                curve.push({ x: data - bandPlotObject.dosFermiEnergy, y: 0 });
+            };
         };
     });
 
