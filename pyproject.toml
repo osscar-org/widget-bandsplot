@@ -11,7 +11,11 @@ dependencies = [
 readme = "README.md"
 
 [project.optional-dependencies]
-dev = ["watchfiles", "jupyterlab"]
+dev = [
+  "watchfiles",
+  "jupyterlab",
+  "bumpver==2023.1129",
+]
 
 # automatically add the dev feature to the default env (e.g., hatch shell)
 [tool.hatch.envs.default]
@@ -31,3 +35,17 @@ dependencies = ["hatch-jupyter-builder>=0.5.0"]
 [tool.hatch.build.hooks.jupyter-builder.build-kwargs]
 npm = "npm"
 build_cmd = "build"
+
+[tool.bumpver]
+current_version = "v0.6.0"
+version_pattern = "vMAJOR.MINOR.PATCH[PYTAGNUM]"
+commit_message = "Bump version {old_version} -> {new_version}"
+commit = true
+tag = true
+push = true
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = [
+  'version = "{pep440_version}"',
+  'current_version = "{version}"',
+]
