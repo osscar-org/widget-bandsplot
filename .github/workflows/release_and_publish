@@ -1,0 +1,42 @@
+---
+name: Release on Github and publish on PyPI
+
+on:
+  push:
+    tags:
+      # After vMajor.Minor.Patch _anything_ is allowed (without "/") !
+      - v[0-9]+.[0-9]+.[0-9]+*
+
+jobs:
+  release_and_publish:
+    runs-on: ubuntu-latest
+    if: github.repository == 'osscar-org/widget-bzvisualizer' && startsWith(github.ref, 'refs/tags/v')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install pypa/build
+        run: |
+          python -m pip install build
+
+      - name: Build source distribution
+        run: python -m build . --wheel --sdist
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*
+          generate_release_notes: true
+
+      - name: Publish package to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
