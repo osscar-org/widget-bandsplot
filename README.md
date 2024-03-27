@@ -29,6 +29,19 @@ npm run dev
 
 Open `examples/example.ipynb` in Jupyter notebook or lab to start developing. Changes made in `js/` will be reflected in the notebook.
 
+### Releasing and publishing a new version
+
+In order to make a new release of the library and publish to PYPI, run
+
+```bash
+bumpver update --major/--minor/--patch
+```
+
+This will
+
+- update version numbers, make a corresponding `git commit` and a `git tag`;
+- push this commit and tag to Github, which triggers the Github Action that makes a new Github Release and publishes the package to PYPI.
+
 ## Acknowledgements
 
 We acknowledge support from the EPFL Open Science Fund via the [OSSCAR](http://www.osscar.org) project.
