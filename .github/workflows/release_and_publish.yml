@@ -10,7 +10,7 @@ on:
 jobs:
   release_and_publish:
     runs-on: ubuntu-latest
-    if: github.repository == 'osscar-org/widget-bzvisualizer' && startsWith(github.ref, 'refs/tags/v')
+    if: github.repository == 'osscar-org/widget-bandsplot' && startsWith(github.ref, 'refs/tags/v')
 
     steps:
       - name: Checkout code
