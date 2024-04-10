@@ -14,18 +14,17 @@ class BandsPlotWidget(anywidget.AnyWidget):
     _esm = pathlib.Path(__file__).parent / "static" / "widget.js"
     _css = pathlib.Path(__file__).parent / "static" / "widget.css"
 
-    # List of bandstructure data objects
     bands = tl.List([]).tag(sync=True)
-    # DOS data object
     dos = tl.Dict().tag(sync=True)
-    # Visiblity for the Fermi energy level
-    plot_fermilevel = tl.Bool(False).tag(sync=True)
-    # The Legend for the density of states
-    show_legend = tl.Bool(False).tag(sync=True)
-    # yLimit for the plot
-    energy_range = tl.Dict({"ymin": -10.0, "ymax": 10.0}).tag(sync=True)
-    # The colors for bands data
+    energy_range = tl.List([-10.0, 10.0]).tag(sync=True)
+    dos_range = tl.List([]).tag(sync=True)
     bands_color = tl.List([]).tag(sync=True)
+
+    # Formatting settings:
+    # * showFermi
+    # * showLegend
+    # * bandsYlabel
+    format_settings = tl.Dict({}).tag(sync=True)
 
     def __init__(
         self,

@@ -26,21 +26,21 @@ function isEmptyList(list) {
 }
 
 const render = createRender(() => {
-  const [bandsDatalist, setBandsDatalist] = useModelState("bands");
+  const [bandsDataList, setBandsDataList] = useModelState("bands");
   const [dos, setDos] = useModelState("dos");
-  const [showFermi, setShowFermi] = useModelState("plot_fermilevel");
-  const [showLegend, setShowLegend] = useModelState("show_legend");
-  const [yLimit, setYLimit] = useModelState("energy_range");
-  const [colorInfo, setColorInfo] = useModelState("bands_color");
+  const [energyRange, setEnergyRange] = useModelState("energy_range");
+  const [dosRange, setDosRange] = useModelState("dos_range");
+  const [bandsColorInfo, setBandsColorInfo] = useModelState("bands_color");
+  const [formatSettings, setFormatSettings] = useModelState("format_settings");
+
   return (
     <BandsVisualizer
-      bandsDataList={bandsDatalist}
-      dosData={isEmptyObject(dos) ? undefined : dos}
-      showFermi={showFermi}
-      showLegend={showLegend}
-      yLimit={yLimit}
-      dosRange={[]}
-      colorInfo={isEmptyList(colorInfo) ? undefined : colorInfo}
+      bandsDataList={bandsDataList}
+      dosData={dos}
+      energyRange={energyRange}
+      dosRange={dosRange}
+      bandsColorInfo={bandsColorInfo}
+      formatSettings={formatSettings}
     />
   );
 });
