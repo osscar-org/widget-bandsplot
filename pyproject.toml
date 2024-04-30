@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "widget-bandsplot"
 version = "0.7.0"
 dependencies = [
-  "anywidget~=0.9.3"
+  "anywidget~=0.9.10"
 ]
 readme = "README.md"
 
