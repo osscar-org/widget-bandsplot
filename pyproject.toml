@@ -5,17 +5,20 @@ build-backend = "hatchling.build"
 [project]
 name = "widget-bandsplot"
 version = "0.7.0"
-dependencies = [
-  "anywidget~=0.9.10"
-]
+dependencies = ["anywidget~=0.9.10"]
 readme = "README.md"
+keywords = [
+  'jupyter',
+  'jupyterlab',
+  'widget',
+  'anywidget',
+  'osscar',
+  'electronic-structure',
+  'phonons',
+]
 
 [project.optional-dependencies]
-dev = [
-  "watchfiles",
-  "jupyterlab",
-  "bumpver==2023.1129",
-]
+dev = ["watchfiles", "jupyterlab", "bumpver==2023.1129"]
 
 # automatically add the dev feature to the default env (e.g., hatch shell)
 [tool.hatch.envs.default]
