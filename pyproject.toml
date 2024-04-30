@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "widget-bandsplot"
-version = "0.7.0"
+version = "0.7.1"
 dependencies = ["anywidget~=0.9.10"]
 readme = "README.md"
 keywords = [
@@ -40,7 +40,7 @@ npm = "npm"
 build_cmd = "build"
 
 [tool.bumpver]
-current_version = "v0.7.0"
+current_version = "v0.7.1"
 version_pattern = "vMAJOR.MINOR.PATCH[PYTAGNUM]"
 commit_message = "Bump version {old_version} -> {new_version}"
 commit = true
