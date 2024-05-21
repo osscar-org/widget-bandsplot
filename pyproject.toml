@@ -20,6 +20,8 @@ keywords = [
 ]
 classifiers = [
   'Development Status :: 5 - Production/Stable',
+  'Framework :: Jupyter',
+  'Framework :: Jupyter :: JupyterLab',
   'Programming Language :: Python',
   'Programming Language :: Python :: 3.9',
   'Programming Language :: Python :: 3.10',
