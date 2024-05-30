@@ -25,7 +25,7 @@ class test_widget():
 
   def download_widget_image(self):
     self.driver.get("http://localhost:8383/voila/render/example.ipynb")
-    self.driver.set_window_size(1280, 720)
+    self.driver.set_window_size(1280, 2000)
     time.sleep(3)
     self.driver.save_screenshot("widget-01.png")
     self.driver.execute_script("window.scrollTo(0, 1000)")
