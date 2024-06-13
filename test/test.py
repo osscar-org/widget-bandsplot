@@ -29,7 +29,7 @@ class test_widget():
     time.sleep(3)
     self.driver.save_screenshot("widget-01.png")
 
-    self.driver.execute_script("window.scrollTo(0, 2000)")
+    self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
     time.sleep(3)
     self.driver.save_screenshot("widget-02.png")
 
