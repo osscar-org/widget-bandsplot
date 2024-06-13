@@ -30,9 +30,9 @@ class test_widget():
     self.driver.save_screenshot("widget-01.png")
 
     body = self.driver.find_element(By.TAG_NAME, 'body')
-    body.click()
+    body.send_keys(Keys.PAGE_DOWN)
 
-    self.driver.execute_script("window.scrollTo(0, 1000)")
+    #self.driver.execute_script("window.scrollTo(0, 1000)")
     time.sleep(3)
     self.driver.save_screenshot("widget-02.png")
 
