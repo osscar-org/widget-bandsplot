@@ -1,4 +1,4 @@
-`widget-bandsplot`: Jupyter Widget to Plot Band Structure and Density of States
+# `widget-bandsplot`: Jupyter Widget to Plot Band Structure and Density of States
 
 [![PyPI version](https://badge.fury.io/py/widget-bandsplot.svg)](https://badge.fury.io/py/widget-bandsplot)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/osscar-org/widget-bandsplot/main?labpath=%2Fexamples%2Fbandsplot-example.ipynb)
