@@ -5,7 +5,7 @@
 
 A Jupyter widget to plot band structures and density of states. The widget is using the [mc-react-bands](https://github.com/materialscloud-org/mc-react-bands) Javascript package and is turned into a Jupyter widget with [anywidget](https://anywidget.dev/).
 
-<img src="./example/demo.gif" height="350">
+<img src="./example/demo.gif" width='1200'>
 
 ## Installation & usage
 
