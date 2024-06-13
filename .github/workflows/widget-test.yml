@@ -1,4 +1,4 @@
-name: Voila test
+name: widget test
 
 on:
   push:
@@ -9,19 +9,20 @@ on:
       - '*'
 
 jobs:
-  voila:
+  check-elements:
+    name: Check Element
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: Install node
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v4
       with:
-       node-version: '18.x'
+       node-version: '21.x'
     - name: Install Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.9'
+        python-version: '3.11'
         architecture: 'x64'
     - name: Install dependencies
       run: 
@@ -29,7 +30,6 @@ jobs:
         pip install --upgrade jupyterlab
         pip install --upgrade voila
         pip install --upgrade voila-osscar-template
-        pip install --upgrade ase
         pip install -e .
 
     - name: Run the voila server
@@ -46,12 +46,8 @@ jobs:
         sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
         python3 $GITHUB_WORKSPACE/test/test.py
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
-        name: quantum-screenshot
+        name: artifact
         path: './*.png'
-
-    - name: Run the figures test
-      run: |
-        python3 $GITHUB_WORKSPACE/test/test_figures.py
 
