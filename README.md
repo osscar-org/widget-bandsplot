@@ -117,6 +117,19 @@ This will
 - update version numbers, make a corresponding `git commit` and a `git tag`;
 - push this commit and tag to Github, which triggers the Github Action that makes a new Github Release and publishes the package to PYPI.
 
+### Github workflow testing
+
+[![widget test](https://github.com/osscar-org/widget-bandsplot/actions/workflows/widget-test.yml/badge.svg)](https://github.com/osscar-org/widget-bandsplot/actions/workflows/widget-test.yml)
+
+If the `widget test` fails, it indicates there is something wrong with the code, and the widget is NOT
+being displayed correctly in the test.
+
+[![screenshot comparison](https://github.com/osscar-org/widget-bandsplot/actions/workflows/screenshot-comparison.yml/badge.svg)](https://github.com/osscar-org/widget-bandsplot/actions/workflows/screenshot-comparison.yml)
+
+If the `widget test` passes but the `screenshot comparison` fails, it indicates the appearance of the widget 
+is different from the previous version. In this case, you'll need to manually download the artifact from 
+the `widget test` and use it to replace the `widget-sample.png` figure in the `test` folder.
+
 ## Acknowledgements
 
 We acknowledge support from the EPFL Open Science Fund via the [OSSCAR](http://www.osscar.org) project.
