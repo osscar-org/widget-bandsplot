@@ -17,7 +17,7 @@ pip install widget-bandsplot
 ### 1. Plot both the band structure and the density of states (DOS) side by side
 
 ```python
-w = BandsPlotWidget(bands=[banddata1, banddata2], dos=dosdata, plot_fermilevel = True, show_legend = True, energy_range = {"ymin": -10.0, "ymax": 10.0})
+w = BandsPlotWidget(bands=[banddata1, banddata2], dos=dosdata, plot_fermilevel = True, show_legend = True, energy_range = [-10,10])
 display(w)
 ```
 
@@ -70,14 +70,14 @@ dos_data = {
 ### 2. Plot only the band structure
 
 ```python
-w = BandsPlotWidget(bands=[banddata1, banddata2], plot_fermilevel = True, show_legend = True, energy_range = {"ymin": -10.0, "ymax": 10.0})
+w = BandsPlotWidget(bands=[banddata1, banddata2], plot_fermilevel = True, show_legend = True, energy_range = [-10,10])
 display(w)
 ```
 
 ### 3. Plot only the density of states (DOS)
 
 ```python
-w = BandsPlotWidget(dos=dosdata, plot_fermilevel = True, show_legend = True, energy_range = {"ymin": -10.0, "ymax": 10.0})
+w = BandsPlotWidget(dos=dosdata, plot_fermilevel = True, show_legend = True, energy_range = [-10, 10])
 display(w)
 ```
 
