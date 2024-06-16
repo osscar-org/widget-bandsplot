@@ -16,6 +16,8 @@ class test_widget():
   def setup_method(self, method):
     options = Options()
     cwd = os.getcwd()
+    options.add_argument("--headless")
+    options.add_argument("--window-size=1280x1500")
     options.add_experimental_option("prefs", {"download.default_directory": cwd})
     self.driver = webdriver.Chrome(options=options)
     self.vars = {}
@@ -25,11 +27,14 @@ class test_widget():
 
   def download_widget_image(self):
     self.driver.get("http://localhost:8383/voila/render/example.ipynb")
-    self.driver.set_window_size(1280, 2000)
     time.sleep(3)
     self.driver.save_screenshot("widget-01.png")
 
-    self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+    self.driver.find_element(By.CLASS_NAME, 'bands-widget-all').click()
+    time.sleep(3)
+
+    #Move to the end of the page
+    self.driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.END)
     time.sleep(3)
     self.driver.save_screenshot("widget-02.png")
 
