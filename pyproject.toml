@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "widget-bandsplot"
 description = 'A Jupyter widget to plot band structure and density of states.'
 version = "0.7.3"
-dependencies = ["anywidget~=0.9.10"]
+dependencies = ["anywidget~=0.9.13"]
 authors = [{ name = "The OSSCAR team" }]
 readme = "README.md"
 keywords = [
