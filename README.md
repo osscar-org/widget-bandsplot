@@ -34,7 +34,7 @@ verdi data band export <PK> --format=json
 ```
 
 One can plot several band structure input files together with the widget.
-The format of the DOS input dict is validate by the [PDOS Schema](https://raw.githubusercontent.com/osscar-org/widget-bandsplot/main/widget_bandsplot/schemas/pdos.json), the exampla valid input is:
+One exampla valid input is:
 
 ```python
 dos_data = {
@@ -72,14 +72,14 @@ dos_data = {
 ### 2. Plot only the band structure
 
 ```python
-w = BandsPlotWidget(bands=[banddata1, banddata2], plot_fermilevel = True, show_legend = True, energy_range = [-10,10])
+w = BandsPlotWidget(bands=[banddata1, banddata2], format_settings = {"plotFermil": True, "showLegend": True}, energy_range = [-10,10])
 display(w)
 ```
 
 ### 3. Plot only the density of states (DOS)
 
 ```python
-w = BandsPlotWidget(dos=dosdata, plot_fermilevel = True, show_legend = True, energy_range = [-10, 10])
+w = BandsPlotWidget(dos=dosdata, format_settings = {"plotFermil": True, "showLegend": True}, energy_range = [-10, 10])
 display(w)
 ```
 
