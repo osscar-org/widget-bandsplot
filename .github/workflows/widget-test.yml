@@ -30,6 +30,7 @@ jobs:
         pip install --upgrade jupyterlab
         pip install --upgrade voila
         pip install --upgrade voila-osscar-template
+        pip install --upgrade anywidget
         pip install -e .
 
     - name: Run the voila server
