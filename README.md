@@ -9,83 +9,61 @@ A Jupyter widget to plot band structures and density of states. The widget is us
 
 <img src="./example/demo.gif" width='1200'>
 
-## Installation & usage
+## Installation
 
 ```sh
 pip install widget-bandsplot
 ```
+
 ## Usage
 
-### 1. Plot both the band structure and the density of states (DOS) side by side
+Minimal usage example of the widget is the following:
 
 ```python
-w = BandsPlotWidget(bands=[banddata1, banddata2], dos=dosdata, plot_fermilevel = True, show_legend = True, energy_range = [-10,10])
-display(w)
+widget = BandsPlotWidget(
+    bands = [bands_data],
+    dos = dos_data,
+    energy_range = [-10.0, 10.0],
+    format_settings = {
+        "showFermi": True,
+        "showLegend": True,
+    }
+)
+display(widget)
 ```
 
-In order to plot the band structure and density of states, one needs
-to provide bands data and DOS data as JSON-files. The examples of the input
-JSON-files are provided in the `examples/data` folder. The JSON-files for the
-band structure can be exported with the [AiiDA command line interface (CLI) `verdi`](https://aiida.readthedocs.io/projects/aiida-core/en/latest/reference/command_line.html#reference-command-line) as demonstrated in
-the code below:
+where `bands_data` and `dos_data` are contain the band structure and density of states data, respectively. The format for these data objects is the following:
 
-```bash
-verdi data band export <PK> --format=json
-```
+- Band structure data follows the [AiiDA CLI](https://aiida.readthedocs.io/projects/aiida-core/en/latest/reference/command_line.html#reference-command-line) export format that can be generated from an [AiiDA BandsData](https://aiida.readthedocs.io/projects/aiida-core/en/v2.6.2/topics/data_types.html#topics-data-types-materials-bands) node with the following command:
+  ```bash
+  verdi data band export <PK> --format=json
+  ```
+- The density of states data uses a custom format, with a a valid example being:
+  ```python
+  dos_data = {
+      "fermi_energy": -7.0,
+      "dos": [
+          {
+              "label": "Total DOS",          # required
+              "x": [0.0, 0.1, 0.2],          # required
+              "y": [1.2, 3.2, 0.0],          # required
+              "lineStyle": "dash",           # optional
+              "borderColor": "#41e2b3",      # optional
+              "backgroundColor": "#51258b",  # optional
+          },
+          {
+              "label": "Co",
+              "x": [0.0, 0.1, 0.2],
+              "y": [1.2, 3.2, 0.0],
+              "lineStyle": "solid",
+              "borderColor": "#43ee8b",
+              "backgroundColor": "#59595c",
+          },
+      ],
+  }
+  ```
 
-One can plot several band structure input files together with the widget.
-One exampla valid input is:
-
-```python
-dos_data = {
-    "fermi_energy": -7.0,
-    "dos": [
-        {
-            "label": "Total DOS",   # required
-            "x": [0.0, 0.1, 0.2],   # required
-            "y": [1.2, 3.2, 0.0],   # required
-            "borderColor": "#41e2b3",   # optional
-            "backgroundColor": "#51258b",   # optional
-            "backgroundAlpha": "52%",  #optional: A string with integer between 0-100 and '%' in end.
-            "lineStyle": "dash",    # optional
-        },
-        {
-            "label": "Co (s↑)",
-            "x": [0.0, 0.1, 0.2],
-            "y": [1.2, 3.2, 0.0],
-            "lineStyle": "solid",
-            "borderColor": "#43ee8b",
-            "backgroundColor": "#59595c",
-        },
-        {
-            "label": "Co (s↓)",
-            "x": [0.0, 0.1, 0.2],
-            "y": [1.2, 3.2, 0.0],
-            "lineStyle": "solid",
-            "borderColor": "#403bae",
-            "backgroundColor": "#a16c5e",
-        },
-    ],
-}
-```
-
-### 2. Plot only the band structure
-
-```python
-w = BandsPlotWidget(bands=[banddata1, banddata2], format_settings = {"plotFermil": True, "showLegend": True}, energy_range = [-10,10])
-display(w)
-```
-
-### 3. Plot only the density of states (DOS)
-
-```python
-w = BandsPlotWidget(dos=dosdata, format_settings = {"plotFermil": True, "showLegend": True}, energy_range = [-10, 10])
-display(w)
-```
-
-When only plotting the density of states, the plot will be shown in
-horizontal format.
-
+For more detailed usage, see `example/example.ipynb` and for more example input files see `example/data`.
 
 ## Development
 
@@ -126,8 +104,8 @@ being displayed correctly in the test.
 
 [![screenshot comparison](https://github.com/osscar-org/widget-bandsplot/actions/workflows/screenshot-comparison.yml/badge.svg)](https://github.com/osscar-org/widget-bandsplot/actions/workflows/screenshot-comparison.yml)
 
-If the `widget test` passes but the `screenshot comparison` fails, it indicates the appearance of the widget 
-is different from the previous version. In this case, you'll need to manually download the artifact from 
+If the `widget test` passes but the `screenshot comparison` fails, it indicates the appearance of the widget
+is different from the previous version. In this case, you'll need to manually download the artifact from
 the `widget test` and use it to replace the `widget-sample.png` figure in the `test` folder.
 
 ## Acknowledgements
