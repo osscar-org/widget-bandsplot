@@ -2,7 +2,6 @@
 
 [![PyPI version](https://badge.fury.io/py/widget-bandsplot.svg)](https://badge.fury.io/py/widget-bandsplot)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/osscar-org/widget-bandsplot/main?labpath=%2Fexample%2Fexample.ipynb)
-[![widget test](https://github.com/osscar-org/widget-bandsplot/actions/workflows/widget-test.yml/badge.svg)](https://github.com/osscar-org/widget-bandsplot/actions/workflows/widget-test.yml)
 [![screenshot comparison](https://github.com/osscar-org/widget-bandsplot/actions/workflows/screenshot-comparison.yml/badge.svg)](https://github.com/osscar-org/widget-bandsplot/actions/workflows/screenshot-comparison.yml)
 
 A Jupyter widget to plot band structures and density of states. The widget is using the [mc-react-bands](https://github.com/materialscloud-org/mc-react-bands) Javascript package and is turned into a Jupyter widget with [anywidget](https://anywidget.dev/).
@@ -97,16 +96,11 @@ This will
 
 ### Github workflow testing
 
-[![widget test](https://github.com/osscar-org/widget-bandsplot/actions/workflows/widget-test.yml/badge.svg)](https://github.com/osscar-org/widget-bandsplot/actions/workflows/widget-test.yml)
-
-If the `widget test` fails, it indicates there is something wrong with the code, and the widget is NOT
-being displayed correctly in the test.
-
 [![screenshot comparison](https://github.com/osscar-org/widget-bandsplot/actions/workflows/screenshot-comparison.yml/badge.svg)](https://github.com/osscar-org/widget-bandsplot/actions/workflows/screenshot-comparison.yml)
 
-If the `widget test` passes but the `screenshot comparison` fails, it indicates the appearance of the widget
-is different from the previous version. In this case, you'll need to manually download the artifact from
-the `widget test` and use it to replace the `widget-sample.png` figure in the `test` folder.
+The `screenshot comparison` test will generate images of the widget using `selenium` and `chrome-driver`, and compares them to the reference image in `test/widget-sample.png`.
+
+To update the reference image: download the generated image from the Github Workflow step called "Upload screenshots" and replace `test/widget-sample.png`.
 
 ## Acknowledgements
 
